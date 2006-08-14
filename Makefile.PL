@@ -1,3 +1,4 @@
+package main;
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
@@ -14,3 +15,21 @@ WriteMakefile(
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'File-Next-*' },
 );
+
+sub MY::postamble {
+return <<'MAKE_FRAG';
+.PHONY: tags critic
+
+tags:
+	ctags -f tags --recurse --totals \
+		exclude=blib/ --exclude=t/lib \
+		exclude=.svn --exclude='*~' \
+		languages=Perl --langmap=Perl:+.t
+
+critic:
+	perlcritic -1 .
+
+MAKE_FRAG
+}
+
+1;

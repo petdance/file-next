@@ -792,6 +792,17 @@ pm_to_blib : $(TO_INST_PM)
 
 
 # --- MakeMaker postamble section:
+.PHONY: tags critic
+
+tags:
+	ctags -f tags --recurse --totals \
+		exclude=blib/ --exclude=t/lib \
+		exclude=.svn --exclude='*~' \
+		languages=Perl --langmap=Perl:+.t
+
+critic:
+	perlcritic -1 .
+
 
 
 # End.
