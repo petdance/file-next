@@ -212,9 +212,9 @@ sub _candidate_files {
     my @newfiles;
     while ( my $file = readdir $dh ) {
         next if $file =~ /^\.{1,2}$/;
-        if ( -d $file ) {
+        local $File::Next::dir = File::Spec->catfile( $dir, $file );
+        if ( -d $File::Next::dir ) {
             local $_ = $file;
-            local $File::Next::dir = File::Spec->catfile( $dir, $file );
             next unless $parms->{descend_filter}->();
         }
         push( @newfiles, [$dir, $file] );

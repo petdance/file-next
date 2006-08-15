@@ -96,6 +96,8 @@ NO_DESCEND: {
     );
 
     is_deeply( [sort @expected], [sort @actual], 'NO_DESCEND' );
+    use Data::Dumper;
+    print Dumper( \@expected, \@actual );
 }
 
 
