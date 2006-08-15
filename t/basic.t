@@ -23,7 +23,7 @@ JUST_A_FILE: {
     my @expected = qw(
         t/pod.t
     );
-    is_deeply( [sort @expected], [sort @actual], 'Single file fetching works OK' );
+    is_deeply( [sort @expected], [sort @actual], 'JUST_A_FILE' );
 }
 
 NO_PARMS: {
@@ -53,7 +53,7 @@ NO_PARMS: {
     );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    is_deeply( [sort @expected], [sort @actual] );
+    is_deeply( [sort @expected], [sort @actual], 'NO_PARMS' );
 }
 
 MULTIPLE_STARTS: {
@@ -72,7 +72,7 @@ MULTIPLE_STARTS: {
     );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    is_deeply( [sort @expected], [sort @actual] );
+    is_deeply( [sort @expected], [sort @actual], 'MULTIPLE_STARTS' );
 }
 
 NO_DESCEND: {
@@ -95,7 +95,7 @@ NO_DESCEND: {
         t/swamp/perl.pod
     );
 
-    is_deeply( [sort @expected], [sort @actual] );
+    is_deeply( [sort @expected], [sort @actual], 'NO_DESCEND' );
 }
 
 
