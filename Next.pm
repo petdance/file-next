@@ -146,7 +146,7 @@ sub files {
 
     # Any leftover keys are bogus
     for my $badkey ( keys %passed_parms ) {
-        $parms->{error_handler}->( "Unknown parameter passed to files(): $badkey" );
+        $parms->{error_handler}->( "Invalid parameter passed to files(): $badkey" );
     }
 
     my @queue;
