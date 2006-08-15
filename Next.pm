@@ -161,8 +161,7 @@ sub files {
 
     return sub {
         while (@queue) {
-            my $dir_file_pair = shift @queue;
-            my ($dir,$file) = @$dir_file_pair;
+            my ($dir,$file) = @{shift @queue};
 
             my $fullpath = _glomp( $dir, $file );
 
