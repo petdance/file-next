@@ -2,7 +2,11 @@
 
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 9;
+
+use Carp;
+
+$SIG{__WARN__} = \&Carp;
 
 BEGIN {
     use_ok( 'File::Next' );
@@ -16,6 +20,10 @@ JUST_A_FILE: {
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
+    my @expected = qw(
+        t/pod.t
+    );
+    is_deeply( [sort @expected], [sort @actual], 'Single file fetching works OK' );
 }
 
 NO_PARMS: {
