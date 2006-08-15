@@ -27,7 +27,7 @@ tags:
 		languages=Perl --langmap=Perl:+.t
 
 critic:
-	perlcritic -1 -q .
+	perlcritic -1 -quiet .
 
 MAKE_FRAG
 }

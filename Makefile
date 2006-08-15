@@ -801,7 +801,7 @@ tags:
 		languages=Perl --langmap=Perl:+.t
 
 critic:
-	perlcritic -1 .
+	perlcritic -1 -quiet .
 
 
 

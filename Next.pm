@@ -50,7 +50,10 @@ will walk through a directory tree.  The simplest use case is:
 
 Note that only files are returned by C<files()>'s iterator.
 
-The first parameter to any of the iterator factory functions may be a hashref of parameters.
+The first parameter to any of the iterator factory functions may
+be a hashref of parameters.
+
+Note that the iterator will only return files, not directories.
 
 =head1 PARAMETERS
 
@@ -60,8 +63,20 @@ The file_filter lets you check to see if it's really a file you
 want to get back.  If the file_filter returns a true value, the
 file will be returned; if false, it will be skipped.
 
-The full path of the file, based on your starting point, is set in
-C<$_>, not unlike L<File::Find>.
+The file_filter function takes no arguments but rather does its work through
+a collection of variables.
+
+=over 4
+
+=item * C<$_> is the current filename within that directory
+
+=item * C<$File::Next::dir> is the current directory name
+
+=item * C<$File::Next::name> is the complete pathname to the file
+
+=back
+
+These are analogous to the same variables in L<File::Find>.
 
     my $iter = File::Find::files( { file_filter => sub { /\.txt$/ } }, '/tmp' );
 
@@ -74,6 +89,17 @@ descend into a given directory.  Maybe you want to skip F<CVS> and
 F<.svn> directories.
 
     my $descend_filter = sub { $_ ne "CVS" && $_ ne ".svn" }
+
+The descend_filter function takes no arguments but rather does its work through
+a collection of variables.
+
+=over 4
+
+=item * C<$_> is the current filename of the directory
+
+=item * C<$File::Next::dir> is the complete directory name
+
+=back
 
 The descend filter is NOT applied to any directory names specified
 in the constructor.  For example,
@@ -101,37 +127,63 @@ marvelous I<Higher Order Perl>, page 126.
 
 =cut
 
-sub files {
-    my $parms = ref $_[0] eq 'HASH' ? {%{+shift}} : {}; # copy parm hash
-    $parms->{file_filter} ||= sub {1};
-    $parms->{descend_filter} ||= sub {1};
-    $parms->{error_handler} ||= \&CORE::die;
+use File::Spec;
 
-    my @start = @_;
+my %files_defaults = (
+    file_filter => sub{1},
+    descend_filter => sub {1},
+    error_handler => \&CORE::die,
+);
+
+sub files {
+    my $passed_parms = ref $_[0] eq 'HASH' ? {%{+shift}} : {}; # copy parm hash
+    my %passed_parms = %{$passed_parms};
+
+    my $parms = {};
+    for my $key ( keys %files_defaults ) {
+        $parms->{$key} = delete( $passed_parms{$key} ) || $files_defaults{$key};
+    }
+
+    # Any leftover keys are bogus
+    for my $badkey ( keys %passed_parms ) {
+        $parms->{error_handler}->( "Unknown parameter passed to files(): $badkey" );
+    }
 
     my @queue;
-
-    for my $start ( @start ) {
+    for my $start ( @_ ) {
         if (-d $start) {
-            push @queue, _candidate_files( {descend_filter=>sub{1}, file_filter=>$parms->{file_filter}}, $start );
+            push @queue, [$start,undef];
         }
         else {
-            push @queue, $start;
+            push @queue, [undef,$start];
         }
     }
 
     return sub {
         while (@queue) {
-            my $file = shift @queue;
+            my $dir_file_pair = shift @queue;
+            my ($dir,$file) = @$dir_file_pair;
 
-            if (-d $file) {
-                push( @queue, _candidate_files( $parms, $file ) );
+            my $fullpath = _glomp( $dir, $file );
+
+            if (-d $fullpath) {
+                push( @queue, _candidate_files( $parms, $fullpath ) );
             }
-            elsif (-f $file) {
+            elsif (-f $fullpath) {
                 local $_ = $file;
-                return $file if $parms->{file_filter}->();
+                local $File::Next::dir = $dir;
+                local $File::Next::file = $fullpath;
+                if ( $parms->{file_filter}->() ) {
+                    if (wantarray) {
+                        return ($dir,$file);
+                    }
+                    else {
+                        return $fullpath;
+                    }
+                }
             }
         } # while
+
         return;
     }; # iterator
 }
@@ -151,8 +203,6 @@ sub _candidate_files {
     my $parms = shift;
     my $dir = shift;
 
-    return $dir unless -d $dir;
-
     my $dh;
     if ( !opendir $dh, $dir ) {
         $parms->{error_handler}->( "$dir: $!" );
@@ -162,12 +212,37 @@ sub _candidate_files {
     my @newfiles;
     while ( my $file = readdir $dh ) {
         next if $file =~ /^\.{1,2}$/;
-        local $_ = $file;
-        push @newfiles, $file if $parms->{descend_filter}->();
+        if ( -d $file ) {
+            local $_ = $file;
+            local $File::Next::dir = File::Spec->catfile( $dir, $file );
+            next unless $parms->{descend_filter}->();
+        }
+        push( @newfiles, [$dir, $file] );
     }
-    @newfiles = map { "$dir/$_" } @newfiles;
 
     return @newfiles;
+}
+
+=for private _glomp( $dir, $file )
+
+Sticks together I$<dir> and I<$file> safely.
+
+=cut
+
+sub _glomp {
+    my ($dir,$file) = @_;
+
+    if ( defined $dir ) {
+        if ( defined $file ) {
+            return File::Spec->catfile( $dir, $file );
+        }
+        else {
+            return $dir;
+        }
+    }
+    else {
+        return $file;
+    }
 }
 
 
