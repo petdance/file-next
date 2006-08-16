@@ -171,7 +171,7 @@ sub files {
             elsif (-f $fullpath) {
                 local $_ = $file;
                 local $File::Next::dir = $dir;
-                local $File::Next::file = $fullpath;
+                local $File::Next::name = $fullpath;
                 if ( $parms->{file_filter}->() ) {
                     if (wantarray) {
                         return ($dir,$file);

@@ -5,6 +5,7 @@ README
 Next.pm
 
 t/00-load.t
+t/api.t
 t/basic.t
 t/filters.t
 t/parms.t
