@@ -1,5 +1,14 @@
 Revision history for File-Next
 
+0.22    Wed Aug 16 14:08:39 CDT 2006
+
+        [FIXES]
+        The file_filter was getting called incorrectly.  I was
+        setting $File::Next::file instead of $File::Next::name.
+
+        I've now also added tests to make sure that it's getting
+        set correctly.
+
 0.20    Tue Aug 15 02:28:42 CDT 2006
 
         First real version.  Don't use 0.01 any more.
