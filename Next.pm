@@ -283,6 +283,10 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=File-Next>
 
 L<http://search.cpan.org/dist/File-Next>
 
+=item * Subversion repository
+
+L<https://file-next.googlecode.com/svn/trunk>
+
 =back
 
 =head1 ACKNOWLEDGEMENTS
