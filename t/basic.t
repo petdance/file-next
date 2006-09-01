@@ -142,7 +142,8 @@ sub _sets_match {
     my @actual = @{+shift};
     my $msg = shift;
 
-    for my $path ( @expected ) {
+    # Normalize all the paths
+    for my $path ( @expected, @actual ) {
         # Split on unix way, and recreate with native separators
         $path = File::Spec->catfile( split /\//, $path );
     }
