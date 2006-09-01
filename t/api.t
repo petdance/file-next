@@ -23,25 +23,27 @@ CHECK_FILE_FILTER: {
 
     # Return filename in scalar mode
     my $file = $iter->();
-    like( $file, qr{^t/swamp/.+}, 'Reasonable filename returned' );
+    my $swamp = reslash( 't/swamp' );
+    like( $file, qr{^\Q$swamp\E.+}, 'swamp filename returned' );
 
     # Return $dir and $file in list mode
     my $dir;
     ($dir,$file) = $iter->();
-    is( $dir, 't/swamp', 'Correct $dir' );
-    unlike( $file, qr{/}, '$file should not have any slash' );
+    is( $dir, $swamp, 'Correct $dir' );
+    unlike( $file, qr{/\\:}, '$file should not have any slashes, backslashes or other pathy things' );
 }
 
 CHECK_DESCEND_FILTER: {
+    my $swamp = reslash( 't/swamp' );
     my $descend_filter = sub {
         ok( defined $_, '$_ defined' );
-        like( $File::Next::dir, qr{^t/swamp}, '$File::Next::dir' );
+        like( $File::Next::dir, qr{^\Q$swamp}, '$File::Next::dir' );
     };
 
-    my $iter = File::Next::files( {descend_filter => $descend_filter}, 't/swamp' );
+    my $iter = File::Next::files( {descend_filter => $descend_filter}, $swamp );
     isa_ok( $iter, 'CODE' );
 
     while ( $iter->() ) {
-        # Do nothing, just calling the descend 
+        # Do nothing, just calling the descend
     }
 }
