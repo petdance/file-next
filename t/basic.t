@@ -4,6 +4,10 @@ use strict;
 use warnings;
 use Test::More tests => 11;
 
+use lib 't';
+
+use Util;
+
 use Carp;
 
 $SIG{__WARN__} = \&Carp;
@@ -144,8 +148,7 @@ sub _sets_match {
 
     # Normalize all the paths
     for my $path ( @expected, @actual ) {
-        # Split on unix way, and recreate with native separators
-        $path = File::Spec->catfile( split /\//, $path );
+        $path = reslash( $path );
     }
 
     local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic

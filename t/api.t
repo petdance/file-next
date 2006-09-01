@@ -4,6 +4,9 @@ use strict;
 use warnings;
 use Test::More tests => 18;
 
+use lib 't';
+use Util;
+
 BEGIN {
     use_ok( 'File::Next' );
 }
@@ -11,8 +14,8 @@ BEGIN {
 CHECK_FILE_FILTER: {
     my $file_filter = sub {
         ok( defined $_, '$_ defined' );
-        is( $File::Next::dir, 't/swamp', '$File::Next::dir' );
-        is( $File::Next::name, "t/swamp/$_" );
+        is( $File::Next::dir, reslash( 't/swamp' ), '$File::Next::dir' );
+        is( $File::Next::name, reslash( "t/swamp/$_" ) );
     };
 
     my $iter = File::Next::files( {file_filter => $file_filter}, 't/swamp' );

@@ -10,6 +10,7 @@ t/basic.t
 t/parms.t
 t/pod-coverage.t
 t/pod.t
+t/Util.pm
 
 t/swamp/Makefile
 t/swamp/Makefile.PL
