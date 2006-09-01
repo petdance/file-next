@@ -11,6 +11,7 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'Test::More' => 0,
+        'File::Spec' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'File-Next-*' },
@@ -19,12 +20,6 @@ WriteMakefile(
 sub MY::postamble {
 return <<'MAKE_FRAG';
 .PHONY: tags critic
-
-tags:
-	ctags -f tags --recurse --totals \
-		exclude=blib/ --exclude=t/lib \
-		exclude=.svn --exclude='*~' \
-		languages=Perl --langmap=Perl:+.t
 
 critic:
 	perlcritic -1 -quiet .

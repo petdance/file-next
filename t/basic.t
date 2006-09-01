@@ -147,6 +147,6 @@ sub _sets_match {
         my $path = File::Spec->catfile( @parts );
     }
 
-    local $Test::Builder::Level = $Test::Builder::Level + 1;
-    is_deeply( [@expected], [@actual], $msg );
+    local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
+    return is_deeply( [@expected], [@actual], $msg );
 }

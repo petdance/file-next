@@ -14,6 +14,8 @@ sub error_catcher {
     my $error = shift;
 
     push( @errors, $error );
+
+    return;
 }
 
 BAD_PARMS: {
