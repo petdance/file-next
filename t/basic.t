@@ -138,15 +138,15 @@ sub slurp {
 }
 
 sub _sets_match {
-    my @expected = sort @{+shift};
-    my @actual = sort @{+shift};
+    my @expected = @{+shift};
+    my @actual = @{+shift};
     my $msg = shift;
 
     for my $path ( @expected ) {
-        my @parts = split /\//, $path;
-        my $path = File::Spec->catfile( @parts );
+        # Split on unix way, and recreate with native separators
+        $path = File::Spec->catfile( split /\//, $path );
     }
 
     local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
-    return is_deeply( [@expected], [@actual], $msg );
+    return is_deeply( [sort @expected], [sort @actual], $msg );
 }
