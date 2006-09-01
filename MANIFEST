@@ -7,7 +7,6 @@ Next.pm
 t/00-load.t
 t/api.t
 t/basic.t
-t/filters.t
 t/parms.t
 t/pod-coverage.t
 t/pod.t
