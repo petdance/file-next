@@ -37,7 +37,7 @@ CHECK_DESCEND_FILTER: {
     my $swamp = reslash( 't/swamp' );
     my $descend_filter = sub {
         ok( defined $_, '$_ defined' );
-        like( $File::Next::dir, qr{^\Q$swamp}, '$File::Next::dir' );
+        like( $File::Next::dir, qr{^\Q$swamp}, '$File::Next::dir in $descend_filter' );
     };
 
     my $iter = File::Next::files( {descend_filter => $descend_filter}, $swamp );

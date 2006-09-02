@@ -214,7 +214,7 @@ sub _candidate_files {
     while ( my $file = readdir $dh ) {
         next if ($file eq $up) || ($file eq $cur);
 
-        local $File::Next::dir = File::Spec->catfile( $dir, $file );
+        local $File::Next::dir = File::Spec->catdir( $dir, $file );
         if ( -d $File::Next::dir ) {
             local $_ = $file;
             next unless $parms->{descend_filter}->();
