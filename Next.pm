@@ -150,7 +150,8 @@ sub files {
     }
 
     my @queue;
-    for my $start ( @_ ) {
+    for ( @_ ) {
+        my $start = _reslash( $_ );
         if (-d $start) {
             push @queue, [$start,undef];
         }
@@ -190,6 +191,16 @@ sub files {
 
         return;
     }; # iterator
+}
+
+sub _reslash {
+    my $path = shift;
+
+    my @parts = split( /\//, $path );
+
+    return $path if @parts < 2;
+
+    return File::Spec->catfile( @parts );
 }
 
 =for private _candidate_files( $parms, $dir )

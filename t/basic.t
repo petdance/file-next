@@ -4,14 +4,6 @@ use strict;
 use warnings;
 use Test::More tests => 11;
 
-use lib 't';
-
-use Util;
-
-use Carp;
-
-$SIG{__WARN__} = \&Carp;
-
 BEGIN {
     use_ok( 'File::Next' );
 }
@@ -148,7 +140,7 @@ sub _sets_match {
 
     # Normalize all the paths
     for my $path ( @expected, @actual ) {
-        $path = reslash( $path );
+        $path = File::Next::_reslash( $path );
     }
 
     local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
