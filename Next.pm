@@ -209,8 +209,11 @@ sub _candidate_files {
     }
 
     my @newfiles;
+    my $up = File::Spec->updir;
+    my $cur = File::Spec->curdir;
     while ( my $file = readdir $dh ) {
-        next if $file =~ /^\.{1,2}$/;
+        next if ($file eq $up) || ($file eq $cur);
+
         local $File::Next::dir = File::Spec->catfile( $dir, $file );
         if ( -d $File::Next::dir ) {
             local $_ = $file;
