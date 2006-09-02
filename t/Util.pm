@@ -1,9 +1,12 @@
 package Util;
 
+use warnings;
+use strict;
+
 use base 'Exporter';
 
 our @EXPORT_OK = qw( reslash );
-our @EXPORT = @EXPORT_OK;
+our @EXPORT = @EXPORT_OK; ## no critic
 
 use File::Spec;
 
@@ -17,4 +20,4 @@ sub reslash {
     return File::Spec->catfile( @parts );
 }
 
-
+1;
