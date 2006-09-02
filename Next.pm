@@ -163,7 +163,12 @@ sub files {
         while (@queue) {
             my ($dir,$file) = @{shift @queue};
 
-            my $fullpath = _glomp( $dir, $file );
+            my $fullpath =
+                defined $dir
+                    ? defined $file
+                        ? File::Spec->catfile( $dir, $file )
+                        : $dir
+                    : $file;
 
             if (-d $fullpath) {
                 push( @queue, _candidate_files( $parms, $fullpath ) );
@@ -224,29 +229,6 @@ sub _candidate_files {
 
     return @newfiles;
 }
-
-=for private _glomp( $dir, $file )
-
-Sticks together I$<dir> and I<$file> safely.
-
-=cut
-
-sub _glomp {
-    my ($dir,$file) = @_;
-
-    if ( defined $dir ) {
-        if ( defined $file ) {
-            return File::Spec->catfile( $dir, $file );
-        }
-        else {
-            return $dir;
-        }
-    }
-    else {
-        return $file;
-    }
-}
-
 
 =head1 AUTHOR
 
