@@ -1,5 +1,10 @@
 Revision history for File-Next
 
+0.26    Sat Sep  2 10:10:12 CDT 2006
+
+        No functionality changes.  Making the tests actually worki
+        under Windows this time.  Thanks, Audrey!
+
 0.24    Fri Sep  1 23:38:43 CDT 2006
 
         No functionality changes.  Only making the tests run under
