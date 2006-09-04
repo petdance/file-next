@@ -214,6 +214,8 @@ I<$parms> is the hashref of parms passed into File::Next constructor.
 
 =cut
 
+my %ups;
+
 sub _candidate_files {
     my $parms = shift;
     my $dir = shift;
@@ -224,6 +226,7 @@ sub _candidate_files {
         return;
     }
 
+    %ups or %ups = map {($_,1)} File::Spec->no_upwards;
     my @newfiles;
     my $up = File::Spec->updir;
     my $cur = File::Spec->curdir;

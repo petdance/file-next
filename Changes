@@ -1,5 +1,10 @@
 Revision history for File-Next
 
+NEXT
+
+        Using proper File::Spec function to get the list of special
+        directories.
+
 0.26    Sat Sep  2 10:10:12 CDT 2006
 
         No functionality changes.  Making the tests actually worki
