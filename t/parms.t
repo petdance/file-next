@@ -2,23 +2,25 @@
 
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More tests => 5;
 
 
 BEGIN {
     use_ok( 'File::Next' );
 }
 
-my @errors;
-sub error_catcher {
-    my $error = shift;
 
-    push( @errors, $error );
+BAD_PARMS_CAUGHT: {
 
-    return;
-}
+    my @errors;
+    sub error_catcher {
+        my $error = shift;
 
-BAD_PARMS: {
+        push( @errors, $error );
+
+        return;
+    }
+
     my $iter =
         File::Next::files( {
             error_handler => \&error_catcher,
@@ -27,4 +29,17 @@ BAD_PARMS: {
 
     is( scalar @errors, 1, 'Caught one error' );
     like( $errors[0], qr/Invalid.+wango/, 'And it looks reasonable' );
+}
+
+
+BAD_PARMS_UNCAUGHT: {
+    eval {
+        my $iter =
+            File::Next::files( {
+                wango => 'ze tango',
+            }, 't/pod.t' );
+    };
+
+    ok( defined $@, 'Throws an error' );
+    like( $@, qr/Invalid.+wango/, 'And it looks reasonable' );
 }

@@ -132,7 +132,7 @@ use File::Spec;
 my %files_defaults = (
     file_filter => sub{1},
     descend_filter => sub {1},
-    error_handler => \&CORE::die,
+    error_handler => sub { CORE::die @_ },
 );
 
 sub files {
