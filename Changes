@@ -1,6 +1,6 @@
 Revision history for File-Next
 
-NEXT
+0.28    Tue Sep  5 23:51:41 CDT 2006
 
         [FIXES]
         Wrapped the CORE::die in a real function.  Also added a

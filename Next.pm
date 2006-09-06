@@ -9,16 +9,16 @@ File::Next - File-finding iterator
 
 =head1 VERSION
 
-Version 0.26
+Version 0.28
 
 =cut
 
-our $VERSION = '0.26';
+our $VERSION = '0.28';
 
 =head1 SYNOPSIS
 
 File::Next is a lightweight, taint-safe file-finding module.
-It's lightweight and has no prerequisites.
+It's lightweight and has no non-core prerequisites.
 
     use File::Next;
 
@@ -127,7 +127,7 @@ marvelous I<Higher Order Perl>, page 126.
 
 =cut
 
-use File::Spec;
+use File::Spec ();
 
 my %files_defaults = (
     file_filter => sub{1},
