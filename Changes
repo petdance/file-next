@@ -1,44 +1,49 @@
 Revision history for File-Next
 
+NEXT
+
+    Explicitly declare $File::Find::name and $File::Find::dir.
+
+
 0.28    Tue Sep  5 23:51:41 CDT 2006
 
-        [FIXES]
-        Wrapped the CORE::die in a real function.  Also added a
-        test to make sure that we die properly.
+    [FIXES]
+    Wrapped the CORE::die in a real function.  Also added a
+    test to make sure that we die properly.
 
-        [INTERNALS]
-        Using proper File::Spec function to get the list of special
-        directories.
+    [INTERNALS]
+    Using proper File::Spec function to get the list of special
+    directories.
 
 
 0.26    Sat Sep  2 10:10:12 CDT 2006
 
-        No functionality changes.  Making the tests actually worki
-        under Windows this time.  Thanks, Audrey!
+    No functionality changes.  Making the tests actually worki
+    under Windows this time.  Thanks, Audrey!
 
 0.24    Fri Sep  1 23:38:43 CDT 2006
 
-        No functionality changes.  Only making the tests run under
-        Windows.
+    No functionality changes.  Only making the tests run under
+    Windows.
 
 0.22    Wed Aug 16 14:08:39 CDT 2006
 
-        [FIXES]
-        The file_filter was getting called incorrectly.  I was
-        setting $File::Next::file instead of $File::Next::name.
+    [FIXES]
+    The file_filter was getting called incorrectly.  I was
+    setting $File::Next::file instead of $File::Next::name.
 
-        I've now also added tests to make sure that it's getting
-        set correctly.
+    I've now also added tests to make sure that it's getting
+    set correctly.
 
 0.20    Tue Aug 15 02:28:42 CDT 2006
 
-        First real version.  Don't use 0.01 any more.
+    First real version.  Don't use 0.01 any more.
 
-        Iterator now returns separate file & directory components
-        in array context.
+    Iterator now returns separate file & directory components
+    in array context.
 
-        Rewrote internals.
+    Rewrote internals.
 
 0.01    Sat Jul 29 22:29:46 CDT 2006
-        First version, released on an unsuspecting world.
+    First version, released on an unsuspecting world.
 

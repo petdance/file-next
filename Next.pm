@@ -129,6 +129,9 @@ marvelous I<Higher Order Perl>, page 126.
 
 use File::Spec ();
 
+our $name; # name of the current file
+our $dir;  # dir of the current file
+
 my %files_defaults = (
     file_filter => sub{1},
     descend_filter => sub {1},
