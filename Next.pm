@@ -115,6 +115,17 @@ By default, the I<descend_filter> is C<sub {1}>, or "always descend".
 If I<error_handler> is set, then any errors will be sent through
 it.  By default, this value is C<CORE::die>.
 
+=head2 sort_files => [ 0 | 1 | \&sort_sub]
+
+If you want files sorted, pass in some true value, as in
+C<< sort_files => 1 >>.
+
+If you want a special sort order, pass in a sort function like
+C<< sort_files => sub { $a->[1] cmp $b->[1] } >>.
+Note that the parms passed in to the sub are arrayrefs, where $a->[0]
+is the directory name and $a->[1] is the file name.  Typically
+you're going to be sorting on $a->[1].
+
 =head1 FUNCTIONS
 
 =head2 files( { \%parameters }, @starting points )
@@ -136,6 +147,7 @@ my %files_defaults = (
     file_filter => sub{1},
     descend_filter => sub {1},
     error_handler => sub { CORE::die @_ },
+    sort_files => undef,
 );
 
 sub files {
@@ -242,6 +254,14 @@ sub _candidate_files {
             next unless $parms->{descend_filter}->();
         }
         push( @newfiles, [$dir, $file] );
+    }
+    if ( my $sub = $parms->{sort_files} ) {
+        if ( ref($sub) eq 'CODE' ) {
+            @newfiles = sort $sub @newfiles;
+        }
+        else {
+            @newfiles = sort @newfiles;
+        }
     }
 
     return @newfiles;
