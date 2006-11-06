@@ -243,10 +243,8 @@ sub _candidate_files {
 
     %ups or %ups = map {($_,1)} File::Spec->no_upwards;
     my @newfiles;
-    my $up = File::Spec->updir;
-    my $cur = File::Spec->curdir;
     while ( my $file = readdir $dh ) {
-        next if ($file eq $up) || ($file eq $cur);
+        next if $ups{$file};
 
         local $File::Next::dir = File::Spec->catdir( $dir, $file );
         if ( -d $File::Next::dir ) {
