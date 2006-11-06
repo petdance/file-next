@@ -35,13 +35,13 @@ SORT_BOOLEAN: {
     );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    is_deeply( \@expected, \@actual, 'SORT_BOOLEAN' );
+    _lists_match( \@expected, \@actual, 'SORT_BOOLEAN' );
 }
 
 sub sort_reverse($$) { $_[0]->[1] cmp $_[1]->[1] };
 
 SORT_REVERSE: {
-    my $iter = File::Next::files( { error_handler => \&Carp::confess, sort_files => \&sort_reverse }, 't/swamp' );
+    my $iter = File::Next::files( { sort_files => \&sort_reverse }, 't/swamp' );
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
@@ -78,4 +78,19 @@ sub slurp {
         push( @files, $file );
     }
     return @files;
+}
+
+
+sub _lists_match {
+    my @expected = @{+shift};
+    my @actual = @{+shift};
+    my $msg = shift;
+
+    # Normalize all the paths
+    for my $path ( @expected, @actual ) {
+        $path = File::Next::_reslash( $path );
+    }
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
+    return is_deeply( \@expected, \@actual, $msg );
 }
