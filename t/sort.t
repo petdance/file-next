@@ -8,31 +8,33 @@ BEGIN {
     use_ok( 'File::Next' );
 }
 
+my @sorted_swamp = qw(
+    t/swamp/Makefile
+    t/swamp/Makefile.PL
+    t/swamp/a/a1
+    t/swamp/a/a2
+    t/swamp/b/b1
+    t/swamp/b/b2
+    t/swamp/c/c1
+    t/swamp/c/c2
+    t/swamp/c-header.h
+    t/swamp/c-source.c
+    t/swamp/javascript.js
+    t/swamp/parrot.pir
+    t/swamp/perl-test.t
+    t/swamp/perl-without-extension
+    t/swamp/perl.pl
+    t/swamp/perl.pm
+    t/swamp/perl.pod
+);
+
 SORT_BOOLEAN: {
     my $iter = File::Next::files( { sort_files => 1 }, 't/swamp' );
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
 
-    my @expected = qw(
-        t/swamp/Makefile
-        t/swamp/Makefile.PL
-        t/swamp/c-header.h
-        t/swamp/c-source.c
-        t/swamp/javascript.js
-        t/swamp/parrot.pir
-        t/swamp/perl-test.t
-        t/swamp/perl-without-extension
-        t/swamp/perl.pl
-        t/swamp/perl.pm
-        t/swamp/perl.pod
-        t/swamp/a/a1
-        t/swamp/a/a2
-        t/swamp/b/b1
-        t/swamp/b/b2
-        t/swamp/c/c1
-        t/swamp/c/c2
-    );
+    my @expected = @sorted_swamp;
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     _lists_match( \@expected, \@actual, 'SORT_BOOLEAN' );
@@ -46,25 +48,7 @@ SORT_REVERSE: {
 
     my @actual = slurp( $iter );
 
-    my @expected = qw(
-        t/swamp/perl.pod
-        t/swamp/perl.pm
-        t/swamp/perl.pl
-        t/swamp/perl-without-extension
-        t/swamp/perl-test.t
-        t/swamp/parrot.pir
-        t/swamp/javascript.js
-        t/swamp/c/c2
-        t/swamp/c/c1
-        t/swamp/c-source.c
-        t/swamp/c-header.h
-        t/swamp/b/b2
-        t/swamp/b/b1
-        t/swamp/a/a2
-        t/swamp/a/a1
-        t/swamp/Makefile.PL
-        t/swamp/Makefile
-    );
+    my @expected = reverse @sorted_swamp;
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     is_deeply( \@expected, \@actual, 'SORT_REVERSE' );
