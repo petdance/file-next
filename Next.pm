@@ -241,7 +241,7 @@ sub _candidate_files {
         return;
     }
 
-    %ups or %ups = map {($_,1)} File::Spec->no_upwards;
+    %ups or %ups = map {($_,1)} (File::Spec->curdir, File::Spec->updir);
     my @newfiles;
     while ( my $file = readdir $dh ) {
         next if $ups{$file};
