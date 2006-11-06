@@ -51,7 +51,7 @@ SORT_REVERSE: {
     my @expected = reverse @sorted_swamp;
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    is_deeply( \@expected, \@actual, 'SORT_REVERSE' );
+    _lists_match( \@expected, \@actual, 'SORT_REVERSE' );
 }
 
 sub slurp {
@@ -76,5 +76,7 @@ sub _lists_match {
     }
 
     local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
+    #use Test::Differences;
+    #return eq_or_diff \@actual, \@expected, $msg;
     return is_deeply( \@expected, \@actual, $msg );
 }
