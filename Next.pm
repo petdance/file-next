@@ -272,12 +272,8 @@ sub _candidate_files {
         push( @newfiles, [$dir, $file] );
     }
     if ( my $sub = $parms->{sort_files} ) {
-        if ( ref($sub) eq 'CODE' ) {
-            @newfiles = sort $sub @newfiles;
-        }
-        else {
-            @newfiles = sort @newfiles;
-        }
+        $sub = \&sort_standard unless ref($sub) eq 'CODE';
+        @newfiles = sort $sub @newfiles;
     }
 
     return @newfiles;
