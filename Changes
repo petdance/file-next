@@ -10,6 +10,9 @@ Revision history for File-Next
     [FEATURES]
     Added a sort_files parm to allow you to sort the results.
 
+    [INTERNALS]
+    Added a perlcriticrc for "make critic".
+
 
 0.28    Tue Sep  5 23:51:41 CDT 2006
 

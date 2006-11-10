@@ -158,6 +158,7 @@ Same as C<sort_standard>, but in reverse.
 
 use File::Spec ();
 
+## no critic (ProhibitPackageVars)
 our $name; # name of the current file
 our $dir;  # dir of the current file
 
@@ -279,8 +280,8 @@ sub _candidate_files {
     return @newfiles;
 }
 
-sub sort_standard($$)   { $_[0]->[1] cmp $_[1]->[1] };
-sub sort_reverse($$)    { $_[1]->[1] cmp $_[0]->[1] };
+sub sort_standard($$)   { return $_[0]->[1] cmp $_[1]->[1] }; ## no critic (ProhibitSubroutinePrototypes)
+sub sort_reverse($$)    { return $_[1]->[1] cmp $_[0]->[1] }; ## no critic (ProhibitSubroutinePrototypes)
 
 =head1 AUTHOR
 

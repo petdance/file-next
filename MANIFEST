@@ -3,6 +3,7 @@ MANIFEST
 Makefile.PL
 README
 Next.pm
+perlcriticrc
 
 t/00-load.t
 t/api.t

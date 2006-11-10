@@ -5,7 +5,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME                => 'File::Next',
-    AUTHOR              => 'Andy Lester <andy@petdance.com>',
+    AUTHOR              => 'Andy Lester <andy@petdance.com>', ## no critic (RequireInterpolationOfMetachars)
     VERSION_FROM        => 'Next.pm',
     ABSTRACT_FROM       => 'Next.pm',
     PL_FILES            => {},
@@ -22,7 +22,7 @@ return <<'MAKE_FRAG';
 .PHONY: tags critic
 
 critic:
-	perlcritic -1 -quiet .
+	perlcritic -profile perlcriticrc -1 -quiet .
 
 MAKE_FRAG
 }
