@@ -13,10 +13,13 @@ CHECK_FILE_FILTER: {
         return if $File::Next::dir =~ /\.svn/;
         ok( defined $_, '$_ defined' );
         is( $File::Next::dir, File::Next::_reslash( 't/swamp' ), '$File::Next::dir correct in $file_filter' );
-        is( $File::Next::name, File::Next::_reslash( "t/swamp/$_" ) );
+        is( $File::Next::name, File::Next::_reslash( "t/swamp/$_" ), '$File::Next::name is correct' );
     };
 
-    my $iter = File::Next::files( {file_filter => $file_filter}, 't/swamp' );
+    my $iter = File::Next::files( {
+        file_filter => $file_filter,
+        sort_files => \&File::Next::sort_reverse,
+    }, 't/swamp' );
     isa_ok( $iter, 'CODE' );
 
     # Return filename in scalar mode
