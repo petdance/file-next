@@ -136,6 +136,24 @@ in I<@starting_points>.
 All file-finding in this module is adapted from Mark Jason Dominus'
 marvelous I<Higher Order Perl>, page 126.
 
+=head2 sort_standard( $a, $b )
+
+A sort function for passing as a C<sort_files> parameter:
+
+    my $iter = File::Next::files( {
+        sort_files => \&File::Next::sort_reverse
+    }, 't/swamp' );
+
+This function is the default, so the code above is identical to:
+
+    my $iter = File::Next::files( {
+        sort_files => \&File::Next::sort_reverse
+    }, 't/swamp' );
+
+=head2 sort_reverse( $a, $b )
+
+Same as C<sort_standard>, but in reverse.
+
 =cut
 
 use File::Spec ();
@@ -187,7 +205,7 @@ sub files {
                     : $file;
 
             if (-d $fullpath) {
-                push( @queue, _candidate_files( $parms, $fullpath ) );
+                unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
             elsif (-f $fullpath) {
                 local $_ = $file;
@@ -264,6 +282,9 @@ sub _candidate_files {
 
     return @newfiles;
 }
+
+sub sort_standard($$)   { $_[0]->[1] cmp $_[1]->[1] };
+sub sort_reverse($$)    { $_[1]->[1] cmp $_[0]->[1] };
 
 =head1 AUTHOR
 
