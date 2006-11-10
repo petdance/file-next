@@ -1,11 +1,14 @@
 Revision history for File-Next
 
-NEXT
+0.30    Fri Nov 10 11:24:50 CST 2006
 
     [FIXES]
     Explicitly declare $File::Find::name and $File::Find::dir.
 
     Made the updir/curdir stuff into a hash.
+
+    [FEATURES]
+    Added a sort_files parm to allow you to sort the results.
 
 
 0.28    Tue Sep  5 23:51:41 CDT 2006
