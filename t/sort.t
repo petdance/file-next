@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 7;
 
 BEGIN {
     use_ok( 'File::Next' );
@@ -40,10 +40,20 @@ SORT_BOOLEAN: {
     _lists_match( \@expected, \@actual, 'SORT_BOOLEAN' );
 }
 
-sub sort_reverse($$) { $_[0]->[1] cmp $_[1]->[1] };
+SORT_STANDARD: {
+    my $iter = File::Next::files( { sort_files => \&File::Next::sort_standard }, 't/swamp' );
+    isa_ok( $iter, 'CODE' );
+
+    my @actual = slurp( $iter );
+
+    my @expected = @sorted_swamp;
+
+    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
+    _lists_match( \@expected, \@actual, 'SORT_STANDARD' );
+}
 
 SORT_REVERSE: {
-    my $iter = File::Next::files( { sort_files => \&sort_reverse }, 't/swamp' );
+    my $iter = File::Next::files( { sort_files => \&File::Next::sort_reverse }, 't/swamp' );
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
