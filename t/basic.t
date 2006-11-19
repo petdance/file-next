@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 11;
+use Test::More tests => 13;
 
 BEGIN {
     use_ok( 'File::Next' );
@@ -19,7 +19,7 @@ JUST_A_FILE: {
     my @expected = qw(
         t/pod.t
     );
-    _sets_match( \@expected, \@actual, 'JUST_A_FILE' );
+    _sets_match( \@actual, \@expected, 'JUST_A_FILE' );
 }
 
 NO_PARMS: {
@@ -49,7 +49,7 @@ NO_PARMS: {
     );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _sets_match( \@expected, \@actual, 'NO_PARMS' );
+    _sets_match( \@actual, \@expected, 'NO_PARMS' );
 }
 
 MULTIPLE_STARTS: {
@@ -68,7 +68,7 @@ MULTIPLE_STARTS: {
     );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _sets_match( \@expected, \@actual, 'MULTIPLE_STARTS' );
+    _sets_match( \@actual, \@expected, 'MULTIPLE_STARTS' );
 }
 
 NO_DESCEND: {
@@ -91,7 +91,7 @@ NO_DESCEND: {
         t/swamp/perl.pod
     );
 
-    _sets_match( \@expected, \@actual, 'NO_DESCEND' );
+    _sets_match( \@actual, \@expected, 'NO_DESCEND' );
 }
 
 
@@ -119,9 +119,28 @@ ONLY_FILES_WITH_AN_EXTENSION: {
     );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _sets_match( \@expected, \@actual, 'ONLY_FILES_WITH_AN_EXTENSION' );
+    _sets_match( \@actual, \@expected, 'ONLY_FILES_WITH_AN_EXTENSION' );
 }
 
+CURRENT_DIRECTORY: {
+    my $iter = File::Next::files( {descend_filter => sub {0}}, '.' );
+    isa_ok( $iter, 'CODE' );
+
+    my @actual = grep { !/blib/ } slurp( $iter );
+
+    my @expected = qw(
+        Changes
+        Makefile
+        Makefile.PL
+        MANIFEST
+        Next.pm
+        perlcriticrc
+        README
+        t
+    );
+
+    _sets_match( \@actual, \@expected, 'NO_DESCEND' );
+}
 
 sub slurp {
     my $iter = shift;
@@ -134,8 +153,8 @@ sub slurp {
 }
 
 sub _sets_match {
-    my @expected = @{+shift};
     my @actual = @{+shift};
+    my @expected = @{+shift};
     my $msg = shift;
 
     # Normalize all the paths
@@ -144,5 +163,5 @@ sub _sets_match {
     }
 
     local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
-    return is_deeply( [sort @expected], [sort @actual], $msg );
+    return is_deeply( [sort @actual], [sort @expected], $msg );
 }
