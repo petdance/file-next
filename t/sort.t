@@ -37,7 +37,7 @@ SORT_BOOLEAN: {
     my @expected = @sorted_swamp;
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _lists_match( \@expected, \@actual, 'SORT_BOOLEAN' );
+    _lists_match( \@actual, \@expected, 'SORT_BOOLEAN' );
 }
 
 SORT_STANDARD: {
@@ -49,7 +49,7 @@ SORT_STANDARD: {
     my @expected = @sorted_swamp;
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _lists_match( \@expected, \@actual, 'SORT_STANDARD' );
+    _lists_match( \@actual, \@expected, 'SORT_STANDARD' );
 }
 
 SORT_REVERSE: {
@@ -61,7 +61,7 @@ SORT_REVERSE: {
     my @expected = reverse @sorted_swamp;
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _lists_match( \@expected, \@actual, 'SORT_REVERSE' );
+    _lists_match( \@actual, \@expected, 'SORT_REVERSE' );
 }
 
 sub slurp {
@@ -76,8 +76,8 @@ sub slurp {
 
 
 sub _lists_match {
-    my @expected = @{+shift};
     my @actual = @{+shift};
+    my @expected = @{+shift};
     my $msg = shift;
 
     # Normalize all the paths
@@ -86,7 +86,5 @@ sub _lists_match {
     }
 
     local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
-    #use Test::Differences;
-    #return eq_or_diff \@actual, \@expected, $msg;
-    return is_deeply( \@expected, \@actual, $msg );
+    return is_deeply( \@actual, \@expected, $msg );
 }
