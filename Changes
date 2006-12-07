@@ -1,5 +1,15 @@
 Revision history for File-Next
 
+0.32    Wed Dec  6 19:36:51 CST 2006
+
+    No functionality changes, except as seen below.  For most of
+    you using File::Next, there are no changes in this version.
+
+    [INTERNALS]
+    Initialize package arrays in BEGIN blocks.  This is so ack's
+    standalone version will initialize correctly.
+
+
 0.30    Fri Nov 10 11:24:50 CST 2006
 
     [FIXES]

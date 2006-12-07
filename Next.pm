@@ -9,11 +9,11 @@ File::Next - File-finding iterator
 
 =head1 VERSION
 
-Version 0.30
+Version 0.32
 
 =cut
 
-our $VERSION = '0.30';
+our $VERSION = '0.32';
 
 =head1 SYNOPSIS
 
@@ -162,12 +162,16 @@ use File::Spec ();
 our $name; # name of the current file
 our $dir;  # dir of the current file
 
-my %files_defaults = (
-    file_filter => sub{1},
-    descend_filter => sub {1},
-    error_handler => sub { CORE::die @_ },
-    sort_files => undef,
-);
+our %files_defaults;
+
+BEGIN {
+    %files_defaults = (
+        file_filter => sub{1},
+        descend_filter => sub {1},
+        error_handler => sub { CORE::die @_ },
+        sort_files => undef,
+    );
+}
 
 sub files {
     my $passed_parms = ref $_[0] eq 'HASH' ? {%{+shift}} : {}; # copy parm hash
@@ -248,7 +252,7 @@ I<$parms> is the hashref of parms passed into File::Next constructor.
 
 =cut
 
-my %ups;
+our %ups;
 
 sub _candidate_files {
     my $parms = shift;
