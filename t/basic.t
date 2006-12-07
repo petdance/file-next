@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 13;
+use Test::More tests => 11;
 
 BEGIN {
     use_ok( 'File::Next' );
@@ -120,26 +120,6 @@ ONLY_FILES_WITH_AN_EXTENSION: {
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     _sets_match( \@actual, \@expected, 'ONLY_FILES_WITH_AN_EXTENSION' );
-}
-
-CURRENT_DIRECTORY: {
-    my $iter = File::Next::files( {descend_filter => sub {0}}, '.' );
-    isa_ok( $iter, 'CODE' );
-
-    my @actual = grep { !/blib/ } slurp( $iter );
-
-    my @expected = qw(
-        Changes
-        Makefile
-        Makefile.PL
-        MANIFEST
-        Next.pm
-        perlcriticrc
-        README
-        t
-    );
-
-    _sets_match( \@actual, \@expected, 'NO_DESCEND' );
 }
 
 sub slurp {
