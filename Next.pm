@@ -166,8 +166,8 @@ our %files_defaults;
 
 BEGIN {
     %files_defaults = (
-        file_filter => sub{1},
-        descend_filter => sub {1},
+        file_filter => undef,
+        descend_filter => undef,
         error_handler => sub { CORE::die @_ },
         sort_files => undef,
     );
@@ -213,17 +213,13 @@ sub files {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
             elsif (-f $fullpath) {
-                local $_ = $file;
-                local $File::Next::dir = $dir;
-                local $File::Next::name = $fullpath;
-                if ( $parms->{file_filter}->() ) {
-                    if (wantarray) {
-                        return ($dir,$file);
-                    }
-                    else {
-                        return $fullpath;
-                    }
+                if ( $parms->{file_filter} ) {
+                    local $_ = $file;
+                    local $File::Next::dir = $dir;
+                    local $File::Next::name = $fullpath;
+                    next if not $parms->{file_filter}->();
                 }
+                return wantarray ? ($dir,$file) : $fullpath;
             }
         } # while
 
@@ -264,6 +260,7 @@ sub _candidate_files {
         return;
     }
 
+    # REVIEW: Build these in a BEGIN block
     %ups or %ups = map {($_,1)} (File::Spec->curdir, File::Spec->updir);
     my @newfiles;
     while ( my $file = readdir $dh ) {
@@ -271,8 +268,10 @@ sub _candidate_files {
 
         local $File::Next::dir = File::Spec->catdir( $dir, $file );
         if ( -d $File::Next::dir ) {
-            local $_ = $file;
-            next unless $parms->{descend_filter}->();
+            if ( $parms->{descend_filter} ) {
+                local $_ = $file;
+                next if not $parms->{descend_filter}->();
+            }
         }
         push( @newfiles, [$dir, $file] );
     }
