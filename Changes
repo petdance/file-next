@@ -1,6 +1,7 @@
 Revision history for File-Next
 
-0.34
+0.34    Sat Dec 16 00:21:10 CST 2006
+
     [ENHANCEMENTS]
     The reslash() function is now publicly usable, although not via
     export.  This is mostly convenience for ack.

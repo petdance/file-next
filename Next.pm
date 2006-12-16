@@ -9,11 +9,11 @@ File::Next - File-finding iterator
 
 =head1 VERSION
 
-Version 0.32
+Version 0.34
 
 =cut
 
-our $VERSION = '0.32';
+our $VERSION = '0.34';
 
 =head1 SYNOPSIS
 
@@ -211,10 +211,7 @@ sub files {
                         : $dir
                     : $file;
 
-            if (-d $fullpath) {
-                unshift( @queue, _candidate_files( $parms, $fullpath ) );
-            }
-            elsif (-f $fullpath) {
+            if (-f $fullpath) {
                 if ( $parms->{file_filter} ) {
                     local $_ = $file;
                     local $File::Next::dir = $dir;
@@ -222,6 +219,9 @@ sub files {
                     next if not $parms->{file_filter}->();
                 }
                 return wantarray ? ($dir,$file) : $fullpath;
+            }
+            elsif (-d $fullpath) {
+                unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
         } # while
 
@@ -272,6 +272,7 @@ sub _candidate_files {
     while ( my $file = readdir $dh ) {
         next if $skip_dirs{$file};
 
+        # Only do directory checking if we have a descend_filter
         if ( $parms->{descend_filter} ) {
             local $File::Next::dir = File::Spec->catdir( $dir, $file );
             if ( -d $File::Next::dir ) {
