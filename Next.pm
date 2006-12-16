@@ -189,7 +189,7 @@ sub files {
 
     my @queue;
     for ( @_ ) {
-        my $start = _reslash( $_ );
+        my $start = reslash( $_ );
         if (-d $start) {
             push @queue, [$start,undef];
         }
@@ -227,7 +227,15 @@ sub files {
     }; # iterator
 }
 
-sub _reslash {
+=head2 reslash( $path )
+
+Takes a path with all forward slashes and rebuilds it with whatever
+is appropriate for the platform.  For example 'foo/bar/bat' will
+become 'foo\bar\bat' on Windows.
+
+=cut
+
+sub reslash {
     my $path = shift;
 
     my @parts = split( /\//, $path );

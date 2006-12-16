@@ -82,7 +82,7 @@ sub _lists_match {
 
     # Normalize all the paths
     for my $path ( @expected, @actual ) {
-        $path = File::Next::_reslash( $path );
+        $path = File::Next::reslash( $path );
     }
 
     local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic

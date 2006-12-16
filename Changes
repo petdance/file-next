@@ -6,6 +6,9 @@ Revision history for File-Next
     there's no descend_filter.  By my calculations, descending a
     big tree is now 0.6% faster!  I hope you appreciate it!
 
+    The reslash() function is now publicly usable, although not via
+    export.  This is mostly convenience for ack.
+
 
 0.32    Wed Dec  6 19:36:51 CST 2006
 
