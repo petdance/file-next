@@ -163,6 +163,7 @@ our $name; # name of the current file
 our $dir;  # dir of the current file
 
 our %files_defaults;
+our %skip_dirs;
 
 BEGIN {
     %files_defaults = (
@@ -171,6 +172,7 @@ BEGIN {
         error_handler => sub { CORE::die @_ },
         sort_files => undef,
     );
+    %skip_dirs = map {($_,1)} (File::Spec->curdir, File::Spec->updir);
 }
 
 sub files {
@@ -256,8 +258,6 @@ I<$parms> is the hashref of parms passed into File::Next constructor.
 
 =cut
 
-our %ups;
-
 sub _candidate_files {
     my $parms = shift;
     my $dir = shift;
@@ -268,11 +268,9 @@ sub _candidate_files {
         return;
     }
 
-    # REVIEW: Build these in a BEGIN block
-    %ups or %ups = map {($_,1)} (File::Spec->curdir, File::Spec->updir);
     my @newfiles;
     while ( my $file = readdir $dh ) {
-        next if $ups{$file};
+        next if $skip_dirs{$file};
 
         local $File::Next::dir = File::Spec->catdir( $dir, $file );
         if ( -d $File::Next::dir ) {
