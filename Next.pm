@@ -272,9 +272,9 @@ sub _candidate_files {
     while ( my $file = readdir $dh ) {
         next if $skip_dirs{$file};
 
-        local $File::Next::dir = File::Spec->catdir( $dir, $file );
-        if ( -d $File::Next::dir ) {
-            if ( $parms->{descend_filter} ) {
+        if ( $parms->{descend_filter} ) {
+            local $File::Next::dir = File::Spec->catdir( $dir, $file );
+            if ( -d $File::Next::dir ) {
                 local $_ = $file;
                 next if not $parms->{descend_filter}->();
             }

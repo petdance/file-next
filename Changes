@@ -2,12 +2,14 @@ Revision history for File-Next
 
 0.34
     [ENHANCEMENTS]
-    Teeny speedup when there's no file_filter parameter.  Also when
-    there's no descend_filter.  By my calculations, descending a
-    big tree is now 0.6% faster!  I hope you appreciate it!
-
     The reslash() function is now publicly usable, although not via
     export.  This is mostly convenience for ack.
+
+    Minor speedups when there's no file_filter parameter.
+
+    Speedups when there's no descend_filter, too.  We were doing
+    checks to see if a given file was a directory, even though we
+    didn't do anything with that fact if there's no descend_filter.
 
 
 0.32    Wed Dec  6 19:36:51 CST 2006
