@@ -203,6 +203,11 @@ sub files {
         $parms->{error_handler}->( "Invalid parameter passed to files(): $badkey" );
     }
 
+    # If it's not a code ref, assume standard sort
+    if ( $parms->{sort_files} && ( ref($parms->{sort_files}) ne 'CODE' ) ) {
+        $parms->{sort_files} = \&sort_standard;
+    }
+
     my @queue;
     for ( @_ ) {
         my $start = reslash( $_ );
@@ -271,8 +276,6 @@ sub _candidate_files {
         push( @newfiles, $dir, $file, $fullpath );
     }
     if ( my $sub = $parms->{sort_files} ) {
-        $sub = \&sort_standard unless ref($sub) eq 'CODE';
-
         my @triplets;
         while ( @newfiles ) {
             push @triplets, [splice( @newfiles, 0, 3 )];
