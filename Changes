@@ -1,6 +1,9 @@
 Revision history for File-Next
 
-0.36
+0.36    Thu Dec 21 15:50:13 CST 2006
+
+    There is no new functionality between 0.34 and 0.36.  It's
+    entirely a speedup.
 
     [ENHANCEMENTS]
     I sped up the internals of passing around the queue and building
