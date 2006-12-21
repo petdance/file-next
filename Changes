@@ -1,5 +1,15 @@
 Revision history for File-Next
 
+0.36
+
+    [ENHANCEMENTS]
+    I sped up the internals of passing around the queue and building
+    paths, and it should now be 20% faster than 0.34 in the simplest
+    case.
+
+    [DOCUMENTATION]
+    Now it explains what the iterator returns in list context.
+
 0.34    Sat Dec 16 00:21:10 CST 2006
 
     [ENHANCEMENTS]
