@@ -202,6 +202,8 @@ sub files {
 
     return sub {
         while (@queue) {
+            # REVIEW: Figure a way to make these use pairs, and not
+            # anonymous arrays.
             my ($dir,$file) = @{shift @queue};
 
             my $fullpath =
