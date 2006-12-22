@@ -8,6 +8,7 @@ perlcriticrc
 t/00-load.t
 t/api.t
 t/basic.t
+t/dot.t
 t/parms.t
 t/pod-coverage.t
 t/pod.t
