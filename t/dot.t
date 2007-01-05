@@ -1,4 +1,4 @@
-#!perl
+#!perl -T
 
 use strict;
 use warnings;
@@ -20,6 +20,7 @@ NO_PARMS: {
         api.t
         basic.t
         dot.t
+        follow.t
         parms.t
         pod-coverage.t
         pod.t
