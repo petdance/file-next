@@ -51,7 +51,7 @@ my @symlinkage = qw(
     t/swamp/linkdir/a2
 );
 
-NO_PARMS: {
+DEFAULT: {
     my $iter = File::Next::files( 't/swamp' );
     isa_ok( $iter, 'CODE' );
 
@@ -59,7 +59,18 @@ NO_PARMS: {
     my @expected = ( @realfiles, @symlinkage );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _sets_match( \@actual, \@expected, 'NO_PARMS' );
+    _sets_match( \@actual, \@expected, 'DEFAULT' );
+}
+
+NO_FOLLOW: {
+    my $iter = File::Next::files( { follow_symlinks => 0 }, 't/swamp' );
+    isa_ok( $iter, 'CODE' );
+
+    my @actual = slurp( $iter );
+    my @expected = ( @realfiles );
+
+    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
+    _sets_match( \@actual, \@expected, 'NO_FOLLOW' );
 }
 
 sub slurp {
