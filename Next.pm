@@ -109,7 +109,7 @@ a collection of variables.
 The descend filter is NOT applied to any directory names specified
 in the constructor.  For example,
 
-    my $iter = File::Find::files( { descend_filter => sub{0} }, '/tmp' );
+    my $iter = File::Next::files( { descend_filter => sub{0} }, '/tmp' );
 
 always descends into I</tmp>, as you would expect.
 
@@ -130,6 +130,14 @@ C<< sort_files => sub { $a->[1] cmp $b->[1] } >>.
 Note that the parms passed in to the sub are arrayrefs, where $a->[0]
 is the directory name, $a->[1] is the file name and $a->[2] is the
 full path.  Typically you're going to be sorting on $a->[2].
+
+=head2 follow_symlinks => [ 0 | 1 ]
+
+If set to false, File::Next will ignore any files and directories
+that are actually symlinks.  This has no effect on non-Unixy systems
+such as Windows.
+
+By default, this is true.
 
 =head1 FUNCTIONS
 
@@ -172,10 +180,11 @@ our %skip_dirs;
 
 BEGIN {
     %files_defaults = (
-        file_filter => undef,
-        descend_filter => undef,
-        error_handler => sub { CORE::die @_ },
-        sort_files => undef,
+        file_filter     => undef,
+        descend_filter  => undef,
+        error_handler   => sub { CORE::die @_ },
+        sort_files      => undef,
+        follow_symlinks => 1,
     );
     %skip_dirs = map {($_,1)} (File::Spec->curdir, File::Spec->updir);
 }
