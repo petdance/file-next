@@ -30,8 +30,8 @@ It's lightweight and has no non-core prerequisites.
 
 =head1 OPERATIONAL THEORY
 
-Each of the public functions in File::Next returns an iterator that
-will walk through a directory tree.  The simplest use case is:
+The two major functions, I<files()> and I<dirs()>, return an iterator
+that will walk through a directory tree.  The simplest use case is:
 
     use File::Next;
 
@@ -62,12 +62,12 @@ Note that the iterator will only return files, not directories.
 
 =head1 FUNCTIONS
 
-=head2 files( { \%parameters }, @starting points )
+=head2 files( { \%parameters }, @starting_points )
 
 Returns an iterator that walks directories starting with the items
 in I<@starting_points>.  Each call to the iterator returns another file.
 
-=head2 dirs( { \%parameters }, @starting points )
+=head2 dirs( { \%parameters }, @starting_points )
 
 Returns an iterator that walks directories starting with the items
 in I<@starting_points>.  Each call to the iterator returns another
@@ -83,7 +83,9 @@ A sort function for passing as a C<sort_files> parameter:
 
 This function is the default, so the code above is identical to:
 
-    my $iter = File::Next::files( 't/swamp' );
+    my $iter = File::Next::files( {
+        sort_files => 1,
+    }, 't/swamp' );
 
 =head2 sort_reverse( $a, $b )
 
@@ -149,7 +151,7 @@ a collection of variables.
 =back
 
 The descend filter is NOT applied to any directory names specified
-in the constructor.  For example,
+in as I<@starting_points> in the constructor.  For example,
 
     my $iter = File::Next::files( { descend_filter => sub{0} }, '/tmp' );
 
@@ -175,11 +177,11 @@ full path.  Typically you're going to be sorting on $a->[2].
 
 =head2 follow_symlinks => [ 0 | 1 ]
 
-If set to false, File::Next will ignore any files and directories
+If set to false, the iterator will ignore any files and directories
 that are actually symlinks.  This has no effect on non-Unixy systems
 such as Windows.  By default, this is true.
 
-Note that this filter does not apply to any of the starting files
+Note that this filter does not apply to any of the I<@starting_points>
 passed in to the constructor.
 
 =cut
@@ -320,8 +322,6 @@ sub _setup {
 
 Pulls out the files/dirs that might be worth looking into in I<$dir>.
 If I<$dir> is the empty string, then search the current directory.
-This is different than explicitly passing in a ".", because that
-will get prepended to the path names.
 
 I<$parms> is the hashref of parms passed into File::Next constructor.
 

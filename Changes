@@ -1,6 +1,6 @@
 Revision history for File-Next
 
-0.38    Sun Jan  7 01:05:43 CST 2007
+0.38    Sun Jan  7 01:23:43 CST 2007
 
     [ENHANCEMENTS]
     Added the ability to skip symlinks.  By default, symlinks are
@@ -9,6 +9,9 @@ Revision history for File-Next
 
     Added a dirs() function to return an iterator that only finds
     directories.
+
+    [DOCUMENTATION]
+    Fixed some little errors here and there.
 
 
 0.36    Thu Dec 21 15:50:13 CST 2006
