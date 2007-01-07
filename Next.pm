@@ -135,9 +135,10 @@ full path.  Typically you're going to be sorting on $a->[2].
 
 If set to false, File::Next will ignore any files and directories
 that are actually symlinks.  This has no effect on non-Unixy systems
-such as Windows.
+such as Windows.  By default, this is true.
 
-By default, this is true.
+Note that this filter does not apply to any of the starting files
+passed in to the constructor.
 
 =head1 FUNCTIONS
 
@@ -204,7 +205,10 @@ sub files {
 
     my $parms = {};
     for my $key ( keys %files_defaults ) {
-        $parms->{$key} = delete( $passed_parms{$key} ) || $files_defaults{$key};
+        $parms->{$key} =
+            exists $passed_parms{$key}
+                ? delete $passed_parms{$key}
+                : $files_defaults{$key};
     }
 
     # Any leftover keys are bogus
@@ -232,6 +236,9 @@ sub files {
         while (@queue) {
             my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
 
+            if ( !$parms->{follow_symlinks} ) {
+                next if -l $fullpath;
+            }
             if (-f $fullpath) {
                 if ( $parms->{file_filter} ) {
                     local $_ = $file;

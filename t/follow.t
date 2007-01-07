@@ -93,6 +93,9 @@ sub _sets_match {
         $path = File::Next::reslash( $path );
     }
 
+    #use Test::Differences;
+    #return eq_or_diff( [sort @actual], [sort @expected], $msg );
+
     local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
     return is_deeply( [sort @actual], [sort @expected], $msg );
 }
