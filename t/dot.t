@@ -19,6 +19,7 @@ NO_PARMS: {
         00-load.t
         api.t
         basic.t
+        dirs.t
         dot.t
         follow.t
         parms.t

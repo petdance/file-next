@@ -87,6 +87,8 @@ These are analogous to the same variables in L<File::Find>.
 
 By default, the I<file_filter> is C<sub {1}>, or "all files".
 
+This filter has no effect if your iterator is only returning directories.
+
 =head2 descend_filter => \&descend_filter
 
 The descend_filter lets you check to see if the iterator should
@@ -145,10 +147,13 @@ passed in to the constructor.
 =head2 files( { \%parameters }, @starting points )
 
 Returns an iterator that walks directories starting with the items
-in I<@starting_points>.
+in I<@starting_points>.  Each call to the iterator returns another file.
 
-All file-finding in this module is adapted from Mark Jason Dominus'
-marvelous I<Higher Order Perl>, page 126.
+=head2 dirs( { \%parameters }, @starting points )
+
+Returns an iterator that walks directories starting with the items
+in I<@starting_points>.  Each call to the iterator returns another
+directory.
 
 =head2 sort_standard( $a, $b )
 
@@ -199,6 +204,7 @@ sub files {
         while (@queue) {
             my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
 
+            # XXX This should be in _candidate_files
             if ( !$parms->{follow_symlinks} ) {
                 next if -l $fullpath;
             }
@@ -213,6 +219,29 @@ sub files {
             }
             elsif (-d $fullpath) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
+            }
+        } # while
+
+        return;
+    }; # iterator
+}
+
+sub dirs {
+    my $passed_parms = ref $_[0] eq 'HASH' ? {%{+shift}} : {}; # copy parm hash
+    my $parms = _handle_constructor_parms( $passed_parms, \%files_defaults );
+    my @queue = _init_queue( @_ );
+
+    return sub {
+        while (@queue) {
+            my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
+
+            # XXX This should be in _candidate_files
+            if ( !$parms->{follow_symlinks} ) {
+                next if -l $fullpath;
+            }
+            if (-d $fullpath) {
+                unshift( @queue, _candidate_files( $parms, $fullpath ) );
+                return $fullpath;
             }
         } # while
 
@@ -396,9 +425,12 @@ L<https://file-next.googlecode.com/svn/trunk>
 
 =head1 ACKNOWLEDGEMENTS
 
+All file-finding in this module is adapted from Mark Jason Dominus'
+marvelous I<Higher Order Perl>, page 126.
+
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2006 Andy Lester, all rights reserved.
+Copyright 2006-2007 Andy Lester, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

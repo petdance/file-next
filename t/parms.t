@@ -11,7 +11,6 @@ BEGIN {
 
 
 BAD_PARMS_CAUGHT: {
-
     my @errors;
     sub error_catcher {
         my $error = shift;
@@ -28,18 +27,18 @@ BAD_PARMS_CAUGHT: {
         }, 't/pod.t' );
 
     is( scalar @errors, 1, 'Caught one error' );
-    like( $errors[0], qr/Invalid.+wango/, 'And it looks reasonable' );
+    like( $errors[0], qr/Invalid.+files.+wango/, 'And it looks reasonable' );
 }
 
 
 BAD_PARMS_UNCAUGHT: {
     eval {
         my $iter =
-            File::Next::files( {
+            File::Next::dirs( {
                 wango => 'ze tango',
             }, 't/pod.t' );
     };
 
     ok( defined $@, 'Throws an error' );
-    like( $@, qr/Invalid.+wango/, 'And it looks reasonable' );
+    like( $@, qr/Invalid.+dirs.+wango/, 'And it looks reasonable' );
 }
