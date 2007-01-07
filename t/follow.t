@@ -10,7 +10,7 @@ BEGIN {
 }
 
 BEGIN {
-    plan tests => 3;
+    plan tests => 5;
     use_ok( 'File::Next' );
 }
 
