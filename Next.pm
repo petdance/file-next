@@ -60,7 +60,36 @@ be a hashref of parameters.
 
 Note that the iterator will only return files, not directories.
 
-=head1 PARAMETERS
+=head1 FUNCTIONS
+
+=head2 files( { \%parameters }, @starting points )
+
+Returns an iterator that walks directories starting with the items
+in I<@starting_points>.  Each call to the iterator returns another file.
+
+=head2 dirs( { \%parameters }, @starting points )
+
+Returns an iterator that walks directories starting with the items
+in I<@starting_points>.  Each call to the iterator returns another
+directory.
+
+=head2 sort_standard( $a, $b )
+
+A sort function for passing as a C<sort_files> parameter:
+
+    my $iter = File::Next::files( {
+        sort_files => \&File::Next::sort_standard,
+    }, 't/swamp' );
+
+This function is the default, so the code above is identical to:
+
+    my $iter = File::Next::files( 't/swamp' );
+
+=head2 sort_reverse( $a, $b )
+
+Same as C<sort_standard>, but in reverse.
+
+=head1 CONSTRUCTOR PARAMETERS
 
 =head2 file_filter -> \&file_filter
 
@@ -141,37 +170,6 @@ such as Windows.  By default, this is true.
 
 Note that this filter does not apply to any of the starting files
 passed in to the constructor.
-
-=head1 FUNCTIONS
-
-=head2 files( { \%parameters }, @starting points )
-
-Returns an iterator that walks directories starting with the items
-in I<@starting_points>.  Each call to the iterator returns another file.
-
-=head2 dirs( { \%parameters }, @starting points )
-
-Returns an iterator that walks directories starting with the items
-in I<@starting_points>.  Each call to the iterator returns another
-directory.
-
-=head2 sort_standard( $a, $b )
-
-A sort function for passing as a C<sort_files> parameter:
-
-    my $iter = File::Next::files( {
-        sort_files => \&File::Next::sort_reverse
-    }, 't/swamp' );
-
-This function is the default, so the code above is identical to:
-
-    my $iter = File::Next::files( {
-        sort_files => \&File::Next::sort_reverse
-    }, 't/swamp' );
-
-=head2 sort_reverse( $a, $b )
-
-Same as C<sort_standard>, but in reverse.
 
 =cut
 

@@ -1,7 +1,8 @@
 Revision history for File-Next
 
-NEXT
+0.38    Sun Jan  7 01:05:43 CST 2007
 
+    [ENHANCEMENTS]
     Added the ability to skip symlinks.  By default, symlinks are
     treated as the files or dirs they point to, but now you can
     tell File::Next to ignore them.
