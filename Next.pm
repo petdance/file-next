@@ -196,9 +196,7 @@ BEGIN {
 }
 
 sub files {
-    my $passed_parms = ref $_[0] eq 'HASH' ? {%{+shift}} : {}; # copy parm hash
-    my $parms = _handle_constructor_parms( $passed_parms, \%files_defaults );
-    my @queue = _init_queue( @_ );
+    my ($parms,@queue) = _setup( \%files_defaults, @_ );
 
     return sub {
         while (@queue) {
@@ -222,9 +220,7 @@ sub files {
 }
 
 sub dirs {
-    my $passed_parms = ref $_[0] eq 'HASH' ? {%{+shift}} : {}; # copy parm hash
-    my $parms = _handle_constructor_parms( $passed_parms, \%files_defaults );
-    my @queue = _init_queue( @_ );
+    my ($parms,@queue) = _setup( \%files_defaults, @_ );
 
     return sub {
         while (@queue) {
@@ -239,16 +235,26 @@ sub dirs {
     }; # iterator
 }
 
-=for private _handle_constructor_parms( $passed_parms )
+=for private _setup( $default_parms, @whatever_was_passed_to_files() )
+
+Handles all the scut-work for setting up the parms passed in.
 
 Returns a hashref of operational parameters, combined between
-I<$passed_parms> and I<$defaults>.
+I<$passed_parms> and I<$defaults>, plus the queue.
+
+The queue prep stuff takes the strings in I<@starting_points> and
+puts them in the format that queue needs.
+
+The C<@queue> that gets passed around is an array that has three
+elements for each of the entries in the queue: $dir, $file and
+$fullpath.  Items must be pushed and popped off the queue three at
+a time (spliced, really).
 
 =cut
 
-sub _handle_constructor_parms {
-    my $passed_parms = shift;
+sub _setup {
     my $defaults = shift;
+    my $passed_parms = ref $_[0] eq 'HASH' ? {%{+shift}} : {}; # copy parm hash
 
     my %passed_parms = %{$passed_parms};
 
@@ -270,21 +276,6 @@ sub _handle_constructor_parms {
     if ( $parms->{sort_files} && ( ref($parms->{sort_files}) ne 'CODE' ) ) {
         $parms->{sort_files} = \&sort_standard;
     }
-    return $parms;
-}
-
-=for private _init_queue( @starting_points )
-
-Takes the strings in I<@starting_points> and puts them in the format that queue needs.
-
-The C<@queue> that gets passed around is an array that has three
-elements for each of the entries in the queue: $dir, $file and
-$fullpath.  Items must be pushed and popped off the queue three at
-a time (spliced, really).
-
-=cut
-
-sub _init_queue {
     my @queue;
 
     for ( @_ ) {
@@ -297,7 +288,7 @@ sub _init_queue {
         }
     }
 
-    return @queue;
+    return ($parms,@queue);
 }
 
 =for private _candidate_files( $parms, $dir )
