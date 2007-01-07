@@ -190,47 +190,10 @@ BEGIN {
     %skip_dirs = map {($_,1)} (File::Spec->curdir, File::Spec->updir);
 }
 
-=for internal
-
-The C<@queue> that gets passed around is an array that has three
-elements for each of the entries in the queue: $dir, $file and
-$fullpath.  Items must be pushed and popped off the queue three at
-a time (spliced, really).
-
-=cut
-
 sub files {
     my $passed_parms = ref $_[0] eq 'HASH' ? {%{+shift}} : {}; # copy parm hash
-    my %passed_parms = %{$passed_parms};
-
-    my $parms = {};
-    for my $key ( keys %files_defaults ) {
-        $parms->{$key} =
-            exists $passed_parms{$key}
-                ? delete $passed_parms{$key}
-                : $files_defaults{$key};
-    }
-
-    # Any leftover keys are bogus
-    for my $badkey ( keys %passed_parms ) {
-        $parms->{error_handler}->( "Invalid parameter passed to files(): $badkey" );
-    }
-
-    # If it's not a code ref, assume standard sort
-    if ( $parms->{sort_files} && ( ref($parms->{sort_files}) ne 'CODE' ) ) {
-        $parms->{sort_files} = \&sort_standard;
-    }
-
-    my @queue;
-    for ( @_ ) {
-        my $start = reslash( $_ );
-        if (-d $start) {
-            push @queue, ($start,undef,$start);
-        }
-        else {
-            push @queue, (undef,$start,$start);
-        }
-    }
+    my $parms = _handle_constructor_parms( $passed_parms, \%files_defaults );
+    my @queue = _init_queue( @_ );
 
     return sub {
         while (@queue) {
@@ -255,6 +218,67 @@ sub files {
 
         return;
     }; # iterator
+}
+
+=for private _handle_constructor_parms( $passed_parms )
+
+Returns a hashref of operational parameters, combined between
+I<$passed_parms> and I<$defaults>.
+
+=cut
+
+sub _handle_constructor_parms {
+    my $passed_parms = shift;
+    my $defaults = shift;
+
+    my %passed_parms = %{$passed_parms};
+
+    my $parms = {};
+    for my $key ( keys %$defaults ) {
+        $parms->{$key} =
+            exists $passed_parms{$key}
+                ? delete $passed_parms{$key}
+                : $defaults->{$key};
+    }
+
+    # Any leftover keys are bogus
+    for my $badkey ( keys %passed_parms ) {
+        my $sub = (caller(1))[3];
+        $parms->{error_handler}->( "Invalid parameter passed to $sub(): $badkey" );
+    }
+
+    # If it's not a code ref, assume standard sort
+    if ( $parms->{sort_files} && ( ref($parms->{sort_files}) ne 'CODE' ) ) {
+        $parms->{sort_files} = \&sort_standard;
+    }
+    return $parms;
+}
+
+=for private _init_queue( @starting_points )
+
+Takes the strings in I<@starting_points> and puts them in the format that queue needs.
+
+The C<@queue> that gets passed around is an array that has three
+elements for each of the entries in the queue: $dir, $file and
+$fullpath.  Items must be pushed and popped off the queue three at
+a time (spliced, really).
+
+=cut
+
+sub _init_queue {
+    my @queue;
+
+    for ( @_ ) {
+        my $start = reslash( $_ );
+        if (-d $start) {
+            push @queue, ($start,undef,$start);
+        }
+        else {
+            push @queue, (undef,$start,$start);
+        }
+    }
+
+    return @queue;
 }
 
 =for private _candidate_files( $parms, $dir )
