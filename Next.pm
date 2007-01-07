@@ -203,11 +203,6 @@ sub files {
     return sub {
         while (@queue) {
             my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
-
-            # XXX This should be in _candidate_files
-            if ( !$parms->{follow_symlinks} ) {
-                next if -l $fullpath;
-            }
             if (-f $fullpath) {
                 if ( $parms->{file_filter} ) {
                     local $_ = $file;
@@ -234,11 +229,6 @@ sub dirs {
     return sub {
         while (@queue) {
             my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
-
-            # XXX This should be in _candidate_files
-            if ( !$parms->{follow_symlinks} ) {
-                next if -l $fullpath;
-            }
             if (-d $fullpath) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
                 return $fullpath;
@@ -337,6 +327,10 @@ sub _candidate_files {
 
         # Only do directory checking if we have a descend_filter
         my $fullpath = File::Spec->catdir( $dir, $file );
+        if ( !$parms->{follow_symlinks} ) {
+            next if -l $fullpath;
+        }
+
         if ( $parms->{descend_filter} && -d $fullpath ) {
             local $File::Next::dir = $fullpath;
             local $_ = $file;
