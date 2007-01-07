@@ -10,7 +10,7 @@ BEGIN {
 }
 
 BEGIN {
-    plan tests => 5;
+    plan tests => 6;
     use_ok( 'File::Next' );
 }
 
@@ -71,6 +71,17 @@ NO_FOLLOW: {
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     _sets_match( \@actual, \@expected, 'NO_FOLLOW' );
+}
+
+NO_FOLLOW_STARTING_WITH_A_SYMLINK: {
+    my $iter = File::Next::files( { follow_symlinks => 0 }, 't/swamp/linkdir' );
+    isa_ok( $iter, 'CODE' );
+
+    my @actual = slurp( $iter );
+    my @expected = grep { /linkdir/ } @symlinkage;
+
+    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
+    _sets_match( \@actual, \@expected, 'NO_FOLLOW_STARTING_WITH_A_SYMLINK' );
 }
 
 sub slurp {
