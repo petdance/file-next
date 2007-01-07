@@ -8,6 +8,7 @@ perlcriticrc
 t/00-load.t
 t/api.t
 t/basic.t
+t/dirs.t
 t/dot.t
 t/follow.t
 t/parms.t
