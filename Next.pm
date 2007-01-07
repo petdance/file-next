@@ -89,6 +89,17 @@ This function is the default, so the code above is identical to:
 
 Same as C<sort_standard>, but in reverse.
 
+=head2 reslash( $path )
+
+Takes a path with all forward slashes and rebuilds it with whatever
+is appropriate for the platform.  For example 'foo/bar/bat' will
+become 'foo\bar\bat' on Windows.
+
+This is really just a convenience function.  I'd make it private,
+but F<ack> wants it, too.
+
+=cut
+
 =head1 CONSTRUCTOR PARAMETERS
 
 =head2 file_filter -> \&file_filter
@@ -233,7 +244,23 @@ sub dirs {
     }; # iterator
 }
 
-=for private _setup( $default_parms, @whatever_was_passed_to_files() )
+sub sort_standard($$)   { return $_[0]->[1] cmp $_[1]->[1] }; ## no critic (ProhibitSubroutinePrototypes)
+sub sort_reverse($$)    { return $_[1]->[1] cmp $_[0]->[1] }; ## no critic (ProhibitSubroutinePrototypes)
+
+sub reslash {
+    my $path = shift;
+
+    my @parts = split( /\//, $path );
+
+    return $path if @parts < 2;
+
+    return File::Spec->catfile( @parts );
+}
+
+
+=head1 PRIVATE FUNCTIONS
+
+=head2 _setup( $default_parms, @whatever_was_passed_to_files() )
 
 Handles all the scut-work for setting up the parms passed in.
 
@@ -289,7 +316,7 @@ sub _setup {
     return ($parms,@queue);
 }
 
-=for private _candidate_files( $parms, $dir )
+=head2 _candidate_files( $parms, $dir )
 
 Pulls out the files/dirs that might be worth looking into in I<$dir>.
 If I<$dir> is the empty string, then search the current directory.
@@ -336,30 +363,6 @@ sub _candidate_files {
     }
 
     return @newfiles;
-}
-
-sub sort_standard($$)   { return $_[0]->[1] cmp $_[1]->[1] }; ## no critic (ProhibitSubroutinePrototypes)
-sub sort_reverse($$)    { return $_[1]->[1] cmp $_[0]->[1] }; ## no critic (ProhibitSubroutinePrototypes)
-
-
-=head2 reslash( $path )
-
-Takes a path with all forward slashes and rebuilds it with whatever
-is appropriate for the platform.  For example 'foo/bar/bat' will
-become 'foo\bar\bat' on Windows.
-
-This is really just a convenience function.
-
-=cut
-
-sub reslash {
-    my $path = shift;
-
-    my @parts = split( /\//, $path );
-
-    return $path if @parts < 2;
-
-    return File::Spec->catfile( @parts );
 }
 
 =head1 AUTHOR
