@@ -21,11 +21,11 @@ sub sets_match {
     local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
 
     eval 'use Test::Differences';
-    if ( $@ ) {
-        return is_deeply( [sort @actual], [sort @expected], $msg );
+    if ( !$@ ) {
+        return eq_or_diff( [sort @actual], [sort @expected], $msg );
     }
     else {
-        return eq_or_diff( [sort @actual], [sort @expected], $msg );
+        return is_deeply( [sort @actual], [sort @expected], $msg );
     }
 }
 
