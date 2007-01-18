@@ -15,7 +15,9 @@ t/parms.t
 t/pod-coverage.t
 t/pod.t
 t/sort.t
+t/Util.pm
 
+t/swamp/0
 t/swamp/Makefile
 t/swamp/Makefile.PL
 t/swamp/c-header.h

@@ -4,6 +4,9 @@ use strict;
 use warnings;
 use Test::More tests => 11;
 
+use lib 't';
+use Util;
+
 BEGIN {
     use_ok( 'File::Next' );
 }
@@ -19,7 +22,7 @@ JUST_A_FILE: {
     my @expected = qw(
         t/pod.t
     );
-    _sets_match( \@actual, \@expected, 'JUST_A_FILE' );
+    sets_match( \@actual, \@expected, 'JUST_A_FILE' );
 }
 
 NO_PARMS: {
@@ -29,6 +32,7 @@ NO_PARMS: {
     my @actual = slurp( $iter );
 
     my @expected = qw(
+        t/swamp/0
         t/swamp/Makefile
         t/swamp/Makefile.PL
         t/swamp/c-header.h
@@ -49,7 +53,7 @@ NO_PARMS: {
     );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _sets_match( \@actual, \@expected, 'NO_PARMS' );
+    sets_match( \@actual, \@expected, 'NO_PARMS' );
 }
 
 MULTIPLE_STARTS: {
@@ -68,7 +72,7 @@ MULTIPLE_STARTS: {
     );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _sets_match( \@actual, \@expected, 'MULTIPLE_STARTS' );
+    sets_match( \@actual, \@expected, 'MULTIPLE_STARTS' );
 }
 
 NO_DESCEND: {
@@ -78,6 +82,7 @@ NO_DESCEND: {
     my @actual = slurp( $iter );
 
     my @expected = qw(
+        t/swamp/0
         t/swamp/Makefile
         t/swamp/Makefile.PL
         t/swamp/c-header.h
@@ -91,7 +96,7 @@ NO_DESCEND: {
         t/swamp/perl.pod
     );
 
-    _sets_match( \@actual, \@expected, 'NO_DESCEND' );
+    sets_match( \@actual, \@expected, 'NO_DESCEND' );
 }
 
 
@@ -119,29 +124,6 @@ ONLY_FILES_WITH_AN_EXTENSION: {
     );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _sets_match( \@actual, \@expected, 'ONLY_FILES_WITH_AN_EXTENSION' );
+    sets_match( \@actual, \@expected, 'ONLY_FILES_WITH_AN_EXTENSION' );
 }
 
-sub slurp {
-    my $iter = shift;
-    my @files;
-
-    while ( my $file = $iter->() ) {
-        push( @files, $file );
-    }
-    return @files;
-}
-
-sub _sets_match {
-    my @actual = @{+shift};
-    my @expected = @{+shift};
-    my $msg = shift;
-
-    # Normalize all the paths
-    for my $path ( @expected, @actual ) {
-        $path = File::Next::reslash( $path );
-    }
-
-    local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
-    return is_deeply( [sort @actual], [sort @expected], $msg );
-}
