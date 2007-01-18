@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 use lib 't';
 use Util;
@@ -23,12 +23,20 @@ HANDLE_ZEROES: {
 
     my @expected = qw(
         0
-        Makefile.PL
+        a/a1
+        a/a2
+        b/b1
+        b/b2
+        c/c1
+        c/c2
         c-header.h
         c-source.c
         javascript.js
+        Makefile
+        Makefile.PL
         parrot.pir
         perl-test.t
+        perl-without-extension
         perl.pl
         perl.pm
         perl.pod
