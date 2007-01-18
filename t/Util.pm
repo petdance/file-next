@@ -19,10 +19,14 @@ sub sets_match {
     }
 
     local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
-    # For debugging in depth
-    # use Test::Differences;
-    # return eq_or_diff \@got, [qw( a b c )], "testing arrays";
-    return is_deeply( [sort @actual], [sort @expected], $msg );
+
+    eval 'use Test::Differences';
+    if ( $@ ) {
+        return is_deeply( [sort @actual], [sort @expected], $msg );
+    }
+    else {
+        return eq_or_diff( [sort @actual], [sort @expected], $msg );
+    }
 }
 
 1;

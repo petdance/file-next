@@ -338,7 +338,7 @@ sub _candidate_files {
     }
 
     my @newfiles;
-    while ( my $file = readdir $dh ) {
+    while ( defined ( my $file = readdir $dh ) ) {
         next if $skip_dirs{$file};
 
         # Only do directory checking if we have a descend_filter
