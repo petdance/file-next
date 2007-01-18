@@ -4,11 +4,15 @@ use strict;
 use warnings;
 use Test::More tests => 7;
 
+use lib 't';
+use Util;
+
 BEGIN {
     use_ok( 'File::Next' );
 }
 
 my @sorted_swamp = qw(
+    t/swamp/0
     t/swamp/Makefile
     t/swamp/Makefile.PL
     t/swamp/a/a1
@@ -37,7 +41,7 @@ SORT_BOOLEAN: {
     my @expected = @sorted_swamp;
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _lists_match( \@actual, \@expected, 'SORT_BOOLEAN' );
+    sets_match( \@actual, \@expected, 'SORT_BOOLEAN' );
 }
 
 SORT_STANDARD: {
@@ -49,7 +53,7 @@ SORT_STANDARD: {
     my @expected = @sorted_swamp;
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _lists_match( \@actual, \@expected, 'SORT_STANDARD' );
+    sets_match( \@actual, \@expected, 'SORT_STANDARD' );
 }
 
 SORT_REVERSE: {
@@ -61,30 +65,5 @@ SORT_REVERSE: {
     my @expected = reverse @sorted_swamp;
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _lists_match( \@actual, \@expected, 'SORT_REVERSE' );
-}
-
-sub slurp {
-    my $iter = shift;
-    my @files;
-
-    while ( my $file = $iter->() ) {
-        push( @files, $file );
-    }
-    return @files;
-}
-
-
-sub _lists_match {
-    my @actual = @{+shift};
-    my @expected = @{+shift};
-    my $msg = shift;
-
-    # Normalize all the paths
-    for my $path ( @expected, @actual ) {
-        $path = File::Next::reslash( $path );
-    }
-
-    local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
-    return is_deeply( \@actual, \@expected, $msg );
+    sets_match( \@actual, \@expected, 'SORT_REVERSE' );
 }
