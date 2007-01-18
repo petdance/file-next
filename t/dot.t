@@ -30,6 +30,7 @@ NO_PARMS: {
         pod.t
         sort.t
         Util.pm
+        zeroes.t
         swamp/a/a1
         swamp/a/a2
         swamp/b/b1
