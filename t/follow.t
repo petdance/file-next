@@ -4,6 +4,9 @@ use strict;
 use warnings;
 use Test::More;
 
+use lib 't';
+use Util;
+
 BEGIN {
     eval { symlink('',''); 1 } or
         plan skip_all => 'System does not support symlinks.';
@@ -26,6 +29,7 @@ for my $link ( sort keys %links ) {
 }
 
 my @realfiles = qw(
+    t/swamp/0
     t/swamp/Makefile
     t/swamp/Makefile.PL
     t/swamp/c-header.h
@@ -59,7 +63,7 @@ DEFAULT: {
     my @expected = ( @realfiles, @symlinkage );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _sets_match( \@actual, \@expected, 'DEFAULT' );
+    sets_match( \@actual, \@expected, 'DEFAULT' );
 }
 
 NO_FOLLOW: {
@@ -70,7 +74,7 @@ NO_FOLLOW: {
     my @expected = ( @realfiles );
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _sets_match( \@actual, \@expected, 'NO_FOLLOW' );
+    sets_match( \@actual, \@expected, 'NO_FOLLOW' );
 }
 
 NO_FOLLOW_STARTING_WITH_A_SYMLINK: {
@@ -81,36 +85,8 @@ NO_FOLLOW_STARTING_WITH_A_SYMLINK: {
     my @expected = grep { /linkdir/ } @symlinkage;
 
     @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
-    _sets_match( \@actual, \@expected, 'NO_FOLLOW_STARTING_WITH_A_SYMLINK' );
+    sets_match( \@actual, \@expected, 'NO_FOLLOW_STARTING_WITH_A_SYMLINK' );
 }
-
-sub slurp {
-    my $iter = shift;
-    my @files;
-
-    while ( my $file = $iter->() ) {
-        push( @files, $file );
-    }
-    return @files;
-}
-
-sub _sets_match {
-    my @actual = @{+shift};
-    my @expected = @{+shift};
-    my $msg = shift;
-
-    # Normalize all the paths
-    for my $path ( @expected, @actual ) {
-        $path = File::Next::reslash( $path );
-    }
-
-    #use Test::Differences;
-    #return eq_or_diff( [sort @actual], [sort @expected], $msg );
-
-    local $Test::Builder::Level = $Test::Builder::Level + 1; ## no critic
-    return is_deeply( [sort @actual], [sort @expected], $msg );
-}
-
 
 END {
     unlink( keys %links );
