@@ -22,7 +22,7 @@ It's lightweight and has no non-core prerequisites.
 
     use File::Next;
 
-    my $files = File::Next->files( '/tmp' );
+    my $files = File::Next::files( '/tmp' );
 
     while ( defined ( my $file = $files->() ) ) {
         # do something...
@@ -35,7 +35,7 @@ that will walk through a directory tree.  The simplest use case is:
 
     use File::Next;
 
-    my $iter = File::Next->files( '/tmp' );
+    my $iter = File::Next::files( '/tmp' );
 
     while ( defined ( my $file = $iter->() ) ) {
         print $file, "\n";
