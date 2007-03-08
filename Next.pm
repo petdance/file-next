@@ -235,7 +235,7 @@ sub dirs {
 
     return sub {
         while (@queue) {
-            my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
+            my (undef,undef,$fullpath) = splice( @queue, 0, 3 );
             if (-d $fullpath) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
                 return $fullpath;
@@ -354,6 +354,8 @@ sub _candidate_files {
         }
         push( @newfiles, $dir, $file, $fullpath );
     }
+    closedir $dh;
+
     if ( my $sub = $parms->{sort_files} ) {
         my @triplets;
         while ( @newfiles ) {
