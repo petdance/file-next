@@ -24,6 +24,10 @@ return <<'MAKE_FRAG';
 critic:
 	perlcritic -profile perlcriticrc -1 -quiet .
 
+prof: all
+	perl -d:DProf -Mblib ./stress ~/parrot ~/bw/trunk > /dev/null
+	dprofpp
+
 MAKE_FRAG
 }
 
