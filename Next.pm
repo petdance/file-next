@@ -208,21 +208,22 @@ BEGIN {
 
 sub files {
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
+    my $filter = $parms->{file_filter};
 
     return sub {
         while (@queue) {
             my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
-            if (-f $fullpath) {
-                if ( $parms->{file_filter} ) {
+            if (-d $fullpath) {
+                unshift( @queue, _candidate_files( $parms, $fullpath ) );
+            }
+            elsif (-f $fullpath) {
+                if ( $filter ) {
                     local $_ = $file;
                     local $File::Next::dir = $dir;
                     local $File::Next::name = $fullpath;
-                    next if not $parms->{file_filter}->();
+                    next if not $filter->();
                 }
                 return wantarray ? ($dir,$file,$fullpath) : $fullpath;
-            }
-            elsif (-d $fullpath) {
-                unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
         } # while
 
