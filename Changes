@@ -1,6 +1,10 @@
 Revision history for File-Next
 
-NEXT
+0.40
+
+    [ENHANCEMENTS]
+    Minimizing the number of stat calls necessary.
+
 
     [DOCUMENTATION]
     Updated the examples to show that you need to check definedness

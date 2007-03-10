@@ -9,11 +9,11 @@ File::Next - File-finding iterator
 
 =head1 VERSION
 
-Version 0.38
+Version 0.40
 
 =cut
 
-our $VERSION = '0.38';
+our $VERSION = '0.40';
 
 =head1 SYNOPSIS
 
@@ -206,6 +206,7 @@ BEGIN {
     %skip_dirs = map {($_,1)} (File::Spec->curdir, File::Spec->updir);
 }
 
+
 sub files {
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
     my $filter = $parms->{file_filter};
@@ -213,10 +214,7 @@ sub files {
     return sub {
         while (@queue) {
             my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
-            if (-d $fullpath) {
-                unshift( @queue, _candidate_files( $parms, $fullpath ) );
-            }
-            elsif (-f $fullpath) {
+            if (-f $fullpath) {
                 if ( $filter ) {
                     local $_ = $file;
                     local $File::Next::dir = $dir;
@@ -225,11 +223,15 @@ sub files {
                 }
                 return wantarray ? ($dir,$file,$fullpath) : $fullpath;
             }
+            elsif (-d _) {
+                unshift( @queue, _candidate_files( $parms, $fullpath ) );
+            }
         } # while
 
         return;
     }; # iterator
 }
+
 
 sub dirs {
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
@@ -287,7 +289,7 @@ sub _setup {
     my %passed_parms = %{$passed_parms};
 
     my $parms = {};
-    for my $key ( keys %$defaults ) {
+    for my $key ( keys %{$defaults} ) {
         $parms->{$key} =
             exists $passed_parms{$key}
                 ? delete $passed_parms{$key}
