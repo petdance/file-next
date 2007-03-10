@@ -1,3 +1,5 @@
+package main;
+
 sub slurp {
     my $iter = shift;
     my @files;
