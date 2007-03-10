@@ -15,7 +15,7 @@ BEGIN {
 # may be sorry.
 
 HANDLE_ZEROES: {
-    chdir 't/swamp' or die "Can't chdir";
+    chdir 't/swamp' or die "chdir failed: $!";
     my $iter = File::Next::files( '.' );
     isa_ok( $iter, 'CODE' );
 
