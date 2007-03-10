@@ -1,16 +1,17 @@
 Revision history for File-Next
 
-0.40
+0.40    Fri Mar  9 21:32:15 CST 2007
 
     [ENHANCEMENTS]
-    Minimizing the number of stat calls necessary.
+    Minimizing the number of stat calls necessary.  May make some
+    teeny speed boost.
 
 
     [DOCUMENTATION]
+    Fixed the constructor example of File::Next->files, which is wrong.
+
     Updated the examples to show that you need to check definedness
     of the return from the iterator, in case you get a file "0".
-
-    Fixed the constructor example of File::Next->files, which is wrong.
 
 
 0.38    Sun Jan  7 01:23:43 CST 2007
