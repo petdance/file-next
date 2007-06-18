@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More tests => 5;
 
 use lib 't';
 use Util;
@@ -53,6 +53,33 @@ NO_PARMS: {
         t/swamp/perl.pm
         t/swamp/perl.pod
         t/Util.pm
+        t/zero.t
+    );
+
+    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
+    sets_match( \@actual, \@expected, 'NO_PARMS' );
+}
+
+FILTERED: {
+    my $file_filter = sub {
+        # Arbitrary filter: "z" anywhere, ends in "b" or digit
+        return $File::Next::name =~ /(z|b$|\d$)/;
+    };
+
+    my $iter = File::Next::everything( {file_filter => $file_filter}, 't/' );
+    isa_ok( $iter, 'CODE' );
+
+    my @actual = slurp( $iter );
+
+    my @expected = qw(
+        t/swamp/0
+        t/swamp/a/a1
+        t/swamp/a/a2
+        t/swamp/b
+        t/swamp/b/b1
+        t/swamp/b/b2
+        t/swamp/c/c1
+        t/swamp/c/c2
         t/zero.t
     );
 

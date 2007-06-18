@@ -268,13 +268,11 @@ sub everything {
             if (-d $fullpath) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
-            else {
-                if ( $filter ) {
-                    local $_ = $file;
-                    local $File::Next::dir = $dir;
-                    local $File::Next::name = $fullpath;
-                    next if not $filter->();
-                }
+            if ( $filter ) {
+                local $_ = $file;
+                local $File::Next::dir = $dir;
+                local $File::Next::name = $fullpath;
+                next if not $filter->();
             }
             return wantarray ? ($dir,$file,$fullpath) : $fullpath;
         } # while
