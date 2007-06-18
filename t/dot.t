@@ -24,6 +24,7 @@ NO_PARMS: {
         basic.t
         dirs.t
         dot.t
+        everything.t
         follow.t
         parms.t
         pod-coverage.t

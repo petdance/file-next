@@ -10,6 +10,7 @@ t/api.t
 t/basic.t
 t/dirs.t
 t/dot.t
+t/everything.t
 t/follow.t
 t/parms.t
 t/pod-coverage.t

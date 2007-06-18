@@ -65,13 +65,21 @@ Note that the iterator will only return files, not directories.
 =head2 files( { \%parameters }, @starting_points )
 
 Returns an iterator that walks directories starting with the items
-in I<@starting_points>.  Each call to the iterator returns another file.
+in I<@starting_points>.  Each call to the iterator returns another
+regular file.
 
 =head2 dirs( { \%parameters }, @starting_points )
 
 Returns an iterator that walks directories starting with the items
 in I<@starting_points>.  Each call to the iterator returns another
 directory.
+
+=head2 everything( { \%parameters }, @starting_points )
+
+Returns an iterator that walks directories starting with the items
+in I<@starting_points>.  Each call to the iterator returns another
+file, whether it's a regular file, directory, symlink, socket, or
+whatever.
 
 =head2 sort_standard( $a, $b )
 
@@ -125,7 +133,7 @@ a collection of variables.
 
 These are analogous to the same variables in L<File::Find>.
 
-    my $iter = File::Find::files( { file_filter => sub { /\.txt$/ } }, '/tmp' );
+    my $iter = File::Next::files( { file_filter => sub { /\.txt$/ } }, '/tmp' );
 
 By default, the I<file_filter> is C<sub {1}>, or "all files".
 
@@ -243,6 +251,32 @@ sub dirs {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
                 return $fullpath;
             }
+        } # while
+
+        return;
+    }; # iterator
+}
+
+
+sub everything {
+    my ($parms,@queue) = _setup( \%files_defaults, @_ );
+    my $filter = $parms->{file_filter};
+
+    return sub {
+        while (@queue) {
+            my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
+            if (-d $fullpath) {
+                unshift( @queue, _candidate_files( $parms, $fullpath ) );
+            }
+            else {
+                if ( $filter ) {
+                    local $_ = $file;
+                    local $File::Next::dir = $dir;
+                    local $File::Next::name = $fullpath;
+                    next if not $filter->();
+                }
+            }
+            return wantarray ? ($dir,$file,$fullpath) : $fullpath;
         } # while
 
         return;
