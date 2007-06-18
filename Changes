@@ -1,6 +1,11 @@
 Revision history for File-Next
 
-NEXT
+1.00    Mon Jun 18 10:06:14 CDT 2007
+
+    [ENHANCEMENTS]
+    Added File::Next::everything() to get back everything regardless
+    of being file or directory.
+
 
 0.40    Fri Mar  9 21:32:15 CST 2007
 
