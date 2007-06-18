@@ -56,34 +56,36 @@ I<$file> and I<$fullpath>, where I<$fullpath> is what would get
 returned in scalar context.
 
 The first parameter to any of the iterator factory functions may
-be a hashref of parameters.
+be a hashref of options.
 
-Note that the iterator will only return files, not directories.
+=head1 ITERATORS
 
-=head1 FUNCTIONS
+For the three iterators, the \%options are optional.
 
-=head2 files( { \%parameters }, @starting_points )
+=head2 files( [ \%options, ] @starting_points )
 
 Returns an iterator that walks directories starting with the items
 in I<@starting_points>.  Each call to the iterator returns another
 regular file.
 
-=head2 dirs( { \%parameters }, @starting_points )
+=head2 dirs( [ \%options, ] @starting_points )
 
 Returns an iterator that walks directories starting with the items
 in I<@starting_points>.  Each call to the iterator returns another
 directory.
 
-=head2 everything( { \%parameters }, @starting_points )
+=head2 everything( [ \%options, ] @starting_points )
 
 Returns an iterator that walks directories starting with the items
 in I<@starting_points>.  Each call to the iterator returns another
 file, whether it's a regular file, directory, symlink, socket, or
 whatever.
 
+=head1 SUPPORT FUNCTIONS
+
 =head2 sort_standard( $a, $b )
 
-A sort function for passing as a C<sort_files> parameter:
+A sort function for passing as a C<sort_files> option:
 
     my $iter = File::Next::files( {
         sort_files => \&File::Next::sort_standard,
@@ -301,7 +303,7 @@ sub reslash {
 
 Handles all the scut-work for setting up the parms passed in.
 
-Returns a hashref of operational parameters, combined between
+Returns a hashref of operational options, combined between
 I<$passed_parms> and I<$defaults>, plus the queue.
 
 The queue prep stuff takes the strings in I<@starting_points> and
@@ -331,7 +333,7 @@ sub _setup {
     # Any leftover keys are bogus
     for my $badkey ( keys %passed_parms ) {
         my $sub = (caller(1))[3];
-        $parms->{error_handler}->( "Invalid parameter passed to $sub(): $badkey" );
+        $parms->{error_handler}->( "Invalid option passed to $sub(): $badkey" );
     }
 
     # If it's not a code ref, assume standard sort
