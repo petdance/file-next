@@ -25,7 +25,7 @@ critic:
 	perlcritic -profile perlcriticrc -1 -quiet *.pm t/*.t
 
 prof: all
-	perl -d:DProf -Mblib ./stress ~/parrot ~/bw/trunk > /dev/null
+	perl -d:DProf -Mblib ./stress ~/parrot ~/bw/trunk ~/p101 ~/bin > /dev/null
 	dprofpp
 
 MAKE_FRAG
