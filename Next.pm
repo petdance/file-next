@@ -375,6 +375,8 @@ sub _candidate_files {
     }
 
     my @newfiles;
+    my $descend_filter = $parms->{descend_filter};
+
     while ( defined ( my $file = readdir $dh ) ) {
         next if $skip_dirs{$file};
 
@@ -384,10 +386,10 @@ sub _candidate_files {
             next if -l $fullpath;
         }
 
-        if ( $parms->{descend_filter} && -d $fullpath ) {
+        if ( $descend_filter && -d $fullpath ) {
             local $File::Next::dir = $fullpath;
             local $_ = $file;
-            next if not $parms->{descend_filter}->();
+            next if not $descend_filter->();
         }
         push( @newfiles, $dir, $file, $fullpath );
     }
