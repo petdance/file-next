@@ -224,7 +224,7 @@ sub files {
     return sub {
         while (@queue) {
             my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
-            if (-f $fullpath) {
+            if ( -f $fullpath ) {
                 if ( $filter ) {
                     local $_ = $file;
                     local $File::Next::dir = $dir;
@@ -233,7 +233,7 @@ sub files {
                 }
                 return wantarray ? ($dir,$file,$fullpath) : $fullpath;
             }
-            elsif (-d _) {
+            elsif ( -d _ ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
         } # while
@@ -249,7 +249,7 @@ sub dirs {
     return sub {
         while (@queue) {
             my (undef,undef,$fullpath) = splice( @queue, 0, 3 );
-            if (-d $fullpath) {
+            if ( -d $fullpath ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
                 return $fullpath;
             }
@@ -267,7 +267,7 @@ sub everything {
     return sub {
         while (@queue) {
             my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
-            if (-d $fullpath) {
+            if ( -d $fullpath ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
             if ( $filter ) {
