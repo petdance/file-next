@@ -5,8 +5,8 @@ use warnings;
 use File::Next;
 
 
-my $start = shift || '/Users/andy/src';
-my $iter = File::Next::files( { descend_filter => sub { $_ ne '.svn' } }, $start );
+my @start = @ARGV ? @ARGV : '/Users/andy/src';
+my $iter = File::Next::files( { descend_filter => sub { $_ ne '.svn' } }, @start );
 
 my $nfiles;
 while ( my $file = $iter->() ) {
