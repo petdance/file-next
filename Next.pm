@@ -376,6 +376,8 @@ sub _candidate_files {
 
     my @newfiles;
     my $descend_filter = $parms->{descend_filter};
+    my $follow_symlinks = $parms->{follow_symlinks};
+    my $sort_sub = $parms->{sort_files};
 
     while ( defined ( my $file = readdir $dh ) ) {
         next if $skip_dirs{$file};
@@ -383,7 +385,7 @@ sub _candidate_files {
 
         # Only do directory checking if we have a descend_filter
         my $fullpath = File::Spec->catdir( $dir, $file );
-        if ( !$parms->{follow_symlinks} ) {
+        if ( !$follow_symlinks ) {
             next if -l $fullpath;
             $has_stat = 1;
         }
@@ -395,16 +397,17 @@ sub _candidate_files {
                 next if not $descend_filter->();
             }
         }
-        push( @newfiles, $dir, $file, $fullpath );
+        if ( $sort_sub ) {
+            push( @newfiles, [ $dir, $file, $fullpath ] );
+        }
+        else {
+            push( @newfiles, $dir, $file, $fullpath );
+        }
     }
     closedir $dh;
 
-    if ( my $sub = $parms->{sort_files} ) {
-        my @triplets;
-        while ( @newfiles ) {
-            push @triplets, [splice( @newfiles, 0, 3 )];
-        }
-        @newfiles = map { @{$_} } sort $sub @triplets;
+    if ( $sort_sub ) {
+        return map { @{$_} } sort $sort_sub @newfiles;
     }
 
     return @newfiles;
