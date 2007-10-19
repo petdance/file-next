@@ -379,17 +379,21 @@ sub _candidate_files {
 
     while ( defined ( my $file = readdir $dh ) ) {
         next if $skip_dirs{$file};
+        my $has_stat;
 
         # Only do directory checking if we have a descend_filter
         my $fullpath = File::Spec->catdir( $dir, $file );
         if ( !$parms->{follow_symlinks} ) {
             next if -l $fullpath;
+            $has_stat = 1;
         }
 
-        if ( $descend_filter && -d $fullpath ) {
-            local $File::Next::dir = $fullpath;
-            local $_ = $file;
-            next if not $descend_filter->();
+        if ( $descend_filter ) {
+            if ( $has_stat ? (-d _) : (-d $fullpath) ) {
+                local $File::Next::dir = $fullpath;
+                local $_ = $file;
+                next if not $descend_filter->();
+            }
         }
         push( @newfiles, $dir, $file, $fullpath );
     }

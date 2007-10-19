@@ -1,5 +1,11 @@
 Revision history for File-Next
 
+NEXT
+    [ENHANCEMENTS]
+    Don't do a directory stat call if we've already done one to
+    check for a symlink.
+
+
 1.00    Mon Jun 18 10:06:14 CDT 2007
 
     [ENHANCEMENTS]
