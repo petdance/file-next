@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker;
 
-WriteMakefile(
+my %parms = (
     NAME                => 'File::Next',
     AUTHOR              => 'Andy Lester <andy@petdance.com>', ## no critic (RequireInterpolationOfMetachars)
     VERSION_FROM        => 'Next.pm',
@@ -16,6 +16,17 @@ WriteMakefile(
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'File-Next-*' },
 );
+
+if ( $ExtUtils::MakeMaker::VERSION ge '6.36' ) {
+    $parms{EXTRA_META} = <<EOF;
+resources:
+    bugtracker: http://code.google.com/p/file-next/issues/list
+    license: http://dev.perl.org/licenses/
+    Repository: http://code.google.com/p/file-next/source
+EOF
+    }
+
+WriteMakefile( %parms );
 
 sub MY::postamble {
 return <<'MAKE_FRAG';
