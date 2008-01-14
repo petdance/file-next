@@ -9,11 +9,11 @@ File::Next - File-finding iterator
 
 =head1 VERSION
 
-Version 1.00
+Version 1.02
 
 =cut
 
-our $VERSION = '1.00';
+our $VERSION = '1.02';
 
 =head1 SYNOPSIS
 
@@ -420,10 +420,8 @@ Andy Lester, C<< <andy at petdance.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-file-next at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=File-Next>.
-I will be notified, and then you'll automatically be notified of
-progress on your bug as I make changes.
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=File-Next>.  Note that
+File::Next does NOT use L<rt.cpan.org> for bug tracking.
 
 =head1 SUPPORT
 
@@ -435,6 +433,10 @@ You can also look for information at:
 
 =over 4
 
+=item * File::Next's bug queue
+
+L<http://code.google.com/p/file-next/issues/list>
+
 =item * AnnoCPAN: Annotated CPAN documentation
 
 L<http://annocpan.org/dist/File-Next>
@@ -442,10 +444,6 @@ L<http://annocpan.org/dist/File-Next>
 =item * CPAN Ratings
 
 L<http://cpanratings.perl.org/d/File-Next>
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=File-Next>
 
 =item * Search CPAN
 
@@ -464,7 +462,7 @@ marvelous I<Higher Order Perl>, page 126.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2006-2007 Andy Lester, all rights reserved.
+Copyright 2006-2008 Andy Lester, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
