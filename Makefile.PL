@@ -1,4 +1,7 @@
 package main;
+
+use 5.006001;
+
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
@@ -36,11 +39,11 @@ critic:
 	perlcritic -profile perlcriticrc -1 -quiet *.pm t/*.t
 
 prof: all
-	perl -d:DProf -Mblib ./stress ~/parrot ~/bw/trunk ~/p101 ~/bin /Developer > /dev/null
+	perl -d:DProf -Mblib ./stress ~/parrot ~/bw/trunk ~/p101 ~/bin > /dev/null
 	dprofpp -R
 
 smallprof: all
-	perl -d:SmallProf -Mblib ./stress ~/parrot ~/bw/trunk ~/p101 ~/bin /Developer > /dev/null
+	perl -d:SmallProf -Mblib ./stress ~/parrot ~/bw/trunk ~/p101 ~/bin > /dev/null
 	sort -k 2nr,2 smallprof.out | less
 
 MAKE_FRAG
