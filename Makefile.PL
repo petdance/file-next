@@ -46,6 +46,10 @@ smallprof: all
 	perl -d:SmallProf -Mblib ./stress ~/parrot ~/bw/trunk ~/p101 ~/bin > /dev/null
 	sort -k 2nr,2 smallprof.out | less
 
+nytprof: all
+	perl -d:NYTProf -Mblib ./stress ~/parrot ~/bw/trunk ~/p101 ~/bin > /dev/null
+	nytprofhtml
+
 MAKE_FRAG
 }
 
