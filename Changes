@@ -10,6 +10,9 @@ problems at http://github.com/petdance/file-next/issues.
     an error.  This is also the case with dirs() and everything().
     Thanks to Eric Lyons for reporting.
 
+    [DOCUMENTATION]
+    Updated URLs for support sites.
+
 
 1.02    Mon Jan 14 14:01:40 CST 2008
     [SPEED ENHANCEMENTS]

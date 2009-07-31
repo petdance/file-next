@@ -51,16 +51,14 @@ tags:
 critic:
 	perlcritic -profile perlcriticrc -1 -quiet *.pm t/*.t
 
+TARGET_DIRS=~/parrot /usr/local/minicpan ~/bin
+
 prof: all
-	perl -d:DProf -Mblib ./stress ~/parrot ~/bw/trunk ~/p101 ~/bin > /dev/null
+	perl -d:DProf -Mblib ./stress  $(TARGET_DIRS) > /dev/null
 	dprofpp -R
 
-smallprof: all
-	perl -d:SmallProf -Mblib ./stress ~/parrot ~/bw/trunk ~/p101 ~/bin > /dev/null
-	sort -k 2nr,2 smallprof.out | less
-
 nytprof: all
-	perl -d:NYTProf -Mblib ./stress ~/parrot ~/bw/trunk ~/p101 ~/bin > /dev/null
+	perl -d:NYTProf -Mblib ./stress $(TARGET_DIRS) > /dev/null
 	nytprofhtml
 
 MAKE_FRAG

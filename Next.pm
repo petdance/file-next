@@ -426,8 +426,9 @@ Andy Lester, C<< <andy at petdance.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=File-Next>.  Note that
-File::Next does NOT use L<rt.cpan.org> for bug tracking.
+L<http://github.com/petdance/file-next/issues>.
+
+Note that File::Next does NOT use L<http://rt.cpan.org> for bug tracking.
 
 =head1 SUPPORT
 
@@ -441,7 +442,7 @@ You can also look for information at:
 
 =item * File::Next's bug queue
 
-L<http://code.google.com/p/file-next/issues/list>
+L<http://github.com/petdance/file-next/issues>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
@@ -455,9 +456,9 @@ L<http://cpanratings.perl.org/d/File-Next>
 
 L<http://search.cpan.org/dist/File-Next>
 
-=item * Subversion repository
+=item * Source code repository
 
-L<https://file-next.googlecode.com/svn/trunk>
+L<http://github.com/petdance/file-next/tree/master>
 
 =back
 
@@ -468,11 +469,20 @@ marvelous I<Higher Order Perl>, page 126.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2006-2008 Andy Lester, all rights reserved.
+Copyright 2005-2009 Andy Lester.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+This program is free software; you can redistribute it and/or modify
+it under the terms of either:
 
-=cut
+=over 4
+
+=item * the GNU General Public License as published by the Free
+Software Foundation; either version 1, or (at your option) any later
+version, or
+
+=item * the Artistic License version 2.0.
+
+=back
+
 
 1; # End of File::Next
