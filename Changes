@@ -10,6 +10,8 @@ problems at http://github.com/petdance/file-next/issues.
     an error.  This is also the case with dirs() and everything().
     Thanks to Eric Lyons for reporting.
 
+    Tiny directory reading speedups.
+
     [DOCUMENTATION]
     Updated URLs for support sites.
 
