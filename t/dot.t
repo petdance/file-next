@@ -26,6 +26,7 @@ NO_PARMS: {
         dot.t
         everything.t
         follow.t
+        methods.t
         parms.t
         pod-coverage.t
         pod.t

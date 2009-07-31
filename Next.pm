@@ -9,11 +9,11 @@ File::Next - File-finding iterator
 
 =head1 VERSION
 
-Version 1.02
+Version 1.04
 
 =cut
 
-our $VERSION = '1.02';
+our $VERSION = '1.04';
 
 =head1 SYNOPSIS
 
@@ -218,6 +218,8 @@ BEGIN {
 
 
 sub files {
+    ($_[0] eq __PACKAGE__) && die 'File::Next::files must not be invoked as File::Next->files';
+
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
     my $filter = $parms->{file_filter};
 
@@ -244,6 +246,8 @@ sub files {
 
 
 sub dirs {
+    ($_[0] eq __PACKAGE__) && die 'File::Next::dirs must not be invoked as File::Next->dirs';
+
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
 
     return sub {
@@ -261,6 +265,8 @@ sub dirs {
 
 
 sub everything {
+    ($_[0] eq __PACKAGE__) && die 'File::Next::everything must not be invoked as File::Next->everything';
+
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
     my $filter = $parms->{file_filter};
 

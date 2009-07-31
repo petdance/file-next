@@ -26,6 +26,7 @@ NO_PARMS: {
         t/dot.t
         t/everything.t
         t/follow.t
+        t/methods.t
         t/parms.t
         t/pod-coverage.t
         t/pod.t

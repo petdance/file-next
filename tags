@@ -9,6 +9,9 @@ BAD_PARMS_UNCAUGHT	t/parms.t	/^BAD_PARMS_UNCAUGHT: {$/;"	l
 CHECK_DESCEND_FILTER	t/api.t	/^CHECK_DESCEND_FILTER: {$/;"	l
 CHECK_FILE_FILTER	t/api.t	/^CHECK_FILE_FILTER: {$/;"	l
 DEFAULT	t/follow.t	/^DEFAULT: {$/;"	l
+DIRS	t/methods.t	/^DIRS: {$/;"	l
+EVERYTHING	t/methods.t	/^EVERYTHING: {$/;"	l
+FILES	t/methods.t	/^FILES: {$/;"	l
 FILTERED	t/everything.t	/^FILTERED: {$/;"	l
 File::Next	Next.pm	/^package File::Next;$/;"	p
 HANDLE_ZEROES	t/zero.t	/^HANDLE_ZEROES: {$/;"	l
