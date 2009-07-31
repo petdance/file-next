@@ -4,10 +4,9 @@ use strict;
 use warnings;
 use File::Next;
 
-
-my @start = @ARGV ? @ARGV : '/Users/andy/src';
+my @start = @ARGV or die 'Must specify a starting directory.';
 my $iter = File::Next::files( {
-    descend_filter  => sub { $_ ne '.svn' },
+    descend_filter  => sub { $_ ne '.svn' && $_ ne '.git' },
     sort_files      => \&File::Next::sort_standard,
     follow_symlinks => 0,
 }, @start );
@@ -15,6 +14,5 @@ my $iter = File::Next::files( {
 my $nfiles;
 while ( my $file = $iter->() ) {
     ++$nfiles;
-    print "$file\n";
 }
-warn "$nfiles files processed.\n";
+print "$nfiles files processed.\n";
