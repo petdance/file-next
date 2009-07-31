@@ -194,6 +194,11 @@ such as Windows.  By default, this is true.
 Note that this filter does not apply to any of the I<@starting_points>
 passed in to the constructor.
 
+You should not set C<< follow_symlinks => 0 >> unless you specifically
+need that behavior.  Setting C<< follow_symlinks => 0 >> can be a
+speed hit, because File::Next must check to see if the file or
+directory you're about to follow is actually a symlink.
+
 =cut
 
 use File::Spec ();
@@ -418,6 +423,14 @@ sub _candidate_files {
 
     return @newfiles;
 }
+
+=head1 SPEED TWEAKS
+
+=over 4
+
+=item * Don't set C<< follow_symlinks => 0 >> unless you need it.
+
+=back
 
 =head1 AUTHOR
 
