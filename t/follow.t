@@ -62,7 +62,6 @@ DEFAULT: {
     my @actual = slurp( $iter );
     my @expected = ( @realfiles, @symlinkage );
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'DEFAULT' );
 }
 
@@ -73,7 +72,6 @@ NO_FOLLOW: {
     my @actual = slurp( $iter );
     my @expected = ( @realfiles );
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'NO_FOLLOW' );
 }
 
@@ -84,7 +82,6 @@ NO_FOLLOW_STARTING_WITH_A_SYMLINK: {
     my @actual = slurp( $iter );
     my @expected = grep { /linkdir/ } @symlinkage;
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'NO_FOLLOW_STARTING_WITH_A_SYMLINK' );
 }
 

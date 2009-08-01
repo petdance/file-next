@@ -42,6 +42,5 @@ HANDLE_ZEROES: {
         perl.pod
     );
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'HANDLE_ZEROES' );
 }

@@ -53,6 +53,5 @@ NO_PARMS: {
         swamp/perl.pod
     );
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'NO_PARMS' );
 }

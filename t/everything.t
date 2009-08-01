@@ -57,7 +57,6 @@ NO_PARMS: {
         t/zero.t
     );
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'NO_PARMS' );
 }
 
@@ -84,6 +83,5 @@ FILTERED: {
         t/zero.t
     );
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'NO_PARMS' );
 }

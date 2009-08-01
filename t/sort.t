@@ -40,7 +40,6 @@ SORT_BOOLEAN: {
 
     my @expected = @sorted_swamp;
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'SORT_BOOLEAN' );
 }
 
@@ -52,7 +51,6 @@ SORT_STANDARD: {
 
     my @expected = @sorted_swamp;
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'SORT_STANDARD' );
 }
 
@@ -64,6 +62,5 @@ SORT_REVERSE: {
 
     my @expected = reverse @sorted_swamp;
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'SORT_REVERSE' );
 }

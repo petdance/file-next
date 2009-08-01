@@ -52,7 +52,6 @@ NO_PARMS: {
         t/swamp/c/c2
     );
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'NO_PARMS' );
 }
 
@@ -71,7 +70,6 @@ MULTIPLE_STARTS: {
         t/swamp/c/c2
     );
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'MULTIPLE_STARTS' );
 }
 
@@ -123,7 +121,6 @@ ONLY_FILES_WITH_AN_EXTENSION: {
         t/swamp/perl.pod
     );
 
-    @actual = grep { !/\.svn/ } @actual; # If I'm building this in my Subversion dir
     sets_match( \@actual, \@expected, 'ONLY_FILES_WITH_AN_EXTENSION' );
 }
 

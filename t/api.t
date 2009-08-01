@@ -10,7 +10,6 @@ BEGIN {
 
 CHECK_FILE_FILTER: {
     my $file_filter = sub {
-        return if $File::Next::dir =~ /\.svn/;
         ok( defined $_, '$_ defined' );
         is( $File::Next::dir, File::Next::reslash( 't/swamp' ), '$File::Next::dir correct in $file_filter' );
         is( $File::Next::name, File::Next::reslash( "t/swamp/$_" ), '$File::Next::name is correct' );
@@ -37,7 +36,6 @@ CHECK_FILE_FILTER: {
 CHECK_DESCEND_FILTER: {
     my $swamp = File::Next::reslash( 't/swamp' );
     my $descend_filter = sub {
-        return if $File::Next::dir =~ /\.svn/;
         ok( defined $_, '$_ defined' );
         like( $File::Next::dir, qr{^\Q$swamp}, '$File::Next::dir in $descend_filter' );
     };
