@@ -3,12 +3,20 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
-1.04    Fri Jul 31 00:28:19 CDT 2009
+1.04    Fri Jul 31 16:24:36 CDT 2009
     [ENHANCEMENTS]
     It's never been correct to call File::Next::files() as a method,
     as File::Next->files().  Now, if you do, files() will die with
     an error.  This is also the case with dirs() and everything().
     Thanks to Eric Lyons for reporting.
+
+    Tiny directory reading speedups.
+
+    [DOCUMENTATION]
+    Updated URLs for support sites.
+
+    Added a little note about the follow_symlinks=>0 being a speed
+    hit.
 
 
 1.02    Mon Jan 14 14:01:40 CST 2008

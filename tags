@@ -43,7 +43,6 @@ prof	Makefile.PL	/^prof: all$/;"	l
 reslash	Next.pm	/^sub reslash {$/;"	s
 sets_match	t/Util.pm	/^sub sets_match {$/;"	s
 slurp	t/Util.pm	/^sub slurp {$/;"	s
-smallprof	Makefile.PL	/^smallprof: all$/;"	l
 sort_reverse	Next.pm	/^sub sort_reverse($$)    { return $_[1]->[1] cmp $_[0]->[1] }; ## no critic (ProhibitSubroutinePrototypes)$/;"	s
 sort_standard	Next.pm	/^sub sort_standard($$)   { return $_[0]->[1] cmp $_[1]->[1] }; ## no critic (ProhibitSubroutinePrototypes)$/;"	s
 tags	Makefile.PL	/^tags:$/;"	l
