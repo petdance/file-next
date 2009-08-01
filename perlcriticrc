@@ -1,6 +1,7 @@
 [-CodeLayout::ProhibitParensWithBuiltins]
 [CodeLayout::ProhibitHardTabs]
 allow_leading_tabs = 0
+[-CodeLayout::RequireTidyCode]
 
 [-ControlStructures::ProhibitPostfixControls]
 
@@ -17,5 +18,8 @@ allow_leading_tabs = 0
 
 [-ValuesAndExpressions::ProhibitConstantPragma]
 [-ValuesAndExpressions::ProhibitEmptyQuotes]
+[-ValuesAndExpressions::ProhibitNoisyQuotes]
 
 [-Variables::ProhibitPunctuationVars]
+[-Variables::ProhibitPackageVars]
+# The API for File::Next is all package vars
