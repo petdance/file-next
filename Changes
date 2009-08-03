@@ -3,6 +3,11 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
+NEXT
+    [FIXES]
+    Fixed closing =cut in POD.
+
+
 1.04    Fri Jul 31 16:24:36 CDT 2009
     [ENHANCEMENTS]
     It's never been correct to call File::Next::files() as a method,

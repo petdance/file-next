@@ -496,5 +496,6 @@ version, or
 
 =back
 
+=cut
 
 1; # End of File::Next
