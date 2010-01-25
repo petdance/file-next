@@ -423,6 +423,29 @@ sub _candidate_files {
     return @newfiles;
 }
 
+=head1 DIAGNOSTICS
+
+=over
+
+=item C<< File::Next::files must not be invoked as File::Next->files >>
+
+=item C<< File::Next::dirs must not be invoked as File::Next->dirs >>
+
+=item C<< File::Next::everything must not be invoked as File::Next->everything >>
+
+=back
+
+The interface functions do not allow for the method invocation syntax and
+throw errors with the messages above. You can work around this limitation
+with L<UNIVERSAL/can>.
+
+    for my $file_system_feature (qw(dirs files)) {
+        my $iterator = File::Next->can($file_system_feature)->($options, $target_directory);
+        while (defined(my $name = $iterator->())) {
+            # ...
+        }
+    }
+
 =head1 SPEED TWEAKS
 
 =over 4
