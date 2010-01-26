@@ -504,7 +504,7 @@ marvelous I<Higher Order Perl>, page 126.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2009 Andy Lester.
+Copyright 2005-2010 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of either:
