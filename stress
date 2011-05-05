@@ -8,7 +8,6 @@ my @start = @ARGV or die 'Must specify a starting directory.';
 my $iter = File::Next::files( {
     descend_filter  => sub { $_ ne '.svn' && $_ ne '.git' },
     sort_files      => \&File::Next::sort_standard,
-    follow_symlinks => 0,
 }, @start );
 
 my $nfiles;
