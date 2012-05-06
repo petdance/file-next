@@ -26,10 +26,12 @@ NO_PARMS: {
         dot.t
         everything.t
         follow.t
+        give-me-a-process-pipe.pl
         methods.t
         parms.t
         pod-coverage.t
         pod.t
+        process-substitution.t
         sort.t
         Util.pm
         zero.t
