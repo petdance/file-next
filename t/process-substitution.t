@@ -15,5 +15,5 @@ my $perl = $^X;
 
 plan tests => 1;
 
-system 'bash', '-c', "$perl -I blib/lib t/give-me-a-process-pipe.pl <(cat t/give-me-a-process-pipe.pl)";
-ok $? == 0 , 'passing a named pipe created by a bash process substitution should yield that filename';
+system 'bash', '-c', "$perl -Mblib t/give-me-a-process-pipe.pl <(cat Changes)";
+is( $?, 0, 'passing a named pipe created by a bash process substitution should yield that filename' );
