@@ -49,7 +49,7 @@ FILES_AS_METHOD: {
     };
 
     ok( !defined($bad_iterator), 'Constructor fails with bad parameters' );
-    like( $@, qr/must not be invoked as/, 'And it looks reasonable' );
+    like( $@, qr/File::Next::files must not be invoked as File::Next->files/, 'And it looks reasonable' );
 }
 
 DIRS_AS_METHOD: {
@@ -61,7 +61,7 @@ DIRS_AS_METHOD: {
     };
 
     ok( !defined($bad_iterator), 'Constructor fails with bad parameters' );
-    like( $@, qr/must not be invoked as/, 'And it looks reasonable' );
+    like( $@, qr/File::Next::dirs must not be invoked as File::Next->dirs/, 'And it looks reasonable' );
 }
 
 EVERYTHING_AS_METHOD: {
@@ -73,5 +73,5 @@ EVERYTHING_AS_METHOD: {
     };
 
     ok( !defined($bad_iterator), 'Constructor fails with bad parameters' );
-    like( $@, qr/must not be invoked as/, 'And it looks reasonable' );
+    like( $@, qr/File::Next::everything must not be invoked as File::Next->everything/, 'And it looks reasonable' );
 }
