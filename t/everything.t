@@ -26,10 +26,12 @@ NO_PARMS: {
         t/dot.t
         t/everything.t
         t/follow.t
+        t/give-me-a-process-pipe.pl
         t/methods.t
         t/parms.t
         t/pod-coverage.t
         t/pod.t
+        t/process-substitution.t
         t/sort.t
         t/swamp
         t/swamp/0
