@@ -222,7 +222,7 @@ BEGIN {
 
 
 sub files {
-    ($_[0] eq __PACKAGE__) && die 'File::Next::files must not be invoked as File::Next->files';
+    die _bad_invocation() if $_[0] eq __PACKAGE__;
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
     my $filter = $parms->{file_filter};
@@ -250,7 +250,7 @@ sub files {
 
 
 sub dirs {
-    ($_[0] eq __PACKAGE__) && die 'File::Next::dirs must not be invoked as File::Next->dirs';
+    die _bad_invocation() if $_[0] eq __PACKAGE__;
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
 
@@ -269,7 +269,7 @@ sub dirs {
 
 
 sub everything {
-    ($_[0] eq __PACKAGE__) && die 'File::Next::everything must not be invoked as File::Next->everything';
+    die _bad_invocation() if $_[0] eq __PACKAGE__;
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
     my $filter = $parms->{file_filter};
@@ -291,6 +291,13 @@ sub everything {
 
         return;
     }; # iterator
+}
+
+sub _bad_invocation {
+    my $good = (caller(1))[3];
+    my $bad  = $good;
+    $bad =~ s/(.+)::/$1->/;
+    return "$good must not be invoked as $bad";
 }
 
 sub sort_standard($$)   { return $_[0]->[1] cmp $_[1]->[1] } ## no critic (ProhibitSubroutinePrototypes)
