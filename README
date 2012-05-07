@@ -37,15 +37,9 @@ You can also look for information at:
     CPAN Ratings:
         http://cpanratings.perl.org/d/File-Next
 
-COPYRIGHT AND LICENSE
+# COPYRIGHT AND LICENSE
 
-Copyright (C) 2006-2009 Andy Lester
+Copyright 2005-2012 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify
-it under the terms of either:
-
-    * the GNU General Public License as published by the Free
-    Software Foundation; either version 1, or (at your option) any
-    later version, or
-
-    * the Artistic License version 2.0.
+it under the terms of the Artistic License version 2.0.
