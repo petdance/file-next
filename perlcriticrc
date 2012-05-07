@@ -9,6 +9,8 @@ allow_leading_tabs = 0
 [-Documentation::RequirePodLinksIncludeText]
 [-Documentation::RequirePodSections]
 
+[-ErrorHandling::RequireCarping]
+
 [-Miscellanea::RequireRcsKeywords]
 
 [-Modules::RequireVersionVar]
