@@ -229,15 +229,15 @@ sub files {
 
     return sub {
         while (@queue) {
-            my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
+            my ($dirname,$file,$fullpath) = splice( @queue, 0, 3 );
             if ( -f $fullpath || -p $fullpath ) {
                 if ( $filter ) {
                     local $_ = $file;
-                    local $File::Next::dir = $dir;
+                    local $File::Next::dir = $dirname;
                     local $File::Next::name = $fullpath;
                     next if not $filter->();
                 }
-                return wantarray ? ($dir,$file,$fullpath) : $fullpath;
+                return wantarray ? ($dirname,$file,$fullpath) : $fullpath;
             }
             elsif ( -d _ ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
@@ -276,17 +276,17 @@ sub everything {
 
     return sub {
         while (@queue) {
-            my ($dir,$file,$fullpath) = splice( @queue, 0, 3 );
+            my ($dirname,$file,$fullpath) = splice( @queue, 0, 3 );
             if ( -d $fullpath ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
             if ( $filter ) {
                 local $_ = $file;
-                local $File::Next::dir = $dir;
+                local $File::Next::dir  = $dirname;
                 local $File::Next::name = $fullpath;
                 next if not $filter->();
             }
-            return wantarray ? ($dir,$file,$fullpath) : $fullpath;
+            return wantarray ? ($dirname,$file,$fullpath) : $fullpath;
         } # while
 
         return;
@@ -375,12 +375,12 @@ I<$parms> is the hashref of parms passed into File::Next constructor.
 =cut
 
 sub _candidate_files {
-    my $parms = shift;
-    my $dir = shift;
+    my $parms   = shift;
+    my $dirname = shift;
 
     my $dh;
-    if ( !opendir $dh, $dir ) {
-        $parms->{error_handler}->( "$dir: $!" );
+    if ( !opendir $dh, $dirname ) {
+        $parms->{error_handler}->( "$dirname: $!" );
         return;
     }
 
@@ -393,7 +393,7 @@ sub _candidate_files {
         my $has_stat;
 
         # Only do directory checking if we have a descend_filter
-        my $fullpath = File::Spec->catdir( $dir, $file );
+        my $fullpath = File::Spec->catdir( $dirname, $file );
         if ( !$follow_symlinks ) {
             next if -l $fullpath;
             $has_stat = 1;
@@ -407,10 +407,10 @@ sub _candidate_files {
             }
         }
         if ( $sort_sub ) {
-            push( @newfiles, [ $dir, $file, $fullpath ] );
+            push( @newfiles, [ $dirname, $file, $fullpath ] );
         }
         else {
-            push( @newfiles, $dir, $file, $fullpath );
+            push( @newfiles, $dirname, $file, $fullpath );
         }
     }
     closedir $dh;
