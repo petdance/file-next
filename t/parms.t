@@ -32,13 +32,13 @@ BAD_PARMS_CAUGHT: {
 
 
 BAD_PARMS_UNCAUGHT: {
-    eval {
+    my $bad_iterator = eval {
         my $iter =
             File::Next::dirs( {
                 wango => 'ze tango',
             }, 't/pod.t' );
     };
 
-    ok( defined $@, 'Throws an error' );
+    ok( !defined($bad_iterator), 'Constructor fails with bad parameters' );
     like( $@, qr/Invalid.+dirs.+wango/, 'And it looks reasonable' );
 }
