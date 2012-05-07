@@ -8,6 +8,9 @@ NEXT
     [ENHANCEMENTS]
     Named pipes are now supported.
 
+    [INTERNAL]
+    Add more tests, and clean up some Perl::Critic warnings.
+
 
 1.06    Tue Aug  4 15:10:34 CDT 2009
     [FIXES]
