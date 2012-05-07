@@ -2,14 +2,12 @@
 
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More tests => 2;
 
 use lib 't';
 use Util;
 
-BEGIN {
-    use_ok( 'File::Next' );
-}
+use File::Next;
 
 # NOTE!  This block does a chdir.  If you add more tests after it, you
 # may be sorry.

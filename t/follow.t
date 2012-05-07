@@ -7,15 +7,13 @@ use Test::More;
 use lib 't';
 use Util;
 
-BEGIN {
-    eval { symlink('',''); 1 } or
-        plan skip_all => 'System does not support symlinks.';
+use File::Next;
+
+if ( ! eval { symlink('',''); 1 } ) {
+    plan skip_all => 'System does not support symlinks.';
 }
 
-BEGIN {
-    plan tests => 7;
-    use_ok( 'File::Next' );
-}
+plan tests => 6;
 
 my %links = (
     't/swamp/linkfile' => 'Makefile',

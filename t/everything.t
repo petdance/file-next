@@ -2,14 +2,13 @@
 
 use strict;
 use warnings;
-use Test::More tests => 5;
+
+use Test::More tests => 4;
 
 use lib 't';
 use Util;
 
-BEGIN {
-    use_ok( 'File::Next' );
-}
+use File::Next;
 
 NO_PARMS: {
     my $iter = File::Next::everything( 't/' );

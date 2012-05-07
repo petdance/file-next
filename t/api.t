@@ -2,11 +2,9 @@
 
 use strict;
 use warnings;
-use Test::More tests => 18;
+use Test::More tests => 17;
 
-BEGIN {
-    use_ok( 'File::Next' );
-}
+use File::Next;
 
 CHECK_FILE_FILTER: {
     my $file_filter = sub {

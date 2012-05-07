@@ -2,14 +2,12 @@
 
 use strict;
 use warnings;
-use Test::More tests => 7;
+use Test::More tests => 6;
 
 use lib 't';
 use Util;
 
-BEGIN {
-    use_ok( 'File::Next' );
-}
+use File::Next;
 
 EVERYTHING: {
     my $iter;

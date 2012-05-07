@@ -2,14 +2,12 @@
 
 use strict;
 use warnings;
-use Test::More tests => 11;
+use Test::More tests => 10;
 
 use lib 't';
 use Util;
 
-BEGIN {
-    use_ok( 'File::Next' );
-}
+use File::Next;
 
 # use Test::Differences;
 # eq_or_diff \@got, [qw( a b c )], "testing arrays";
