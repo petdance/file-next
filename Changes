@@ -3,6 +3,12 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
+NEXT
+
+    [ENHANCEMENTS]
+    Named pipes are now supported.
+
+
 1.06    Tue Aug  4 15:10:34 CDT 2009
     [FIXES]
     Fixed closing =cut in POD.
