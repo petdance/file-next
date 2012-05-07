@@ -203,7 +203,6 @@ directory you're about to follow is actually a symlink.
 
 use File::Spec ();
 
-## no critic (ProhibitPackageVars)
 our $name; # name of the current file
 our $dir;  # dir of the current file
 
