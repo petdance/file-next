@@ -6,6 +6,7 @@ allow_leading_tabs = 0
 [-ControlStructures::ProhibitPostfixControls]
 
 [-Documentation::RequirePodAtEnd]
+[-Documentation::RequirePodLinksIncludeText]
 [-Documentation::RequirePodSections]
 
 [-Miscellanea::RequireRcsKeywords]
