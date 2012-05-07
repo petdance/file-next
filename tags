@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.7	//
+!_TAG_PROGRAM_VERSION	5.8	//
 BAD_PARMS_CAUGHT	t/parms.t	/^BAD_PARMS_CAUGHT: {$/;"	l
 BAD_PARMS_UNCAUGHT	t/parms.t	/^BAD_PARMS_UNCAUGHT: {$/;"	l
 CHECK_DESCEND_FILTER	t/api.t	/^CHECK_DESCEND_FILTER: {$/;"	l
@@ -17,7 +17,6 @@ File::Next	Next.pm	/^package File::Next;$/;"	p
 HANDLE_ZEROES	t/zero.t	/^HANDLE_ZEROES: {$/;"	l
 JUST_A_FILE	t/basic.t	/^JUST_A_FILE: {$/;"	l
 MULTIPLE_STARTS	t/basic.t	/^MULTIPLE_STARTS: {$/;"	l
-MY	Makefile.PL	/^sub MY::postamble {$/;"	s
 NO_DESCEND	t/basic.t	/^NO_DESCEND: {$/;"	l
 NO_FOLLOW	t/follow.t	/^NO_FOLLOW: {$/;"	l
 NO_FOLLOW_STARTING_WITH_A_SYMLINK	t/follow.t	/^NO_FOLLOW_STARTING_WITH_A_SYMLINK: {$/;"	l
@@ -31,18 +30,13 @@ SORT_REVERSE	t/sort.t	/^SORT_REVERSE: {$/;"	l
 SORT_STANDARD	t/sort.t	/^SORT_STANDARD: {$/;"	l
 _candidate_files	Next.pm	/^sub _candidate_files {$/;"	s
 _setup	Next.pm	/^sub _setup {$/;"	s
-critic	Makefile.PL	/^critic:$/;"	l
 dirs	Next.pm	/^sub dirs {$/;"	s
 error_catcher	t/parms.t	/^    sub error_catcher {$/;"	s
 everything	Next.pm	/^sub everything {$/;"	s
 files	Next.pm	/^sub files {$/;"	s
-main	Makefile.PL	/^package main;$/;"	p
 main	t/Util.pm	/^package main;$/;"	p
-nytprof	Makefile.PL	/^nytprof: all$/;"	l
-prof	Makefile.PL	/^prof: all$/;"	l
 reslash	Next.pm	/^sub reslash {$/;"	s
 sets_match	t/Util.pm	/^sub sets_match {$/;"	s
 slurp	t/Util.pm	/^sub slurp {$/;"	s
-sort_reverse	Next.pm	/^sub sort_reverse($$)    { return $_[1]->[1] cmp $_[0]->[1] }; ## no critic (ProhibitSubroutinePrototypes)$/;"	s
-sort_standard	Next.pm	/^sub sort_standard($$)   { return $_[0]->[1] cmp $_[1]->[1] }; ## no critic (ProhibitSubroutinePrototypes)$/;"	s
-tags	Makefile.PL	/^tags:$/;"	l
+sort_reverse	Next.pm	/^sub sort_reverse($$)    { return $_[1]->[1] cmp $_[0]->[1] } ## no critic (ProhibitSubroutinePrototypes)$/;"	s
+sort_standard	Next.pm	/^sub sort_standard($$)   { return $_[0]->[1] cmp $_[1]->[1] } ## no critic (ProhibitSubroutinePrototypes)$/;"	s
