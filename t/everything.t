@@ -24,7 +24,10 @@ NO_PARMS: {
         t/dirs.t
         t/dot.t
         t/everything.t
+        t/filelist.txt
+        t/filelist-nul.txt
         t/follow.t
+        t/from_file.t
         t/give-me-a-process-pipe.pl
         t/methods.t
         t/parms.t

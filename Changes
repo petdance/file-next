@@ -6,6 +6,8 @@ problems at http://github.com/petdance/file-next/issues.
 NEXT
 
     [ENHANCEMENTS]
+    Added File::Next::from_file()
+
     Named pipes are now supported.
 
     [INTERNAL]

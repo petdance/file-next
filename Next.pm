@@ -81,6 +81,25 @@ in I<@starting_points>.  Each call to the iterator returns another
 file, whether it's a regular file, directory, symlink, socket, or
 whatever.
 
+=head2 from_file( [ \%options, ] $filename )
+
+Returns an iterator that iterates over each of the files specified
+in I<$filename>.  If I<$filename> is C<->, then STDIN is opened.
+
+The files are assumed to be in the file one filename per line.  If
+I<$null_separated> is passed, then the files are assumed to be
+NUL-separated, as by C<find -print0>.
+
+If there are blank lines or null filenames in the input stream,
+they are ignored.
+
+Each filename is checked to see that it is a regular file or a named
+pipe.  If the file does not exists or is a directory, then it is
+skipped.
+
+The following options have no effect in C<from_files>: I<descend_filter>,
+I<sort_files>, I<follow_symlinks>.
+
 =head1 SUPPORT FUNCTIONS
 
 =head2 sort_standard( $a, $b )
@@ -172,7 +191,8 @@ By default, the I<descend_filter> is C<sub {1}>, or "always descend".
 =head2 error_handler => \&error_handler
 
 If I<error_handler> is set, then any errors will be sent through
-it.  By default, this value is C<CORE::die>.
+it.  By default, this value is C<CORE::die>.  This function must
+not return.
 
 =head2 sort_files => [ 0 | 1 | \&sort_sub]
 
@@ -199,6 +219,12 @@ need that behavior.  Setting C<< follow_symlinks => 0 >> can be a
 speed hit, because File::Next must check to see if the file or
 directory you're about to follow is actually a symlink.
 
+=head2 nul_separated => [ 0 | 1 ]
+
+Used on by the C<from_file> iterator.  Specifies that the files
+listed in the input file are separated by NUL characters, as from
+the C<find> command with the C<-print0> argument.
+
 =cut
 
 use File::Spec ();
@@ -216,6 +242,7 @@ BEGIN {
         error_handler   => sub { CORE::die @_ },
         sort_files      => undef,
         follow_symlinks => 1,
+        nul_separated   => 0,
     );
     %skip_dirs = map {($_,1)} (File::Spec->curdir, File::Spec->updir);
 }
@@ -267,7 +294,6 @@ sub dirs {
     }; # iterator
 }
 
-
 sub everything {
     die _bad_invocation() if $_[0] eq __PACKAGE__;
 
@@ -288,6 +314,46 @@ sub everything {
             }
             return wantarray ? ($dirname,$file,$fullpath) : $fullpath;
         } # while
+
+        return;
+    }; # iterator
+}
+
+sub from_file {
+    die _bad_invocation() if $_[0] eq __PACKAGE__;
+
+    my ($parms,@queue) = _setup( \%files_defaults, @_ );
+    my $err = $parms->{error_handler};
+
+    my $filename = $queue[1];
+
+    if ( !$filename ) {
+        $err->( 'Must pass a filename to from_file()' );
+    }
+
+    open( my $fh, '<', $filename );
+    if ( !$fh ) {
+        $err->( "Unable to open $filename: $!" );
+    }
+    my $filter = $parms->{file_filter};
+
+    return sub {
+        local $/ = $parms->{nul_separated} ? "\x00" : $/;
+        while ( my $fullpath = <$fh> ) {
+            chomp $fullpath;
+            next unless $fullpath =~ /./;
+            next unless -f $fullpath || -p _;
+
+            my ($volume,$dirname,$file) = File::Spec->splitpath( $fullpath );
+            if ( $filter ) {
+                local $_ = $file;
+                local $File::Next::dir  = $dirname;
+                local $File::Next::name = $fullpath;
+                next if not $filter->();
+            }
+            return wantarray ? ($dirname,$file,$fullpath) : $fullpath;
+        } # while
+        close $fh;
 
         return;
     }; # iterator

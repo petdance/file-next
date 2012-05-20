@@ -23,7 +23,10 @@ NO_PARMS: {
         dirs.t
         dot.t
         everything.t
+        filelist.txt
+        filelist-nul.txt
         follow.t
+        from_file.t
         give-me-a-process-pipe.pl
         methods.t
         parms.t
