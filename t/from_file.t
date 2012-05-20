@@ -9,13 +9,11 @@ use Util;
 
 use File::Next;
 
-use Carp;
-
 # use Test::Differences;
 # eq_or_diff \@got, [qw( a b c )], "testing arrays";
 
 FROM_FILESYSTEM_FILE: {
-    my $iter = File::Next::from_file( { error_handler => \&Carp::confess }, 't/filelist.txt' );
+    my $iter = File::Next::from_file( 't/filelist.txt' );
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
@@ -41,7 +39,7 @@ FROM_FILESYSTEM_FILE: {
 
 
 FROM_NUL_FILE: {
-    my $iter = File::Next::from_file( { error_handler => \&Carp::confess, nul_separated => 1 }, 't/filelist-nul.txt' );
+    my $iter = File::Next::from_file( { nul_separated => 1 }, 't/filelist-nul.txt' );
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
