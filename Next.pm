@@ -84,7 +84,8 @@ whatever.
 =head2 from_file( [ \%options, ] $filename )
 
 Returns an iterator that iterates over each of the files specified
-in I<$filename>.  If I<$filename> is C<->, then STDIN is opened.
+in I<$filename>.  If I<$filename> is C<->, then the files are read
+from STDIN.
 
 The files are assumed to be in the file one filename per line.  If
 I<$null_separated> is passed, then the files are assumed to be
@@ -331,9 +332,15 @@ sub from_file {
         $err->( 'Must pass a filename to from_file()' );
     }
 
-    open( my $fh, '<', $filename );
-    if ( !$fh ) {
-        $err->( "Unable to open $filename: $!" );
+    my $fh;
+    if ( $filename eq '-' ) {
+        $fh = \*STDIN;
+    }
+    else {
+        open( $fh, '<', $filename );
+        if ( !$fh ) {
+            $err->( "Unable to open $filename: $!" );
+        }
     }
     my $filter = $parms->{file_filter};
 

@@ -1,5 +1,7 @@
 package main;
 
+use File::Next;
+
 sub slurp {
     my $iter = shift;
     my @files;

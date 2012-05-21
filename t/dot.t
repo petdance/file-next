@@ -27,6 +27,7 @@ NO_PARMS: {
         filelist-nul.txt
         follow.t
         from_file.t
+        from_stdin.t
         give-me-a-process-pipe.pl
         methods.t
         parms.t
@@ -34,6 +35,7 @@ NO_PARMS: {
         pod.t
         process-substitution.t
         sort.t
+        stdin-iterator.pl
         Util.pm
         zero.t
         swamp/a/a1

@@ -28,6 +28,7 @@ NO_PARMS: {
         t/filelist-nul.txt
         t/follow.t
         t/from_file.t
+        t/from_stdin.t
         t/give-me-a-process-pipe.pl
         t/methods.t
         t/parms.t
@@ -35,6 +36,7 @@ NO_PARMS: {
         t/pod.t
         t/process-substitution.t
         t/sort.t
+        t/stdin-iterator.pl
         t/swamp
         t/swamp/0
         t/swamp/a

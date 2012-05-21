@@ -12,4 +12,5 @@ t/pod-coverage.t
 t/pod.t
 t/process-substitution.t
 t/sort.t
+t/swamp/perl-test.t
 t/zero.t
