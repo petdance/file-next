@@ -3,6 +3,12 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
+NEXT
+
+    [FIXES]
+    Fixed a typo where "nul_separated" was "null_separated" in the
+    docs.
+
 1.08    Sun May 20 22:43:19 CDT 2012
     [ENHANCEMENTS]
     Added File::Next::from_file() to get the list of files to iterate
