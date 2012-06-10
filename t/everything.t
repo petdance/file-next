@@ -26,10 +26,10 @@ NO_PARMS: {
         t/everything.t
         t/filelist.txt
         t/filelist-nul.txt
+        t/first-and-last-lines-via-process-pipe.pl
         t/follow.t
         t/from_file.t
         t/from_stdin.t
-        t/give-me-a-process-pipe.pl
         t/methods.t
         t/parms.t
         t/pod-coverage.t

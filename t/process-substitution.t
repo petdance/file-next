@@ -15,7 +15,7 @@ my $perl = $^X;
 
 plan tests => 3;
 
-my @output = qx{bash -c "$perl -Mblib t/give-me-a-process-pipe.pl <(cat Changes)"};
+my @output = qx{bash -c "$perl -Mblib t/first-and-last-lines-via-process-pipe.pl <(cat Changes)"};
 chomp @output;
 is( $output[0], 'Revision history for File-Next' );
 is( $output[-1], '    First version, released on an unsuspecting world.' );

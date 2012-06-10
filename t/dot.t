@@ -25,10 +25,10 @@ NO_PARMS: {
         everything.t
         filelist.txt
         filelist-nul.txt
+        first-and-last-lines-via-process-pipe.pl
         follow.t
         from_file.t
         from_stdin.t
-        give-me-a-process-pipe.pl
         methods.t
         parms.t
         pod-coverage.t
