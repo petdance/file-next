@@ -3,7 +3,9 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
-NEXT
+1.09_01 Sat Jun  9 22:57:33 CDT 2012
+
+    No new features. This only fixes test failures on some platforms.
 
     [FIXES]
     Fixed test failures in t/process-substitution.t on BSD and Solaris.
