@@ -6,6 +6,8 @@ problems at http://github.com/petdance/file-next/issues.
 NEXT
 
     [FIXES]
+    Fixed test failures in t/process-substitution.t on BSD and Solaris.
+
     Fixed a typo where "nul_separated" was "null_separated" in the
     docs.
 
