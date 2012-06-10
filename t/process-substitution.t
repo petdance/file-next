@@ -13,7 +13,11 @@ if ( $? ) {
 
 my $perl = $^X;
 
-plan tests => 1;
+plan tests => 3;
 
-system 'bash', '-c', "$perl -Mblib t/give-me-a-process-pipe.pl <(cat Changes)";
+my @output = qx{bash -c "$perl -Mblib t/give-me-a-process-pipe.pl <(cat Changes)"};
+chomp @output;
+is( $output[0], 'Revision history for File-Next' );
+is( $output[-1], '    First version, released on an unsuspecting world.' );
 is( $?, 0, 'passing a named pipe created by a bash process substitution should yield that filename' );
+done_testing();
