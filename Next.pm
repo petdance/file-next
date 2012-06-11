@@ -250,7 +250,7 @@ BEGIN {
 
 
 sub files {
-    die _bad_invocation() if $_[0] eq __PACKAGE__;
+    die _bad_invocation() if @_ && defined($_[0]) && ($_[0] eq __PACKAGE__);
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
     my $filter = $parms->{file_filter};
@@ -278,7 +278,7 @@ sub files {
 
 
 sub dirs {
-    die _bad_invocation() if $_[0] eq __PACKAGE__;
+    die _bad_invocation() if @_ && defined($_[0]) && ($_[0] eq __PACKAGE__);
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
 
@@ -296,7 +296,7 @@ sub dirs {
 }
 
 sub everything {
-    die _bad_invocation() if $_[0] eq __PACKAGE__;
+    die _bad_invocation() if @_ && defined($_[0]) && ($_[0] eq __PACKAGE__);
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
     my $filter = $parms->{file_filter};
@@ -321,15 +321,16 @@ sub everything {
 }
 
 sub from_file {
-    die _bad_invocation() if $_[0] eq __PACKAGE__;
+    die _bad_invocation() if @_ && defined($_[0]) && ($_[0] eq __PACKAGE__);
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
     my $err = $parms->{error_handler};
 
     my $filename = $queue[1];
 
-    if ( !$filename ) {
+    if ( !defined($filename) ) {
         $err->( 'Must pass a filename to from_file()' );
+        return undef;
     }
 
     my $fh;
@@ -337,9 +338,9 @@ sub from_file {
         $fh = \*STDIN;
     }
     else {
-        open( $fh, '<', $filename );
-        if ( !$fh ) {
+        if ( !open( $fh, '<', $filename ) ) {
             $err->( "Unable to open $filename: $!" );
+            return undef;
         }
     }
     my $filter = $parms->{file_filter};

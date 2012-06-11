@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 10;
 
 use lib 't';
 use Util;
@@ -40,11 +40,31 @@ FROM_FILESYSTEM_FILE: {
     sets_match( \@actual, \@expected, 'FROM_FILESYSTEM_FILE' );
 }
 
-
 FROM_NUL_FILE: {
     my $iter = File::Next::from_file( { nul_separated => 1 }, 't/filelist-nul.txt' );
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
     sets_match( \@actual, \@expected, 'FROM_NUL_FILE' );
+}
+
+FROM_UNSPECIFIED_FILE: {
+    my $iter;
+    my $rc = eval {
+        $iter = File::Next::from_file();
+    };
+    like( $@, qr/Must pass a filename to from_file/, 'Proper error message' );
+    ok( !defined($iter), 'Iterator should be null' );
+    ok( !defined($rc), 'Eval should fail' );
+}
+
+FROM_MISSING_FILE: {
+    my $iter;
+    my $rc = eval {
+        $iter = File::Next::from_file( 'flargle-bargle.txt' );
+    };
+
+    like( $@, qr/\QUnable to open flargle-bargle.txt/, 'Proper error message' );
+    ok( !defined($iter), 'Iterator should be null' );
+    ok( !defined($rc), 'Eval should fail' );
 }
