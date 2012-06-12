@@ -9,8 +9,7 @@ my ( $input ) = @ARGV;
 
 my $files = File::Next::files( $input );
 my $file  = $files->();
-open my $f, '<', $file if defined $file;
-if ( $f ) {
+if ( open my $f, '<', $file ) {
     my @lines = <$f>;
     print $lines[0];
     print $lines[-1];
