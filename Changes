@@ -7,6 +7,9 @@ problems at http://github.com/petdance/file-next/issues.
     [FIXES]
     from_file() should return undef if the file can't be opened.
 
+    Trying to make the named pipe test more portable by not requiring
+    bash.
+
 1.09_01 Sat Jun  9 22:57:33 CDT 2012
 
     No new features. This only fixes test failures on some platforms.
