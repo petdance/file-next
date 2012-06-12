@@ -30,10 +30,10 @@ NO_PARMS: {
         from_file.t
         from_stdin.t
         methods.t
+        named-pipe.t
         parms.t
         pod-coverage.t
         pod.t
-        process-substitution.t
         sort.t
         stdin-iterator.pl
         Util.pm

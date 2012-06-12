@@ -22,10 +22,10 @@ my @expected = qw(
     t/follow.t
     t/from_file.t
     t/methods.t
+    t/named-pipe.t
     t/parms.t
     t/pod-coverage.t
     t/pod.t
-    t/process-substitution.t
     t/sort.t
     t/swamp/perl-test.t
     t/zero.t
