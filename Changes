@@ -3,7 +3,7 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
-1.09_02
+1.09_02 Mon Jun 11 22:49:21 CDT 2012
     [FIXES]
     from_file() should return undef if the file can't be opened.
 
