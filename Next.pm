@@ -9,11 +9,11 @@ File::Next - File-finding iterator
 
 =head1 VERSION
 
-Version 1.09_02
+Version 1.09_03
 
 =cut
 
-our $VERSION = '1.09_02';
+our $VERSION = '1.09_03';
 
 =head1 SYNOPSIS
 
@@ -95,8 +95,8 @@ If there are blank lines or empty filenames in the input stream,
 they are ignored.
 
 Each filename is checked to see that it is a regular file or a named
-pipe.  If the file does not exists or is a directory, then it is
-skipped.
+pipe.  If the file does not exists or is a directory, then a warning
+is thrown to I<warning_handler>, and the file is skipped.
 
 The following options have no effect in C<from_files>: I<descend_filter>,
 I<sort_files>, I<follow_symlinks>.
@@ -193,7 +193,13 @@ By default, the I<descend_filter> is C<sub {1}>, or "always descend".
 
 If I<error_handler> is set, then any errors will be sent through
 it.  By default, this value is C<CORE::die>.  This function must
-not return.
+NOT return.
+
+=head2 warning_handler => \&warning_handler
+
+If I<warning_handler> is set, then any errors will be sent through
+it.  By default, this value is C<CORE::warn>.  Unlike the
+I<error_handler>, this function must return.
 
 =head2 sort_files => [ 0 | 1 | \&sort_sub]
 
@@ -241,6 +247,7 @@ BEGIN {
         file_filter     => undef,
         descend_filter  => undef,
         error_handler   => sub { CORE::die @_ },
+        warning_handler => sub { CORE::warn @_ },
         sort_files      => undef,
         follow_symlinks => 1,
         nul_separated   => 0,
@@ -324,7 +331,8 @@ sub from_file {
     die _bad_invocation() if @_ && defined($_[0]) && ($_[0] eq __PACKAGE__);
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
-    my $err = $parms->{error_handler};
+    my $err  = $parms->{error_handler};
+    my $warn = $parms->{error_handler};
 
     my $filename = $queue[1];
 
@@ -350,7 +358,10 @@ sub from_file {
         while ( my $fullpath = <$fh> ) {
             chomp $fullpath;
             next unless $fullpath =~ /./;
-            next unless -f $fullpath || -p _;
+            if ( not ( -f $fullpath || -p _ ) ) {
+                $warn->( "$fullpath: No such file" );
+                next;
+            }
 
             my ($volume,$dirname,$file) = File::Spec->splitpath( $fullpath );
             if ( $filter ) {
