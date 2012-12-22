@@ -3,7 +3,7 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
-1.12
+1.12    Sat Dec 22 15:22:31 CST 2012
     [FIXES]
     Fix detection of named pipes under various flavors of BSD.
 
