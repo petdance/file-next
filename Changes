@@ -3,6 +3,11 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
+1.12
+    [FIXES]
+    Fix detection of named pipes under various flavors of BSD.
+
+
 1.10    Thu Jun 14 19:55:57 CDT 2012
     [ENHANCEMENTS]
     Added the warning_handler argument to File::Next::from_file().
