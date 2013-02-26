@@ -36,8 +36,9 @@ my @msorted_files = qw(
     mtime_sort/a
     mtime_sort/h
 );
+@msorted_files = map { "$Bin/$_" } @msorted_files;
 foreach my $msorted_file (@msorted_files) {
-    unlink("$Bin/$msorted_file");
+    unlink($msorted_file);
 }
 
 SORT_BOOLEAN: {
@@ -77,7 +78,7 @@ SORT_REVERSE: {
 diag("Test mtime sort");
 mkdir("$Bin/mtime_sort") unless -d "$Bin/mtime_sort";
 foreach my $msorted_file (@msorted_files) {
-    open(my $fh, '>', "$Bin/$msorted_file"); print $fh rand(); close($fh);
+    open(my $fh, '>', $msorted_file); print $fh rand(); close($fh);
     sleep 1;
 }
 
@@ -86,7 +87,6 @@ SORT_MTIME_STANDARD: {
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
-    @msorted_files = map { "$Bin/$_" } @msorted_files;
     my @expected = @msorted_files;
 
     sets_match( \@actual, \@expected, 'SORT_MTIME_STANDARD' );
