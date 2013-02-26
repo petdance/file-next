@@ -1,8 +1,9 @@
-#!perl -T
+#!perl
 
 use strict;
 use warnings;
-use Test::More tests => 6;
+use FindBin qw/$Bin/;
+use Test::More tests => 10;
 
 use lib 't';
 use Util;
@@ -29,6 +30,15 @@ my @sorted_swamp = qw(
     t/swamp/perl.pm
     t/swamp/perl.pod
 );
+my @msorted_files = qw(
+    mtime_sort/z
+    mtime_sort/o
+    mtime_sort/a
+    mtime_sort/h
+);
+foreach my $msorted_file (@msorted_files) {
+    unlink("$Bin/$msorted_file");
+}
 
 SORT_BOOLEAN: {
     my $iter = File::Next::files( { sort_files => 1 }, 't/swamp' );
@@ -61,4 +71,33 @@ SORT_REVERSE: {
     my @expected = reverse @sorted_swamp;
 
     sets_match( \@actual, \@expected, 'SORT_REVERSE' );
+}
+
+## create files for mtime
+diag("Test mtime sort");
+mkdir("$Bin/mtime_sort") unless -d "$Bin/mtime_sort";
+foreach my $msorted_file (@msorted_files) {
+    open(my $fh, '>', "$Bin/$msorted_file"); print $fh rand(); close($fh);
+    sleep 1;
+}
+
+SORT_MTIME_STANDARD: {
+    my $iter = File::Next::files( { sort_files => \&File::Next::sort_mtime_standard }, "$Bin/mtime_sort" );
+    isa_ok( $iter, 'CODE' );
+
+    my @actual = slurp( $iter );
+    @msorted_files = map { "$Bin/$_" } @msorted_files;
+    my @expected = @msorted_files;
+
+    sets_match( \@actual, \@expected, 'SORT_MTIME_STANDARD' );
+}
+
+SORT_MTIME_REVERSE: {
+    my $iter = File::Next::files( { sort_files => \&File::Next::sort_mtime_reverse }, "$Bin/mtime_sort" );
+    isa_ok( $iter, 'CODE' );
+
+    my @actual = slurp( $iter );
+    my @expected = reverse @msorted_files;
+
+    sets_match( \@actual, \@expected, 'SORT_MTIME_REVERSE' );
 }
