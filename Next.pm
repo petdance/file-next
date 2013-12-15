@@ -274,7 +274,7 @@ sub files {
                 }
                 return wantarray ? ($dirname,$file,$fullpath) : $fullpath;
             }
-            elsif ( -d _ ) {
+            if ( -d _ ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
         } # while
