@@ -265,7 +265,7 @@ sub files {
     return sub {
         while (@queue) {
             my ($dirname,$file,$fullpath) = splice( @queue, 0, 3 ); ## no critic (ProhibitMagicNumbers)
-            if ( -f $fullpath || -p $fullpath || $fullpath =~ m{^/dev/fd} ) {
+            if ( -f $fullpath || -p _ || $fullpath =~ m{^/dev/fd} ) {
                 if ( $filter ) {
                     local $_ = $file;
                     local $File::Next::dir = $dirname;
