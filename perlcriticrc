@@ -9,19 +9,27 @@ allow_leading_tabs = 0
 [-Documentation::RequirePodLinksIncludeText]
 [-Documentation::RequirePodSections]
 
+[-Editor::RequireEmacsFileVariables]
+
 [-ErrorHandling::RequireCarping]
+[-ErrorHandling::RequireUseOfExceptions]
 
 [-Miscellanea::RequireRcsKeywords]
 
 [-Modules::RequireVersionVar]
+[-Modules::RequirePerlVersion]
 
 [-RegularExpressions::RequireDotMatchAnything]
 [-RegularExpressions::RequireExtendedFormatting]
 [-RegularExpressions::RequireLineBoundaryMatching]
 
+[-Subroutines::ProhibitExplicitReturnUndef]
+
 [-ValuesAndExpressions::ProhibitConstantPragma]
 [-ValuesAndExpressions::ProhibitEmptyQuotes]
+[-ValuesAndExpressions::ProhibitMagicNumbers]
 [-ValuesAndExpressions::ProhibitNoisyQuotes]
+[-ValuesAndExpressions::RequireConstantOnLeftSideOfEquality]
 
 [-Variables::ProhibitPunctuationVars]
 [-Variables::ProhibitPackageVars]

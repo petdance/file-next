@@ -264,7 +264,7 @@ sub files {
 
     return sub {
         while (@queue) {
-            my ($dirname,$file,$fullpath) = splice( @queue, 0, 3 ); ## no critic (ProhibitMagicNumbers)
+            my ($dirname,$file,$fullpath) = splice( @queue, 0, 3 );
             if ( -f $fullpath || -p _ || $fullpath =~ m{^/dev/fd} ) {
                 if ( $filter ) {
                     local $_ = $file;
@@ -291,7 +291,7 @@ sub dirs {
 
     return sub {
         while (@queue) {
-            my (undef,undef,$fullpath) = splice( @queue, 0, 3 ); ## no critic (ProhibitMagicNumbers)
+            my (undef,undef,$fullpath) = splice( @queue, 0, 3 );
             if ( -d $fullpath ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
                 return $fullpath;
@@ -310,7 +310,7 @@ sub everything {
 
     return sub {
         while (@queue) {
-            my ($dirname,$file,$fullpath) = splice( @queue, 0, 3 ); ## no critic (ProhibitMagicNumbers)
+            my ($dirname,$file,$fullpath) = splice( @queue, 0, 3 );
             if ( -d $fullpath ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
@@ -434,7 +434,7 @@ sub _setup {
 
     # Any leftover keys are bogus
     for my $badkey ( keys %passed_parms ) {
-        my $sub = (caller(1))[3]; ## no critic (ProhibitMagicNumbers)
+        my $sub = (caller(1))[3];
         $parms->{error_handler}->( "Invalid option passed to $sub(): $badkey" );
     }
 
