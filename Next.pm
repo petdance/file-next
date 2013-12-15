@@ -260,9 +260,9 @@ sub files {
     die _bad_invocation() if @_ && defined($_[0]) && ($_[0] eq __PACKAGE__);
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
-    my $filter = $parms->{file_filter};
 
     return sub {
+        my $filter = $parms->{file_filter};
         while (@queue) {
             my ($dirname,$file,$fullpath) = splice( @queue, 0, 3 );
             if ( -f $fullpath || -p _ || $fullpath =~ m{^/dev/fd} ) {
@@ -306,9 +306,9 @@ sub everything {
     die _bad_invocation() if @_ && defined($_[0]) && ($_[0] eq __PACKAGE__);
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
-    my $filter = $parms->{file_filter};
 
     return sub {
+        my $filter = $parms->{file_filter};
         while (@queue) {
             my ($dirname,$file,$fullpath) = splice( @queue, 0, 3 );
             if ( -d $fullpath ) {
@@ -351,9 +351,9 @@ sub from_file {
             return undef;
         }
     }
-    my $filter = $parms->{file_filter};
 
     return sub {
+        my $filter = $parms->{file_filter};
         local $/ = $parms->{nul_separated} ? "\x00" : $/;
         while ( my $fullpath = <$fh> ) {
             chomp $fullpath;
