@@ -51,7 +51,7 @@ tags:
 critic:
 	perlcritic -profile perlcriticrc -1 -quiet *.pm t/*.t
 
-TARGET_DIRS=~/parrot /usr/local/minicpan ~/bin
+TARGET_DIRS=~/parrot ~/perl-critic ~/bin
 
 prof: all
 	perl -d:DProf -Mblib ./stress $(TARGET_DIRS) > /dev/null
