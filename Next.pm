@@ -484,13 +484,13 @@ sub _candidate_files {
     for my $file ( grep { !exists $skip_dirs{$_} } readdir $dh ) {
         my $has_stat;
 
-        # Only do directory checking if we have a descend_filter
         my $fullpath = File::Spec->catdir( $dirname, $file );
         if ( !$follow_symlinks ) {
             next if -l $fullpath;
             $has_stat = 1;
         }
 
+        # Only do directory checking if we have a descend_filter
         if ( $descend_filter ) {
             if ( $has_stat ? (-d _) : (-d $fullpath) ) {
                 local $File::Next::dir = $fullpath;
