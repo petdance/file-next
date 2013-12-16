@@ -23,6 +23,8 @@ allow_leading_tabs = 0
 [-RegularExpressions::RequireExtendedFormatting]
 [-RegularExpressions::RequireLineBoundaryMatching]
 
+[-Subroutines::ProhibitCallsToUndeclaredSubs]
+[-Subroutines::ProhibitCallsToUnexportedSubs]
 [-Subroutines::ProhibitExplicitReturnUndef]
 
 [-ValuesAndExpressions::ProhibitConstantPragma]
