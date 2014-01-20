@@ -6,7 +6,7 @@ use warnings;
 use Test::More;
 
 plan skip_all => q{Windows doesn't have named pipes} if $^O =~ /MSWin32/;
-plan tests => 4;
+plan tests => 2;
 
 use POSIX ();
 
@@ -30,8 +30,11 @@ is( $?, 0, 'No errors in executing our little named pipe tester' );
 unlink $pipename;
 
 chomp @output;
-is( scalar @output, 2, 'Get exactly 2 lines back' );
-is( $output[0], 'Revision history for File-Next', 'First line is good' );
-is( $output[-1], '    First version, released on an unsuspecting world.', 'Last line is good' );
+
+my @expected = (
+    'Revision history for File-Next',
+    '    First version, released on an unsuspecting world.',
+);
+is_deeply( \@output, \@expected, 'Output matches' );
 
 done_testing();
