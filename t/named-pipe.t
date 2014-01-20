@@ -5,13 +5,17 @@ use warnings;
 
 use Test::More;
 
+use File::Temp;
+
 plan skip_all => q{Windows doesn't have named pipes} if $^O =~ /MSWin32/;
 plan tests => 2;
 
 use POSIX ();
 
-my $pipename = POSIX::tmpnam();
-POSIX::mkfifo $pipename, 0666;
+my $tempdir = File::Temp->newdir;
+mkdir "$tempdir/foo";
+my $pipename = "$tempdir/foo/test.pipe";
+my $rc = eval { POSIX::mkfifo( $pipename, oct(666) ) };
 
 my $pid = fork();
 if ( $pid == 0 ) {

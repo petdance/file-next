@@ -7,6 +7,10 @@ NEXT
     [INTERNAL]
     Optimized -f/-p calls in files() to not repeat the variable.
 
+    Use File::Temp in tests, not POSIX::tmpnam, so that it works
+    on Android.  See https://github.com/petdance/file-next/issues/18
+    Thanks, Brian Fraser.
+
 
 1.12    Sat Dec 22 15:22:31 CST 2012
     [FIXES]
