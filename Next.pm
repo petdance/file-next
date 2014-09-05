@@ -332,7 +332,7 @@ sub from_file {
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
     my $err  = $parms->{error_handler};
-    my $warn = $parms->{error_handler};
+    my $warn = $parms->{warn_handler};
 
     my $filename = $queue[1];
 
