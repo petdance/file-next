@@ -31,6 +31,7 @@ NO_PARMS: {
         t/from_file.t
         t/from_stdin.t
         t/methods.t
+        t/missing-starts.t
         t/named-pipe.t
         t/parms.t
         t/pod-coverage.t
