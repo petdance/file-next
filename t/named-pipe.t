@@ -4,13 +4,15 @@ use strict;
 use warnings;
 
 use Test::More;
+use File::Temp;
 
 plan skip_all => q{Windows doesn't have named pipes} if $^O =~ /MSWin32/;
 plan tests => 4;
 
 use POSIX ();
 
-my $pipename = POSIX::tmpnam();
+my ($tmp_fh, $pipename) = File::Temp::tempfile();
+close $tmp_fh;
 POSIX::mkfifo $pipename, 0666;
 
 my $pid = fork();
