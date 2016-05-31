@@ -9,11 +9,11 @@ File::Next - File-finding iterator
 
 =head1 VERSION
 
-Version 1.12
+Version 1.13_01
 
 =cut
 
-our $VERSION = '1.12';
+our $VERSION = '1.13_01';
 
 =head1 SYNOPSIS
 
@@ -605,7 +605,7 @@ and Rob Hoelz.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2012 Andy Lester.
+Copyright 2005-2016 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Artistic License version 2.0.
