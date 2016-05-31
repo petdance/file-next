@@ -595,6 +595,9 @@ All file-finding in this module is adapted from Mark Jason Dominus'
 marvelous I<Higher Order Perl>, page 126.
 
 Thanks also for bug fixes and typo finding to
+Gerhard Poul,
+Brian Fraser,
+Todd Rinaldo,
 Bruce Woodward,
 Christopher J. Madsen,
 Bernhard Fisseni
