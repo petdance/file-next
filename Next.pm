@@ -192,8 +192,9 @@ By default, the I<descend_filter> is C<sub {1}>, or "always descend".
 =head2 error_handler => \&error_handler
 
 If I<error_handler> is set, then any errors will be sent through
-it.  By default, this value is C<CORE::die>.  This function must
-NOT return.
+it.  If the error is OS-related (ex. file not found, not permissions), the
+native error code is passed as a second argument.  By default, this value is
+C<CORE::die>.  This function must NOT return.
 
 =head2 warning_handler => \&warning_handler
 
@@ -246,7 +247,7 @@ BEGIN {
     %files_defaults = (
         file_filter     => undef,
         descend_filter  => undef,
-        error_handler   => sub { CORE::die @_ },
+        error_handler   => sub { CORE::die $_[0] },
         warning_handler => sub { CORE::warn @_ },
         sort_files      => undef,
         follow_symlinks => 1,
@@ -332,7 +333,7 @@ sub from_file {
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
     my $err  = $parms->{error_handler};
-    my $warn = $parms->{error_handler};
+    my $warn = $parms->{warn_handler};
 
     my $filename = $queue[1];
 
@@ -347,7 +348,7 @@ sub from_file {
     }
     else {
         if ( !open( $fh, '<', $filename ) ) {
-            $err->( "Unable to open $filename: $!" );
+            $err->( "Unable to open $filename: $!", $! + 0 );
             return undef;
         }
     }
@@ -472,7 +473,7 @@ sub _candidate_files {
 
     my $dh;
     if ( !opendir $dh, $dirname ) {
-        $parms->{error_handler}->( "$dirname: $!" );
+        $parms->{error_handler}->( "$dirname: $!", $! + 0 );
         return;
     }
 
