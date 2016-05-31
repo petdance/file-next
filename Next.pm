@@ -181,7 +181,7 @@ a collection of variables.
 =back
 
 The descend filter is NOT applied to any directory names specified
-in as I<@starting_points> in the constructor.  For example,
+as I<@starting_points> in the constructor.  For example,
 
     my $iter = File::Next::files( { descend_filter => sub{0} }, '/tmp' );
 
@@ -229,7 +229,7 @@ directory you're about to follow is actually a symlink.
 
 =head2 nul_separated => [ 0 | 1 ]
 
-Used on by the C<from_file> iterator.  Specifies that the files
+Used by the C<from_file> iterator.  Specifies that the files
 listed in the input file are separated by NUL characters, as from
 the C<find> command with the C<-print0> argument.
 
