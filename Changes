@@ -4,6 +4,10 @@ File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
 NEXT
+    [FIXES]
+    File::Next::from_file() was incorrectly using the error_handler parm
+    for both error and warning handler.
+
     [INTERNAL]
     Optimized -f/-p calls in files() to not repeat the variable.
 
