@@ -9,15 +9,46 @@ use Util;
 
 use File::Next;
 
+use File::Temp qw( tempdir );
+use File::Copy;
+
 if ( ! eval { symlink('',''); 1 } ) {
     plan skip_all => 'System does not support symlinks.';
 }
 
 plan tests => 6;
 
+
+# Files to copy out of the swamp into the tempdir.
+my @samplefiles = qw(
+    0
+    c-header.h
+    c-source.c
+    javascript.js
+    Makefile
+);
+
+# Create a mini-swamp in the temp directory.
+my $tempdir = tempdir( CLEANUP => 1 );
+diag "t/follow.t is working with temp directory $tempdir";
+mkdir "$tempdir/dir" or die;
+for my $filename ( qw( a1 a2 ) ) {
+    my $tempfilename = "$tempdir/dir/$filename";
+    open( my $fh, '>', $tempfilename ) or die "$tempfilename: $!";
+    close $fh or die $!;
+    push( @samplefiles, "dir/$filename" );
+}
+
+my @realfiles;
+for my $file ( @samplefiles ) {
+    my $tempfile = "$tempdir/$file";
+    copy( "t/swamp/$file", $tempfile );
+    push( @realfiles, $tempfile );
+}
+
 my %links = (
-    't/swamp/linkfile' => 'Makefile',
-    't/swamp/linkdir'  => 'a',
+    "$tempdir/linkfile" => "$tempdir/Makefile",
+    "$tempdir/linkdir"  => "$tempdir/dir",
 );
 
 for my $link ( sort keys %links ) {
@@ -26,35 +57,14 @@ for my $link ( sort keys %links ) {
     symlink( $file, $link ) or die "Unable to create symlink $file: $!";
 }
 
-my @realfiles = qw(
-    t/swamp/0
-    t/swamp/Makefile
-    t/swamp/Makefile.PL
-    t/swamp/c-header.h
-    t/swamp/c-source.c
-    t/swamp/javascript.js
-    t/swamp/parrot.pir
-    t/swamp/perl-test.t
-    t/swamp/perl-without-extension
-    t/swamp/perl.pl
-    t/swamp/perl.pm
-    t/swamp/perl.pod
-    t/swamp/a/a1
-    t/swamp/a/a2
-    t/swamp/b/b1
-    t/swamp/b/b2
-    t/swamp/c/c1
-    t/swamp/c/c2
-);
-
-my @symlinkage = qw(
-    t/swamp/linkfile
-    t/swamp/linkdir/a1
-    t/swamp/linkdir/a2
+my @symlinkage = (
+    "$tempdir/linkfile",
+    "$tempdir/linkdir/a1",
+    "$tempdir/linkdir/a2",
 );
 
 DEFAULT: {
-    my $iter = File::Next::files( 't/swamp' );
+    my $iter = File::Next::files( $tempdir );
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
@@ -64,7 +74,7 @@ DEFAULT: {
 }
 
 NO_FOLLOW: {
-    my $iter = File::Next::files( { follow_symlinks => 0 }, 't/swamp' );
+    my $iter = File::Next::files( { follow_symlinks => 0 }, $tempdir );
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
@@ -74,7 +84,7 @@ NO_FOLLOW: {
 }
 
 NO_FOLLOW_STARTING_WITH_A_SYMLINK: {
-    my $iter = File::Next::files( { follow_symlinks => 0 }, 't/swamp/linkdir' );
+    my $iter = File::Next::files( { follow_symlinks => 0 }, "$tempdir/linkdir" );
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
