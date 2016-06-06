@@ -9,11 +9,11 @@ File::Next - File-finding iterator
 
 =head1 VERSION
 
-Version 1.13_01
+Version 1.13_02
 
 =cut
 
-our $VERSION = '1.13_01';
+our $VERSION = '1.13_02';
 
 =head1 SYNOPSIS
 

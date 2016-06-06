@@ -3,11 +3,12 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
-1.13_02
+1.13_02 Sun Jun  5 23:18:10 CDT 2016
 
     [FIXES]
     t/follow.t would cause failures in other tests when running in
     parallel.  Now it correctly uses a temp directory.
+
 
 1.13_01 Mon May 30 21:45:42 CDT 2016
     [FIXES]
