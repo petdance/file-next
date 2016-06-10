@@ -12,6 +12,7 @@ my %parms = (
     VERSION_FROM        => 'Next.pm',
     ABSTRACT_FROM       => 'Next.pm',
     PL_FILES            => {},
+    LICENSE             => 'artistic_2',
     PREREQ_PM => {
         'Test::More' => 0.88,
         'File::Spec' => 0,
