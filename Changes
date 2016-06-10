@@ -3,6 +3,10 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
+1.14 Thu Jun  9 22:33:24 CDT 2016
+    No changes since 1.13_02.
+
+
 1.13_02 Sun Jun  5 23:18:10 CDT 2016
 
     [FIXES]
