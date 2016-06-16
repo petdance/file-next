@@ -2,10 +2,13 @@
 
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 13;
 
 use lib 't';
 use Util;
+
+use File::Copy ();
+use File::Temp;
 
 use File::Next;
 
@@ -67,4 +70,22 @@ FROM_MISSING_FILE: {
     like( $@, qr/\QUnable to open flargle-bargle.txt/, 'Proper error message' );
     ok( !defined($iter), 'Iterator should be null' );
     ok( !defined($rc), 'Eval should fail' );
+}
+
+FROM_OK_FILE_BUT_MISSING: {
+    my $warn_called;
+    local $SIG{__WARN__} = sub { $warn_called = 1 };
+
+    my $tempfile = File::Temp->new;
+    File::Copy::copy('t/filelist.txt', $tempfile);
+    print {$tempfile} "t/non-existent-file.txt\n";
+    $tempfile->close;
+
+    my $iter = File::Next::from_file( $tempfile->filename );
+    isa_ok( $iter, 'CODE' );
+
+    my @actual = slurp( $iter );
+    sets_match( \@actual, \@expected, 'FROM_FILESYSTEM_FILE' );
+
+    ok($warn_called, 'CORE::warn() should be called if a warning occurs and no warning_handler is set');
 }
