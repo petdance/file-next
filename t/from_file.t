@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 13;
+use Test::More tests => 17;
 
 use lib 't';
 use Util;
@@ -88,4 +88,26 @@ FROM_OK_FILE_BUT_MISSING: {
     sets_match( \@actual, \@expected, 'FROM_FILESYSTEM_FILE' );
 
     ok($warn_called, 'CORE::warn() should be called if a warning occurs and no warning_handler is set');
+}
+
+FROM_OK_FILE_BUT_MISSING_WITH_HANDLER: {
+    my $warn_called;
+    local $SIG{__WARN__} = sub { $warn_called = 1 };
+
+    my $tempfile = File::Temp->new;
+    File::Copy::copy('t/filelist.txt', $tempfile);
+    print {$tempfile} "t/non-existent-file.txt\n";
+    $tempfile->close;
+
+    my $warning_handler_called;
+    my $iter = File::Next::from_file({
+        warning_handler => sub { $warning_handler_called = 1 },
+    }, $tempfile->filename);
+    isa_ok( $iter, 'CODE' );
+
+    my @actual = slurp( $iter );
+    sets_match( \@actual, \@expected, 'FROM_FILESYSTEM_FILE' );
+
+    ok(!$warn_called, 'CORE::warn() should be not called if a warning occurs but a warning_handler is set');
+    ok($warning_handler_called, 'The set warning handler should be called if a warning occurs');
 }
