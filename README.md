@@ -1,12 +1,13 @@
 File-Next
 ---------
 
+[![Build Status](https://travis-ci.org/petdance/file-next.svg?branch=dev)](https://travis-ci.org/petdance/file-next)
+
 File::Next is an iterator-based module for finding files.  It's
 lightweight, has no dependencies, runs under taint mode, and puts your
 program more directly in control of file selection.
 
-It's taken heavily from Mark Jason Dominus' excellent book "Higher
-Order Perl".  http://hop.perl.plover.com/
+It's taken mostly from Mark Jason Dominus' excellent book ["Higher Order Perl"](http://hop.perl.plover.com/).
 
 INSTALLATION
 ------------
