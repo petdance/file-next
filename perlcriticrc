@@ -14,8 +14,6 @@ allow_leading_tabs = 0
 [-ErrorHandling::RequireCarping]
 [-ErrorHandling::RequireUseOfExceptions]
 
-[-Miscellanea::RequireRcsKeywords]
-
 [-Modules::RequireVersionVar]
 [-Modules::RequirePerlVersion]
 
