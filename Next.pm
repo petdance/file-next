@@ -18,7 +18,7 @@ our $VERSION = '1.16';
 =head1 SYNOPSIS
 
 File::Next is a lightweight, taint-safe file-finding module.
-It's lightweight and has no non-core prerequisites.
+It has no non-core prerequisites.
 
     use File::Next;
 
