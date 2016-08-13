@@ -121,6 +121,20 @@ This function is the default, so the code above is identical to:
 
 Same as C<sort_standard>, but in reverse.
 
+=head2 sort_mtime_standard( $a, $b )
+
+A sort function for passing as a C<sort_files> option:
+
+    my $iter = File::Next::files( {
+        sort_files => \&File::Next::sort_mtime_standard,
+    }, 't/swamp' );
+
+with B<mtime> comparation.
+
+=head2 sort_mtime_reverse( $a, $b )
+
+Same as C<sort_mtime_standard>, but in reverse.
+
 =head2 reslash( $path )
 
 Takes a path with all forward slashes and rebuilds it with whatever
@@ -388,6 +402,13 @@ sub _bad_invocation {
 
 sub sort_standard($$)   { return $_[0]->[1] cmp $_[1]->[1] } ## no critic (ProhibitSubroutinePrototypes)
 sub sort_reverse($$)    { return $_[1]->[1] cmp $_[0]->[1] } ## no critic (ProhibitSubroutinePrototypes)
+
+sub sort_mtime_standard($$) {
+    return (stat($_[0]->[2]))[9] <=> (stat($_[1]->[2]))[9]
+} ## no critic
+sub sort_mtime_reverse($$) {
+    return (stat($_[1]->[2]))[9] <=> (stat($_[0]->[2]))[9]
+} ## no critic
 
 sub reslash {
     my $path = shift;
