@@ -594,7 +594,8 @@ L<http://github.com/petdance/file-next/tree/master>
 All file-finding in this module is adapted from Mark Jason Dominus'
 marvelous I<Higher Order Perl>, page 126.
 
-Thanks also for bug fixes and typo finding to
+Thanks to these fine contributors:
+Paulo Custodio,
 Gerhard Poul,
 Brian Fraser,
 Todd Rinaldo,

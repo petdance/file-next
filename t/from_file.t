@@ -112,27 +112,27 @@ FROM_OK_FILE_BUT_MISSING_WITH_HANDLER: {
     ok($warning_handler_called, 'The set warning handler should be called if a warning occurs');
 }
 
+
 FROM_MISSING_FILE_WITH_ERROR_HANDLER: {
-	my $error_handler_message;
-	my $error_handler = sub { $error_handler_message = shift; };
-    my $iter = File::Next::from_file( { error_handler => $error_handler }, 
-									  'flargle-bargle.txt' );
-									  
+    my $error_handler_message;
+    my $error_handler = sub { $error_handler_message = shift; };
+    my $iter = File::Next::from_file( { error_handler => $error_handler }, 'flargle-bargle.txt' );
+
     ok( !defined($iter), 'Iterator should be null' );
     like( $error_handler_message, qr/\QUnable to open flargle-bargle.txt/, "Proper error message" );
 }
 
+
 FROM_OK_FILE_BUT_MISSING_WITH_WARNING_HANDLER: {
-	my $warning_handler_message;
-	my $warning_handler = sub { $warning_handler_message = shift; };
+    my $warning_handler_message;
+    my $warning_handler = sub { $warning_handler_message = shift; };
 
     my $tempfile = File::Temp->new;
     File::Copy::copy('t/filelist.txt', $tempfile);
     print {$tempfile} "t/non-existent-file.txt\n";
     $tempfile->close;
 
-    my $iter = File::Next::from_file( { warning_handler => $warning_handler }, 
-									  $tempfile->filename );
+    my $iter = File::Next::from_file( { warning_handler => $warning_handler }, $tempfile->filename );
     isa_ok( $iter, 'CODE' );
 
     my @actual = slurp( $iter );
@@ -140,5 +140,3 @@ FROM_OK_FILE_BUT_MISSING_WITH_WARNING_HANDLER: {
 
     like( $warning_handler_message, qr/\Qt\/non-existent-file.txt/, "Proper warning message" );
 }
-
-
