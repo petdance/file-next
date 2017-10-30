@@ -76,7 +76,7 @@ FROM_OK_FILE_BUT_MISSING: {
     my $warn_called;
     local $SIG{__WARN__} = sub { $warn_called = 1 };
 
-    my $tempfile = File::Temp->new;
+    my $tempfile = File::Temp->new(TEMPLATE => 'XXXXXXXXXX');
     File::Copy::copy('t/filelist.txt', $tempfile);
     print {$tempfile} "t/non-existent-file.txt\n";
     $tempfile->close;
@@ -94,7 +94,7 @@ FROM_OK_FILE_BUT_MISSING_WITH_HANDLER: {
     my $warn_called;
     local $SIG{__WARN__} = sub { $warn_called = 1 };
 
-    my $tempfile = File::Temp->new;
+    my $tempfile = File::Temp->new(TEMPLATE => 'XXXXXXXXXX');
     File::Copy::copy('t/filelist.txt', $tempfile);
     print {$tempfile} "t/non-existent-file.txt\n";
     $tempfile->close;
@@ -127,7 +127,7 @@ FROM_OK_FILE_BUT_MISSING_WITH_WARNING_HANDLER: {
     my $warning_handler_message;
     my $warning_handler = sub { $warning_handler_message = shift; };
 
-    my $tempfile = File::Temp->new;
+    my $tempfile = File::Temp->new(TEMPLATE => 'XXXXXXXXXX');
     File::Copy::copy('t/filelist.txt', $tempfile);
     print {$tempfile} "t/non-existent-file.txt\n";
     $tempfile->close;
