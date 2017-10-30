@@ -595,6 +595,7 @@ All file-finding in this module is adapted from Mark Jason Dominus'
 marvelous I<Higher Order Perl>, page 126.
 
 Thanks to these fine contributors:
+Varadinsky,
 Paulo Custodio,
 Gerhard Poul,
 Brian Fraser,
@@ -606,7 +607,7 @@ and Rob Hoelz.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2016 Andy Lester.
+Copyright 2005-2017 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Artistic License version 2.0.
