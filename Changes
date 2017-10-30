@@ -3,6 +3,12 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
+NEXT
+    [FIXES]
+    t/from_file.t would fail under Windows because File::Temp would
+    put a backslash in front of the name of the tempfile.  Thanks,
+    Varadinsky. (GH#32)
+
 1.16 Thu Jul  7 22:41:30 CDT 2016
     [FIXES]
     File::Next::from_file() would ignore the C<warning_handler> argument
