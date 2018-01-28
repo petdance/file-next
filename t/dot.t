@@ -30,6 +30,7 @@ NO_PARMS: {
         from_file.t
         from_stdin.t
         methods.t
+        missing-starts.t
         named-pipe.t
         parms.t
         pod-coverage.t
