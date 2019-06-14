@@ -571,10 +571,6 @@ You can also look for information at:
 
 L<http://github.com/petdance/file-next/issues>
 
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/File-Next>
-
 =item * CPAN Ratings
 
 L<http://cpanratings.perl.org/d/File-Next>

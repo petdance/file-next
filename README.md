@@ -35,9 +35,6 @@ You can also look for information at:
 * Bug Tracker:
     * http://github.com/petdance/file-next/issues
 
-* AnnoCPAN, annotated CPAN documentation:
-    * http://annocpan.org/dist/File-Next
-
 * CPAN Ratings:
     * http://cpanratings.perl.org/d/File-Next
 
