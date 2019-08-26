@@ -12,6 +12,10 @@ NEXT
     Had to specify a minimum version of File::Temp.  Thanks, Justin Mohr.
     (GH#29)
 
+    [INTERNALS]
+    Simplified the inner queue implementation.
+
+
 1.16 Thu Jul  7 22:41:30 CDT 2016
     [FIXES]
     File::Next::from_file() would ignore the C<warning_handler> argument

@@ -264,8 +264,8 @@ sub files {
 
     return sub {
         my $filter = $parms->{file_filter};
-        while (@queue) {
-            my ($dirname,$file,$fullpath) = splice( @queue, 0, 3 );
+        while ( my $entry = shift @queue ) {
+            my ($dirname,$file,$fullpath) = @{$entry};
             if ( -f $fullpath || -p _ || $fullpath =~ m{^/dev/fd} ) {
                 if ( $filter ) {
                     local $_ = $file;
@@ -291,8 +291,8 @@ sub dirs {
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
 
     return sub {
-        while (@queue) {
-            my (undef,undef,$fullpath) = splice( @queue, 0, 3 );
+        while ( my $entry = shift @queue ) {
+            my ( undef, undef, $fullpath) = @{$entry};
             if ( -d $fullpath ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
                 return $fullpath;
@@ -310,8 +310,8 @@ sub everything {
 
     return sub {
         my $filter = $parms->{file_filter};
-        while (@queue) {
-            my ($dirname,$file,$fullpath) = splice( @queue, 0, 3 );
+        while ( my $entry = shift @queue ) {
+            my ($dirname,$file,$fullpath) = @{$entry};
             if ( -d $fullpath ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
@@ -335,7 +335,7 @@ sub from_file {
     my $err  = $parms->{error_handler};
     my $warn = $parms->{warning_handler};
 
-    my $filename = $queue[1];
+    my $filename = $queue[0]->[1];
 
     if ( !defined($filename) ) {
         $err->( 'Must pass a filename to from_file()' );
@@ -412,10 +412,8 @@ I<$passed_parms> and I<$defaults>, plus the queue.
 The queue prep stuff takes the strings in I<@starting_points> and
 puts them in the format that queue needs.
 
-The C<@queue> that gets passed around is an array that has three
-elements for each of the entries in the queue: $dir, $file and
-$fullpath.  Items must be pushed and popped off the queue three at
-a time (spliced, really).
+The C<@queue> that gets passed around is an array, with each entry an
+arrayref of $dir, $file and $fullpath.
 
 =cut
 
@@ -447,12 +445,7 @@ sub _setup {
 
     for ( @_ ) {
         my $start = reslash( $_ );
-        if (-d $start) {
-            push @queue, ($start,undef,$start);
-        }
-        else {
-            push @queue, (undef,$start,$start);
-        }
+        push @queue, -d $start ? [$start,undef,$start] : [undef,$start,$start];
     }
 
     return ($parms,@queue);
@@ -499,17 +492,12 @@ sub _candidate_files {
                 next if not $descend_filter->();
             }
         }
-        if ( $sort_sub ) {
-            push( @newfiles, [ $dirname, $file, $fullpath ] );
-        }
-        else {
-            push( @newfiles, $dirname, $file, $fullpath );
-        }
+        push @newfiles, [ $dirname, $file, $fullpath ];
     }
     closedir $dh;
 
     if ( $sort_sub ) {
-        return map { @{$_} } sort $sort_sub @newfiles;
+        @newfiles = sort $sort_sub @newfiles;
     }
 
     return @newfiles;
