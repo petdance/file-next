@@ -3,7 +3,7 @@ Revision history for File-Next
 File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
-1.17_01
+1.18 Tue Aug 27 17:08:38 CDT 2019
     [SPEEDUP]
     Updated the internals to minimize the number of times that stat()
     gets called on each file or directory.
