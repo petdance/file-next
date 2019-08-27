@@ -5,46 +5,30 @@ use warnings;
 use 5.010;
 
 use Benchmark ( ':hireswallclock', 'cmpthese' );
+#use blib;
 use File::Next;
 
-my $count = 1;
+{use Data::Dumper; local $Data::Dumper::Sortkeys=1; warn Dumper( \%INC )}
 
-my %hash = ( x => 1, y => 1 );
+my $count = 10;
 
-my $path = '/usr/local/bin/whatever';
+my $start = shift or die "Must specify starting point";;
 
-my $start = '/home/andy/src';
-
-cmpthese($count,
+say "$count iterations";
+cmpthese( $count,
     {
-        readdir => \&via_readdir,
-        glob    => \&via_glob,
-        iter    => \&via_iterator,
-    } );
-
-
-
-sub via_readdir {
-    opendir( my $dh, $start ) or die;
-    my @foo = readdir($dh);
-
-    say 'readdir ', scalar @foo;
-}
-
-
-sub via_glob {
-    my @foo = glob( "$start/*" );
-
-    say 'glob ', scalar @foo;
-}
-
-
-sub via_iterator {
-    my $iter = File::Next::files( $start );
-    my @foo;
-    while ( my $file = $iter->() ) {
-        push( @foo, $file );
+        walk => sub {
+            my $files = File::Next::files(
+                {
+                    descend_filter => sub { $_ ne '.git' },
+                },
+                $start
+            );
+            my $n = 0;
+            while ( my $file = $files->() ) {
+                ++$n;
+            }
+            say "$n files found";
+        },
     }
-
-    say 'iterator ', scalar @foo;
-}
+);
