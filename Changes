@@ -4,6 +4,10 @@ File::Next does NOT use rt.cpan.org for bug tracking.  Please report
 problems at http://github.com/petdance/file-next/issues.
 
 NEXT
+    [SPEEDUP]
+    Updated the internals to minimize the number of times that stat()
+    gets called on each file or directory.
+
     [FIXES]
     t/from_file.t would fail under Windows because File::Temp would
     put a backslash in front of the name of the tempfile.  Thanks,
@@ -11,9 +15,6 @@ NEXT
 
     Had to specify a minimum version of File::Temp.  Thanks, Justin Mohr.
     (GH#29)
-
-    [INTERNALS]
-    Simplified the inner queue implementation.
 
 
 1.16 Thu Jul  7 22:41:30 CDT 2016

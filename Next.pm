@@ -262,11 +262,11 @@ sub files {
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
 
+    my $filter = $parms->{file_filter};
     return sub {
-        my $filter = $parms->{file_filter};
         while ( my $entry = shift @queue ) {
-            my ($dirname,$file,$fullpath) = @{$entry};
-            if ( -f $fullpath || -p _ || $fullpath =~ m{^/dev/fd} ) {
+            my ( $dirname, $file, $fullpath, $is_dir, $is_file, $is_fifo ) = @{$entry};
+            if ( $is_file || $is_fifo ) {
                 if ( $filter ) {
                     local $_ = $file;
                     local $File::Next::dir = $dirname;
@@ -275,7 +275,7 @@ sub files {
                 }
                 return wantarray ? ($dirname,$file,$fullpath) : $fullpath;
             }
-            if ( -d _ ) {
+            if ( $is_dir ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
         } # while
@@ -292,8 +292,8 @@ sub dirs {
 
     return sub {
         while ( my $entry = shift @queue ) {
-            my ( undef, undef, $fullpath) = @{$entry};
-            if ( -d $fullpath ) {
+            my ( undef, undef, $fullpath, $is_dir, undef, undef ) = @{$entry};
+            if ( $is_dir ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
                 return $fullpath;
             }
@@ -303,16 +303,17 @@ sub dirs {
     }; # iterator
 }
 
+
 sub everything {
     die _bad_invocation() if @_ && defined($_[0]) && ($_[0] eq __PACKAGE__);
 
     my ($parms,@queue) = _setup( \%files_defaults, @_ );
 
+    my $filter = $parms->{file_filter};
     return sub {
-        my $filter = $parms->{file_filter};
         while ( my $entry = shift @queue ) {
-            my ($dirname,$file,$fullpath) = @{$entry};
-            if ( -d $fullpath ) {
+            my ( $dirname, $file, $fullpath, $is_dir, $is_file, $is_fifo ) = @{$entry};
+            if ( $is_dir ) {
                 unshift( @queue, _candidate_files( $parms, $fullpath ) );
             }
             if ( $filter ) {
@@ -353,8 +354,8 @@ sub from_file {
         }
     }
 
+    my $filter = $parms->{file_filter};
     return sub {
-        my $filter = $parms->{file_filter};
         local $/ = $parms->{nul_separated} ? "\x00" : $/;
         while ( my $fullpath = <$fh> ) {
             chomp $fullpath;
@@ -432,7 +433,7 @@ sub _setup {
     }
 
     # Any leftover keys are bogus
-    for my $badkey ( keys %passed_parms ) {
+    for my $badkey ( sort keys %passed_parms ) {
         my $sub = (caller(1))[3];
         $parms->{error_handler}->( "Invalid option passed to $sub(): $badkey" );
     }
@@ -445,7 +446,13 @@ sub _setup {
 
     for ( @_ ) {
         my $start = reslash( $_ );
-        push @queue, -d $start ? [$start,undef,$start] : [undef,$start,$start];
+        my $is_dir  = -d $start;
+        my $is_file = -f _;
+        my $is_fifo = (-p _) || ($start =~ m{^/dev/fd});
+        push @queue,
+            $is_dir
+                ? [ $start, undef,  $start, $is_dir, $is_file, $is_fifo ]
+                : [ undef,  $start, $start, $is_dir, $is_file, $is_fifo ];
     }
 
     return ($parms,@queue);
@@ -473,35 +480,39 @@ sub _candidate_files {
     my @newfiles;
     my $descend_filter = $parms->{descend_filter};
     my $follow_symlinks = $parms->{follow_symlinks};
-    my $sort_sub = $parms->{sort_files};
 
     for my $file ( grep { !exists $skip_dirs{$_} } readdir $dh ) {
-        my $has_stat;
-
         my $fullpath = File::Spec->catdir( $dirname, $file );
         if ( !$follow_symlinks ) {
             next if -l $fullpath;
-            $has_stat = 1;
         }
+        else {
+            stat($fullpath);
+        }
+        my $is_dir  = -d _;
+        my $is_file = -f _;
+        my $is_fifo = (-p _) || ($fullpath =~ m{^/dev/fd});
 
         # Only do directory checking if we have a descend_filter
         if ( $descend_filter ) {
-            if ( $has_stat ? (-d _) : (-d $fullpath) ) {
+            if ( $is_dir ) {
                 local $File::Next::dir = $fullpath;
                 local $_ = $file;
                 next if not $descend_filter->();
             }
         }
-        push @newfiles, [ $dirname, $file, $fullpath ];
+        push @newfiles, [ $dirname, $file, $fullpath, $is_dir, $is_file, $is_fifo ];
     }
     closedir $dh;
 
+    my $sort_sub = $parms->{sort_files};
     if ( $sort_sub ) {
         @newfiles = sort $sort_sub @newfiles;
     }
 
     return @newfiles;
 }
+
 
 =head1 DIAGNOSTICS
 
