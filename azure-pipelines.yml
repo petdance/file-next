@@ -12,15 +12,11 @@ pool:
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
-- script: sudo apt-get update
-- script: sudo apt-get upgrade
 - script: sudo apt-get install perl build-essential
+  displayName: 'Install Perl'
 - script: perl -E"say q{hello world}"
   displayName: 'Hello World via Perl'
-- script: cpanm --quiet --installdeps --notest .
-
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- script: cpanm --installdeps List::Cycle
+  displayName: 'Install List::Cycle'
+- script: cpanm --installdeps .
+  displayName: 'Install modules with cpanm'
