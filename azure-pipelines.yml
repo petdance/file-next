@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
 
@@ -15,7 +10,8 @@ steps:
 - script: perl -E"say q{hello world}"
   displayName: 'Hello World via Perl'
 - script: cpanm --installdeps .
-  displayName: 'Install dependencies with cpanm'
-- script: perl Makefile.PL
-- script: make
-- script: make test
+  displayName: 'Install dependencies'
+- script: cpanm Test::Pod Test::Pod::Coverage
+  displayName: 'Install testing modules'
+- script: perl Makefile.PL && make && make test
+  displayName: 'Build & test'
