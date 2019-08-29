@@ -15,7 +15,7 @@ steps:
 - script: apt-get update
 - script: apt-get upgrade
 - script: apt-get install perl build-essential
-- script: perl -E"say 'hello world'"
+- script: perl -E"say q{hello world}"
   displayName: 'Hello World via Perl'
 - script: cpanm --quiet --installdeps --notest .
 
