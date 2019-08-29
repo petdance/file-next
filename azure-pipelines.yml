@@ -12,6 +12,7 @@ pool:
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
+- script: apt-get install perl perl-cpanm
 - script: cpanm --quiet --installdeps --notest .
 
 
