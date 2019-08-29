@@ -9,11 +9,9 @@ steps:
   displayName: 'Install Perl and cpanminus'
 - script: perl -E"say q{hello world}"
   displayName: 'Hello World via Perl'
-- script: cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-  displayName: 'Install local::lib'
-- script: cpanm --installdeps .
+- script: cpanm --sudo --installdeps .
   displayName: 'Install dependencies'
-- script: cpanm Test::Pod Test::Pod::Coverage
+- script: cpanm --sudo Test::Pod Test::Pod::Coverage
   displayName: 'Install testing modules'
 - script: perl Makefile.PL && make && make test
   displayName: 'Build & test'
