@@ -12,7 +12,11 @@ pool:
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
-- script: apt-get install perl perl-cpanm
+- script: apt-get update
+- script: apt-get upgrade
+- script: apt-get install perl build-essential
+- script: perl -E"say 'hello world'"
+  displayName: 'Hello World via Perl'
 - script: cpanm --quiet --installdeps --notest .
 
 
