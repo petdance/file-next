@@ -482,6 +482,7 @@ sub _candidate_files {
     my $follow_symlinks = $parms->{follow_symlinks};
 
     for my $file ( grep { !exists $skip_dirs{$_} } readdir $dh ) {
+        next unless $file;
         my $fullpath = File::Spec->catdir( $dirname, $file );
         if ( !$follow_symlinks ) {
             next if -l $fullpath;
