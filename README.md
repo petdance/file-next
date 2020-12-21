@@ -1,7 +1,8 @@
 File-Next
 ---------
 
-[![Build Status](https://travis-ci.org/petdance/file-next.svg?branch=dev)](https://travis-ci.org/petdance/file-next)
+[![Build Status](https://github.com/petdance/file-next/workflows/testsuite/badge.svg?branch=dev)](https://github.com/petdance/file-next/actions?query=workflow%3Atestsuite+branch%3Adev)
+
 
 File::Next is an iterator-based module for finding files.  It's
 lightweight, has no dependencies, runs under taint mode, and puts your
