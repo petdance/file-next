@@ -568,19 +568,15 @@ You can also look for information at:
 
 =item * File::Next's bug queue
 
-L<http://github.com/petdance/file-next/issues>
+L<https://github.com/petdance/file-next/issues>
 
-=item * CPAN Ratings
+=item * MetaCPAN
 
-L<http://cpanratings.perl.org/d/File-Next>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/File-Next>
+L<https://metacpan.org/pod/File::Next>
 
 =item * Source code repository
 
-L<http://github.com/petdance/file-next/tree/master>
+L<https://github.com/petdance/file-next>
 
 =back
 
@@ -602,7 +598,7 @@ and Rob Hoelz.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2017 Andy Lester.
+Copyright 2005-2023 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Artistic License version 2.0.

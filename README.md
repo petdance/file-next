@@ -30,19 +30,16 @@ After installing, you can find documentation for this module with the perldoc co
 
 You can also look for information at:
 
-* Search CPAN
-    * http://search.cpan.org/dist/File-Next
+* MetaCPAN
+    * https://metacpan.org/pod/File::Next
 
 * Bug Tracker:
-    * http://github.com/petdance/file-next/issues
-
-* CPAN Ratings:
-    * http://cpanratings.perl.org/d/File-Next
+    * https://github.com/petdance/file-next/issues
 
 COPYRIGHT AND LICENSE
 ---------------------
 
-Copyright 2005-2016 Andy Lester.
+Copyright 2005-2023 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Artistic License version 2.0.
