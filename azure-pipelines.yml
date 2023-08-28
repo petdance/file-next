@@ -1,0 +1,17 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: sudo apt-get install perl build-essential cpanminus
+  displayName: 'Install Perl and cpanminus'
+- script: perl -E"say q{hello world}"
+  displayName: 'Hello World via Perl'
+- script: cpanm --sudo --installdeps .
+  displayName: 'Install dependencies'
+- script: cpanm --sudo Test::Pod Test::Pod::Coverage
+  displayName: 'Install testing modules'
+- script: perl Makefile.PL && make && make test
+  displayName: 'Build & test'
